@@ -2,7 +2,7 @@ package web.mjob.models.entities;
 
 import lombok.*;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -20,9 +20,6 @@ public class DokumentSadrzajEntity {
     @Basic
     @Column(name = "contentType", nullable = true, length = 45)
     private String contentType;
-    @Basic
-    @Column(name = "dokument_id", nullable = false)
-    private Integer dokumentId;
     @ManyToOne
     @JoinColumn(name = "dokument_id", referencedColumnName = "id", nullable = false)
     private DokumentEntity dokumentByDokumentId;
