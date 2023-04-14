@@ -1,8 +1,7 @@
 package web.mjob.models.entities;
 
 import lombok.*;
-
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.List;
@@ -40,15 +39,6 @@ public class OglasEntity {
     @Basic
     @Column(name = "javni", nullable = false)
     private Boolean javni;
-    @Basic
-    @Column(name = "posao_tip_id", nullable = false)
-    private Integer posaoTipId;
-    @Basic
-    @Column(name = "novcana_naknada_tip_id", nullable = false)
-    private Integer novcanaNaknadaTipId;
-    @Basic
-    @Column(name = "narucilac_id", nullable = false)
-    private Integer narucilacId;
     @OneToMany(mappedBy = "oglasByOglasId")
     private List<KorisnikPrijavljenEntity> korisnikPrijavljensById;
     @ManyToOne

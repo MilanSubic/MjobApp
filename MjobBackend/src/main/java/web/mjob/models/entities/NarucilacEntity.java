@@ -2,7 +2,7 @@ package web.mjob.models.entities;
 
 import lombok.*;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.List;
 import java.util.Objects;
 
@@ -23,9 +23,6 @@ public class NarucilacEntity {
     @Basic
     @Column(name = "email", nullable = true, length = 45)
     private String email;
-    @Basic
-    @Column(name = "naseljeno_mjesto_id", nullable = false)
-    private Integer naseljenoMjestoId;
     @Basic
     @Column(name = "ulicaIBroj", nullable = false, length = 255)
     private String ulicaIBroj;

@@ -1,16 +1,17 @@
 package web.mjob.models.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
+import web.mjob.base.BaseEntity;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.sql.Timestamp;
 import java.util.List;
-import java.util.Objects;
 
 @Data
 @Entity
 @Table(name = "korisnik", schema = "mjob_database")
-public class KorisnikEntity {
+public class KorisnikEntity implements BaseEntity<Long> {
     @Id
     @GeneratedValue
     @Column(name = "id", nullable = false)
@@ -63,21 +64,6 @@ public class KorisnikEntity {
     @Basic
     @Column(name = "aktivan", nullable = false)
     private Boolean aktivan;
-    @Basic
-    @Column(name = "korisnik_pol_id", nullable = false)
-    private Integer korisnikPolId;
-    @Basic
-    @Column(name = "korisnik_tip_id", nullable = false)
-    private Integer korisnikTipId;
-    @Basic
-    @Column(name = "mjesto_rodjenja_opstina_id", nullable = false)
-    private Integer mjestoRodjenjaOpstinaId;
-    @Basic
-    @Column(name = "naseljeno_mjesto_id", nullable = false)
-    private Integer naseljenoMjestoId;
-    @Basic
-    @Column(name = "izdavaoc_licne_karte_opstina_id", nullable = false)
-    private Integer izdavaocLicneKarteOpstinaId;
     @Basic
     @Column(name = "ulicaIBroj", nullable = false, length = 255)
     private String ulicaIBroj;

@@ -2,7 +2,7 @@ package web.mjob.models.entities;
 
 import lombok.*;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.List;
 import java.util.Objects;
 
@@ -17,9 +17,6 @@ public class NaseljenoMjestoEntity {
     @Basic
     @Column(name = "naziv", nullable = false, length = 45)
     private String naziv;
-    @Basic
-    @Column(name = "opstina_id", nullable = false)
-    private Integer opstinaId;
     @OneToMany(mappedBy = "naseljenoMjestoByNaseljenoMjestoIdNaseljenoMjesto")
     private List<AdresaEntity> adresasById;
     @OneToMany(mappedBy = "naseljenoMjestoByNaseljenoMjestoId")

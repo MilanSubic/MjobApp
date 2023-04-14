@@ -8,6 +8,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.transaction.annotation.Transactional;
 import web.mjob.exceptions.NotFoundException;
 
@@ -18,6 +19,7 @@ import java.util.stream.Collectors;
 @Transactional
 @Data
 public abstract class CrudJpaService<E extends BaseEntity<ID>,ID extends Serializable> implements CrudService<ID> {
+
     private final JpaRepository<E,ID> repository;
     private final Class<E> entityClass;
     private final ModelMapper modelMapper;

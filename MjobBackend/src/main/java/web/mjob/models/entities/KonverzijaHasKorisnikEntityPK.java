@@ -2,9 +2,7 @@ package web.mjob.models.entities;
 
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import jakarta.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 

@@ -1,8 +1,9 @@
 package web.mjob.models.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.List;
 import java.util.Objects;
 
@@ -20,9 +21,6 @@ public class PorukaEntity {
     @Basic
     @Column(name = "sadrzaj", nullable = false, length = -1)
     private String sadrzaj;
-    @Basic
-    @Column(name = "konverzija_id", nullable = false)
-    private Integer konverzijaId;
     @OneToMany(mappedBy = "porukaByPorukaId")
     private List<DokumentPorukaEntity> dokumentPorukasById;
     @ManyToOne
