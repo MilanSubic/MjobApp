@@ -2,7 +2,6 @@ package web.mjob.base;
 
 
 import lombok.Getter;
-import org.aspectj.weaver.ast.Not;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import web.mjob.exceptions.NotFoundException;
