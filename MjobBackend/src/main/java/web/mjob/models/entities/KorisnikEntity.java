@@ -5,6 +5,8 @@ import lombok.*;
 import web.mjob.base.BaseEntity;
 
 import jakarta.persistence.*;
+
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -108,6 +110,5 @@ public class KorisnikEntity implements BaseEntity<Long> {
     private List<KorisnikDokumentEntity> korisnikDokumentsById;
     @OneToMany(mappedBy = "korisnikByKorisnikId")
     private List<KorisnikPrijavljenEntity> korisnikPrijavljensById;
-
 
 }

@@ -19,6 +19,10 @@ public class KorisnikPolEntity {
     private String naziv;
     @OneToMany(mappedBy = "korisnikPolByKorisnikPolId")
     private List<KorisnikEntity> korisniksById;
-
+@Override
+    public String toString()
+{
+   return id+" "+naziv;
+}
 
 }
