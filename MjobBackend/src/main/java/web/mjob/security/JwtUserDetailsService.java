@@ -19,12 +19,12 @@ import web.mjob.repositories.KorisnikTipEntityRepository;
 public class JwtUserDetailsService implements UserDetailsService {
 
     public KorisnikEntityRepository userRepository;
-    public KorisnikTipEntityRepository rolesRepository;
+
 
     @Autowired
     public JwtUserDetailsService(KorisnikEntityRepository userRepository,KorisnikTipEntityRepository rolesRepository){
         this.userRepository=userRepository;
-        this.rolesRepository=rolesRepository;
+
     }
 //    @Override
 //    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -37,16 +37,15 @@ public class JwtUserDetailsService implements UserDetailsService {
 //    }
 
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException{
-        KorisnikEntity user=userRepository.findKorisnikEntityByKorisnickoIme(username);
-        if(user!=null)
+
+        try
         {
-            // string vrijednost uloge korisnika
-            String userRole=rolesRepository.findKorisnikTipEntityById(user.getId()).getNaziv();
+            KorisnikEntity user=userRepository.findKorisnikEntityByKorisnickoIme(username);
+            String userRole=user.getKorisnikTipByKorisnikTipId().getNaziv();
             System.out.println("userRole:"+userRole+" username:"+user.getKorisnickoIme()+" password:"+user.getLozinka());
             SimpleGrantedAuthority role=new SimpleGrantedAuthority(userRole);
             return new User(user.getKorisnickoIme(),user.getLozinka(), Collections.singleton(role));
-        }
-        else
-            throw new UsernameNotFoundException("username not found");
+        }catch(Exception e){throw new UsernameNotFoundException("username is not found");}
+
     }
 }

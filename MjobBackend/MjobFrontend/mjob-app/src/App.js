@@ -1,20 +1,18 @@
-import React from "react";
-import {Route, Switch, BrowserRouter} from "react-router-dom";
-import UpravljanjeNalozima from "./pages/Admin/UpravljanjeNalozima";
-import './App.css';
+import LoginPage from "./pages/LoginPage";
+import { BrowserRouter } from "react-router-dom";
+import { Routes } from "react-router-dom";
+import { Route } from "react-router-dom";
 import ApplicationHeader from "./components/ApplicationHeader";
 
 function App() {
   return (
       <BrowserRouter>
+        <ApplicationHeader/>
 
-
-      <ApplicationHeader/>
-    <Switch>
-          <Route exact path="/upravljanjeNalozima">
-              <UpravljanjeNalozima/>
-          </Route>
-      </Switch>
+        <Routes>
+          <Route path="/api/auth/login" element={<LoginPage />}></Route>
+          <Route path="/upravljanjeNalozima" element={<UpravljanjeNalozima/>}></Route>
+        </Routes>
       </BrowserRouter>
   );
 }

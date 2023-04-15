@@ -16,15 +16,8 @@ public class AdresaEntity {
     @Column(name = "Naziv", nullable = false, length = 45)
     private String naziv;
     @ManyToOne
-    @JoinColumn(name = "NaseljenoMjesto_idNaseljenoMjesto", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "naseljeno_mjesto_id", referencedColumnName = "id", nullable = false)
     private NaseljenoMjestoEntity naseljenoMjestoByNaseljenoMjestoIdNaseljenoMjesto;
 
-    public AdresaEntity() {
-    }
-
-
-    protected boolean canEqual(final Object other) {
-        return other instanceof AdresaEntity;
-    }
 
 }
