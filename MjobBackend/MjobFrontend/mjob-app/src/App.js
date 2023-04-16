@@ -3,11 +3,10 @@ import { BrowserRouter } from "react-router-dom";
 import { Routes } from "react-router-dom";
 import { Route } from "react-router-dom";
 import ApplicationHeader from "./components/ApplicationHeader";
-
+import UpravljanjeNalozima from "./pages/Admin/UpravljanjeNalozima";
 function App() {
   return (
       <BrowserRouter>
-        <ApplicationHeader/>
 
         <Routes>
           <Route path="/api/auth/login" element={<LoginPage />}></Route>
