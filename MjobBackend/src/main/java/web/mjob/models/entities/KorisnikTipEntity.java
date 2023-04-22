@@ -18,7 +18,7 @@ public class KorisnikTipEntity implements BaseEntity<Long> {
     @Basic
     @Column(name = "naziv", nullable = false, length = 45)
     private String naziv;
-    @OneToMany(mappedBy = "korisnikTipByKorisnikTipId")
+    @OneToMany(mappedBy = "korisnikTipId")
     private List<KorisnikEntity> korisniksById;
 
 

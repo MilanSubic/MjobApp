@@ -1,13 +1,15 @@
-import LoginPage from "./pages/LoginPage";
-import { BrowserRouter } from "react-router-dom";
-import { Routes } from "react-router-dom";
-import { Route } from "react-router-dom";
-
+import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import EmptyHeader from "./components/EmptyHeader";
+import Login from "./components/Login";
+import { SignUpPage } from "./pages/SignUpPage";
 function App() {
   return (
     <BrowserRouter>
+      <EmptyHeader />
       <Routes>
-        <Route path="/api/auth/login" element={<LoginPage />}></Route>
+        <Route path="login" element={<Login />}></Route>
+        <Route path="signup" element={<SignUpPage />}></Route>
       </Routes>
     </BrowserRouter>
   );

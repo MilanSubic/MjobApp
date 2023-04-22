@@ -41,7 +41,7 @@ public class JwtUserDetailsService implements UserDetailsService {
         try
         {
             KorisnikEntity user=userRepository.findKorisnikEntityByKorisnickoIme(username);
-            String userRole=user.getKorisnikTipByKorisnikTipId().getNaziv();
+            String userRole=user.getKorisnikTipId().getNaziv();
             System.out.println("userRole:"+userRole+" username:"+user.getKorisnickoIme()+" password:"+user.getLozinka());
             SimpleGrantedAuthority role=new SimpleGrantedAuthority(userRole);
             return new User(user.getKorisnickoIme(),user.getLozinka(), Collections.singleton(role));

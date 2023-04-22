@@ -1,12 +1,10 @@
 import { Input } from "antd";
-//import http from "../services/BasicService";
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import "../styles/Login.css";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
+
 function Login() {
-  //const instance = http.service();
   const navigate = useNavigate();
 
   const [user, setUser] = useState({
@@ -28,11 +26,11 @@ function Login() {
       );
       const jwt = response.data.token;
       localStorage.setItem("token", jwt);
-      const config = {
+      /* const config = {
         headers: {
           Authorization: `Bearer ${jwt}`,
         },
-      };
+      }; */
       console.log("Uspjesno ste se ulogovali");
       console.log(jwt);
       navigate("/home");
@@ -42,39 +40,41 @@ function Login() {
   };
 
   return (
-    <div className="box-form">
-      <div className="left">
-        <div className="overlay">
-          <h1>Dobro došli.</h1>
-          <p>Studiraš? Učenik si? Želiš posao? Na pravom si mjestu!</p>
-        </div>
-      </div>
-
-      <div className="right">
-        <h1>Prijavi se</h1>
-        <a href="#">Registruj se</a>
-
-        <div className="inputs">
-          <Input
-            type="text"
-            placeholder="korisničko ime"
-            name="username"
-            value={username}
-            onChange={(e) => onInputChange(e)}
-          />
-
-          <Input
-            type="password"
-            placeholder="lozinka"
-            name="password"
-            value={password}
-            onChange={(e) => onInputChange(e)}
-          />
+    <div>
+      <div className="box-form">
+        <div className="left">
+          <div className="overlay">
+            <h1>Dobro došli.</h1>
+            <p>Studiraš? Učenik si? Želiš posao? Na pravom si mjestu!</p>
+          </div>
         </div>
 
-        <button className="login-button" onClick={hadleClick}>
-          Prijavi se
-        </button>
+        <div className="right">
+          <h1>Prijavi se</h1>
+          <Link to="/signup">Registruj se</Link>
+
+          <div className="inputs">
+            <Input
+              type="text"
+              placeholder="korisničko ime"
+              name="username"
+              value={username}
+              onChange={(e) => onInputChange(e)}
+            />
+
+            <Input
+              type="password"
+              placeholder="lozinka"
+              name="password"
+              value={password}
+              onChange={(e) => onInputChange(e)}
+            />
+          </div>
+
+          <button className="login-button" onClick={hadleClick}>
+            Prijavi se
+          </button>
+        </div>
       </div>
     </div>
   );

@@ -3,7 +3,7 @@ package web.mjob.security;
 import java.io.IOException;
 import java.io.Serializable;
 
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 
 import jakarta.servlet.ServletException;
 import org.springframework.security.core.AuthenticationException;
