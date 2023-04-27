@@ -26,6 +26,7 @@ public class RegistracijaDto {
 
     private String brojTekucegRacuna;
 
+    private Long obrazovnaUstanovaTipId;
     private String obrazovnaUstanova;
 
     private String identifikator;
@@ -41,7 +42,6 @@ public class RegistracijaDto {
     private Boolean aktivan;
 
     private Long korisnikPolId;
-    private KorisnikPolDto korisnikPol;
 
     private Long korisnikTipId;
 

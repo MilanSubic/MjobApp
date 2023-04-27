@@ -51,7 +51,7 @@ export const SignUpPage = () => {
 
     if (!f) f = [];
 
-    form.setFieldValue("tipDokumenta", null);
+    form.setFieldValue("tipDokumenta", undefined);
 
     setFile();
     setTipDokumenta();
@@ -141,12 +141,6 @@ export const SignUpPage = () => {
 
   return (
     <div className="container">
-      <Button
-        type="primary"
-        onClick={() => navigate("/login", { replace: true })}
-      >
-        Submit
-      </Button>
       <Card className="card" title="Registracija">
         <Form
           form={form}
@@ -213,8 +207,48 @@ export const SignUpPage = () => {
               itemName="mjestoRodjenjaOpstinaId"
             />
           </Form.Item>
-          <Form.Item name="mjestoRodjenjaOpstinaId" hidden={true}></Form.Item>
-
+          <Form.Item name="mjestoRodjenjaOpstinaId" hidden={true}>
+            <Input />
+          </Form.Item>
+          <Form.Item
+            label="Adresa stanovanja"
+            name="ulicaIBroj"
+            rules={[
+              {
+                required: true,
+                message: "Polje je obavezno",
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            label="Opstina"
+            name="opstina"
+            rules={[
+              {
+                required: true,
+                message: "Polje je obavezno",
+              },
+            ]}
+          >
+            <CustomSelect
+              style={{
+                width: "50%",
+              }}
+              columns={selectColumns}
+              api="/api/registracija/opstine"
+              httpService={httpService}
+              keyProp="id"
+              display={display}
+              entityKey="id"
+              parent={form}
+              itemName="opstinaId"
+            />
+          </Form.Item>
+          <Form.Item name="opstinaId" hidden>
+            <Input />
+          </Form.Item>
           <Form.Item
             label="Pol"
             name="korisnikPol"
@@ -231,7 +265,9 @@ export const SignUpPage = () => {
               itemName="korisnikPolId"
             />
           </Form.Item>
-          <Form.Item name="korisnikPolId" hidden={true}></Form.Item>
+          <Form.Item name="korisnikPolId" hidden={true}>
+            <Input />
+          </Form.Item>
 
           <Form.Item label="Broj licne karte" name="brojLicneKarte">
             <Input />
@@ -252,16 +288,40 @@ export const SignUpPage = () => {
               itemName="izdavaocLicneKarteOpstinaId"
             />
           </Form.Item>
-          <Form.Item
-            name="izdavaocLicneKarteOpstinaId"
-            hidden={true}
-          ></Form.Item>
+          <Form.Item name="izdavaocLicneKarteOpstinaId" hidden={true}>
+            <Input />
+          </Form.Item>
 
           <Form.Item
             label="JMBG"
             name="jmbg"
             rules={[{ required: true, message: "Polje je obavezno" }]}
           >
+            <Input />
+          </Form.Item>
+
+          <Form.Item
+            label="Tip korisnika"
+            name="korisnikTip"
+            rules={[
+              {
+                required: true,
+                message: "Polje je obavezno",
+              },
+            ]}
+          >
+            <CustomSelect
+              columns={selectColumns}
+              api="/api/registracija/tipKorisnika"
+              httpService={httpService}
+              keyProp="id"
+              display={display}
+              entityKey="id"
+              parent={form}
+              itemName="korisnikTipId"
+            />
+          </Form.Item>
+          <Form.Item name="korisnikTipId" hidden={true}>
             <Input />
           </Form.Item>
 
@@ -281,7 +341,9 @@ export const SignUpPage = () => {
               itemName="obrazovnaUstanovaTipId"
             />
           </Form.Item>
-          <Form.Item name="obrazovnaUstanovaTipId" hidden={true}></Form.Item>
+          <Form.Item name="obrazovnaUstanovaTipId" hidden={true}>
+            <Input />
+          </Form.Item>
 
           <Form.Item
             label="Naziv obrazovne ustanove"
@@ -379,34 +441,37 @@ export const SignUpPage = () => {
             name="dokumenti"
             rules={[{ required: true, message: "Polje je obavezno" }]}
           >
-            <Form.Item name="tipDokumenta">
-              <CustomSelect
-                columns={selectColumns}
-                api="/api/registracija/tipDokumenta"
-                httpService={httpService}
-                keyProp="id"
-                display={display}
-                onChange={(value) => setTipDokumenta(value)}
-              />
-            </Form.Item>
-            <Form.Item>
-              <Upload.Dragger {...props} name="files">
-                <p className="ant-upload-drag-icon">
-                  <InboxOutlined />
-                </p>
-                <p className="ant-upload-text">
-                  Kliknite ili prevucice dokument
-                </p>
-              </Upload.Dragger>
-            </Form.Item>
-            <Form.Item>
-              <Button disabled={!file || !tipDokumenta} onClick={onAddFile}>
-                Dodaj
-              </Button>
-            </Form.Item>
-            <Form.Item>
-              <Table {...tableProps}></Table>
-            </Form.Item>
+            <>
+              <Form.Item name="tipDokumenta">
+                <CustomSelect
+                  columns={selectColumns}
+                  api="/api/registracija/tipDokumenta"
+                  httpService={httpService}
+                  keyProp="id"
+                  display={display}
+                  value={tipDokumenta}
+                  onChange={(value) => setTipDokumenta(value)}
+                />
+              </Form.Item>
+              <Form.Item>
+                <Upload.Dragger {...props} name="files">
+                  <p className="ant-upload-drag-icon">
+                    <InboxOutlined />
+                  </p>
+                  <p className="ant-upload-text">
+                    Kliknite ili prevucice dokument
+                  </p>
+                </Upload.Dragger>
+              </Form.Item>
+              <Form.Item>
+                <Button disabled={!file || !tipDokumenta} onClick={onAddFile}>
+                  Dodaj
+                </Button>
+              </Form.Item>
+              <Form.Item>
+                <Table {...tableProps}></Table>
+              </Form.Item>
+            </>
           </Form.Item>
 
           <Form.Item wrapperCol={{ offset: 10, span: 10 }}>

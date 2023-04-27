@@ -37,28 +37,28 @@ public class RegistracijaController {
     }
 
 
-    @GetMapping("opstine")
-    public Page<OpstinaDto> findAllOpstine(Pageable page) throws NotFoundException {
-        return opstinaService.findAll(page,OpstinaDto.class);
+    @PostMapping("opstine")
+    public Page<OpstinaDto> findAllOpstine(@RequestBody Request<OpstinaDto> request) throws NotFoundException {
+        return opstinaService.findAllFiltered(request,OpstinaDto.class);
     }
 
-    @GetMapping("pol")
-    public Page<KorisnikPolDto> findAllKorinsikPol(Pageable page) throws NotFoundException {
-        return korisnikPolService.findAll(page,KorisnikPolDto.class);
+    @PostMapping("pol")
+    public Page<KorisnikPolDto> findAllKorinsikPol(@RequestBody Request<KorisnikPolDto> request) throws NotFoundException {
+        return korisnikPolService.findAllFiltered(request,KorisnikPolDto.class);
     }
 
-    @GetMapping("tipKorisnika")
-    public Page<KorisnikTipDto> findAllKorinsikTip(Pageable page) throws NotFoundException {
-        return korisnikTipService.findAll(page, KorisnikTipDto.class);
+    @PostMapping("tipKorisnika")
+    public Page<KorisnikTipDto> findAllKorinsikTip(@RequestBody Request<KorisnikTipDto> request) throws NotFoundException {
+        return korisnikTipService.findAllFiltered(request, KorisnikTipDto.class);
     }
 
-    @GetMapping("tipObrazovneUstanove")
-    public Page<ObrazovnaUstanovaTipDto> findAllobrazovnaUstanovaTip(Pageable page) throws NotFoundException {
-        return obrazovnaUstanovaTipService.findAll(page, ObrazovnaUstanovaTipDto.class);
+    @PostMapping("tipObrazovneUstanove")
+    public Page<ObrazovnaUstanovaTipDto> findAllobrazovnaUstanovaTip(@RequestBody Request<ObrazovnaUstanovaTipDto> request) throws NotFoundException {
+        return obrazovnaUstanovaTipService.findAllFiltered(request, ObrazovnaUstanovaTipDto.class);
     }
 
-    @GetMapping("tipDokumenta")
-    public Page<DokumentTipDto> findAllDokumentTip(Pageable page) throws NotFoundException {
-        return dokumentTipService.findAll(page, DokumentTipDto.class);
+    @PostMapping("tipDokumenta")
+    public Page<DokumentTipDto> findAllDokumentTip(@RequestBody Request<DokumentTipDto> request) throws NotFoundException {
+        return dokumentTipService.findAllFiltered(request, DokumentTipDto.class);
     }
 }
