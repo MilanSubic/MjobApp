@@ -8,21 +8,23 @@
 .right-side
 {
      width: 75%;
-     background-color: gray;
-     right: 50px;
      height: 100%;
-     position: absolute;
+    text-align: center;
+    background-color: white;
 }
 .left-side
 {
     width: 25%;
-    background-color: cornflowerblue;
-    text-align: center;
+    background-color: rgb(106, 106, 234);
     padding-top: 20px;
 
 }
 .css-omnl36
 {
     height: 100% !important;
-    background-color: cornflowerblue !important;
+    background-color: rgb(106, 106, 234) !important;
+}
+.css-1p823my-MuiListItem-root
+{
+    height: 35px !important;
 }
