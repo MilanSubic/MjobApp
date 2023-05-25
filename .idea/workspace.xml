@@ -4,19 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c26eebbf-a9a8-42e7-adec-39f27a419e56" name="Changes" comment="com">
-      <change beforePath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/components/EmptyHeader.js" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/components/EmptyHeader.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/components/Login.js" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/components/Login.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/components/Select.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/components/Select.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/pages/SignUpPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/pages/SignUpPage.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/reportWebVitals.js" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/reportWebVitals.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/services/BasicService.js" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/services/BasicService.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/services/RegistracijaService.js" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/services/RegistracijaService.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MjobBackend/src/main/java/web/mjob/models/dto/RegistracijaDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/src/main/java/web/mjob/models/dto/RegistracijaDto.java" afterDir="false" />
-    </list>
+    <list default="true" id="c26eebbf-a9a8-42e7-adec-39f27a419e56" name="Changes" comment="com" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -25,7 +13,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="Sanja" />
+        <entry key="$PROJECT_DIR$" value="Registracija" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -97,16 +85,5 @@
         </entry>
       </map>
     </option>
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/MjobBackend/src/main/java/web/mjob/services/impl/RegistracijaServiceImpl.java</url>
-          <line>58</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>
