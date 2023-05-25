@@ -1,11 +1,12 @@
 import axios from "axios";
 
-const basicUrl = "http://localhost:8080/home";
+const baseConfig = {
+  baseURL: "http://localhost:8080",
+};
 
-// eslint-disable-next-line import/no-anonymous-default-export
 export default {
   service: () => {
-    const instance = axios.create(basicUrl);
+    const instance = axios.create(baseConfig);
     instance.defaults.headers.common["Content-Type"] = "application/json";
     return instance;
   },
