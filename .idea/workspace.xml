@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="c26eebbf-a9a8-42e7-adec-39f27a419e56" name="Changes" comment="com">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/node_modules/.cache/.eslintcache" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/node_modules/.cache/.eslintcache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/node_modules/.cache/default-development/0.pack" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/node_modules/.cache/default-development/0.pack" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/node_modules/.cache/default-development/15.pack" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/node_modules/.cache/default-development/15.pack" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/node_modules/.cache/default-development/17.pack" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/node_modules/.cache/default-development/17.pack" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/node_modules/.cache/default-development/index.pack" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/node_modules/.cache/default-development/index.pack" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/node_modules/.cache/default-development/index.pack.old" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/node_modules/.cache/default-development/index.pack.old" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/components/EmptyHeader.js" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/components/EmptyHeader.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/components/Login.js" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/components/Login.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/components/Select.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/components/Select.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/pages/Admin/UpravljanjeNalozima/Jobs.js" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/pages/Admin/UpravljanjeNalozima/Jobs.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/pages/Admin/UpravljanjeNalozima/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/pages/Admin/UpravljanjeNalozima/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/pages/LoginPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/pages/LoginPage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/pages/SignUpPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/pages/SignUpPage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/services/BasicService.js" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/services/BasicService.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/services/RegistracijaService.js" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/services/RegistracijaService.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/services/base.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/services/base.service.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/services/korisnik.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/services/korisnik.service.js" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JavaScript File" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="Registracija" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHome" value="Use Maven wrapper" />
+        <option name="useMavenConfig" value="true" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectId" id="2QDWWGEOFtoYMVcSakR3FO0429D" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;js.linters.configure.manually.selectedeslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.standard&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.standard&quot;: &quot;&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;settings.javascript.linters.eslint&quot;,
+    &quot;spring.configuration.checksum&quot;: &quot;455dd9325db2e55dc317132991c59331&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Program Files\\JetBrains\\IntelliJ IDEA 2022.2.3\\plugins\\JavaScriptLanguage\\jsLanguageServicesImpl\\external&quot;
+  },
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mysql&quot;
+    ]
+  }
+}</component>
+  <component name="RunDashboard">
+    <option name="configurationTypes">
+      <set>
+        <option value="SpringBootApplicationConfigurationType" />
+      </set>
+    </option>
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="JetRunConfigurationType">
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MjobApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <option name="ACTIVE_PROFILES" />
+      <option name="ALTERNATIVE_JRE_PATH" value="11" />
+      <module name="mjob" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="web.mjob.MjobApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="c26eebbf-a9a8-42e7-adec-39f27a419e56" name="Changes" comment="com" />
+      <created>1684888669035</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1684888669035</updated>
+      <workItem from="1684888670903" duration="735000" />
+      <workItem from="1684967123238" duration="4014000" />
+      <workItem from="1684974120572" duration="152000" />
+      <workItem from="1684974296164" duration="1259000" />
+      <workItem from="1684975576953" duration="1149000" />
+      <workItem from="1685002488322" duration="5774000" />
+      <workItem from="1685058159203" duration="3476000" />
+      <workItem from="1685126677661" duration="8459000" />
+      <workItem from="1685142494932" duration="9430000" />
+      <workItem from="1685179488629" duration="2617000" />
+      <workItem from="1685203535209" duration="8053000" />
+      <workItem from="1685230713637" duration="5441000" />
+      <workItem from="1685270084351" duration="5852000" />
+      <workItem from="1685278370612" duration="1260000" />
+      <workItem from="1685325372733" duration="11048000" />
+      <workItem from="1685488315909" duration="964000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="XDebuggerManager">
+    <pin-to-top-manager>
+      <pinned-members>
+        <PinnedItemInfo parentTag="web.mjob.models.dto.Korisnik" memberName="brojZdravstveneKnjizice" />
+      </pinned-members>
+    </pin-to-top-manager>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>

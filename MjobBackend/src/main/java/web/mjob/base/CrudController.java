@@ -2,10 +2,12 @@ package web.mjob.base;
 
 
 import lombok.Getter;
-import org.aspectj.weaver.ast.Not;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import web.mjob.exceptions.NotFoundException;
+import org.springframework.data.domain.Page;
+
 
 import java.io.Serializable;
 import java.util.List;
@@ -20,9 +22,14 @@ public abstract class CrudController<ID extends Serializable,REQ,RESP> {
         this.crudService = crudService;
     }
 
-    @GetMapping
+  /*  @GetMapping
     List<RESP> findAll() throws NotFoundException {
         return crudService.findAll((respClass));
+    }*/
+
+    @GetMapping
+    Page<RESP> findAll(Pageable page) throws NotFoundException {
+        return crudService.findAll(page,respClass);
     }
 
     @GetMapping("/{id}")

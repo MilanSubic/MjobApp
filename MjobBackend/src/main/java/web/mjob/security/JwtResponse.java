@@ -12,7 +12,6 @@ public class JwtResponse implements Serializable {
     }
 
     public String getToken() {
-        System.out.println("hfjhfd"+this.jwttoken);
         return this.jwttoken;
 
     }

@@ -3,13 +3,15 @@ package web.mjob.models.entities;
 import lombok.*;
 
 import jakarta.persistence.*;
+import web.mjob.base.BaseEntity;
+
 import java.util.List;
 import java.util.Objects;
 
 @Data
 @Entity
 @Table(name = "korisnik_pol", schema = "mjob_database")
-public class KorisnikPolEntity {
+public class KorisnikPolEntity implements BaseEntity<Long> {
     @Id
     @GeneratedValue
     @Column(name = "id", nullable = false)
@@ -17,8 +19,12 @@ public class KorisnikPolEntity {
     @Basic
     @Column(name = "naziv", nullable = false, length = 45)
     private String naziv;
-    @OneToMany(mappedBy = "korisnikPolByKorisnikPolId")
+    @OneToMany(mappedBy = "korisnikPolId")
     private List<KorisnikEntity> korisniksById;
-
+@Override
+    public String toString()
+{
+   return id+" "+naziv;
+}
 
 }

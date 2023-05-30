@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -17,6 +16,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 
 @Configuration
 @EnableWebSecurity
@@ -59,6 +65,22 @@ public class WebSecurityConfig {
 //        httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 //    }
 //    //
+
+   @Bean
+   public CorsFilter corsFilter() {
+       UrlBasedCorsConfigurationSource source =
+               new UrlBasedCorsConfigurationSource();
+       CorsConfiguration config = new CorsConfiguration();
+       //treba true stavila sam false da bi radilo
+       config.setAllowCredentials(false);
+       config.addAllowedOrigin("*");
+       config.addAllowedHeader("*");
+       config.addAllowedMethod("*");
+       config.addAllowedMethod("PATCH");
+       source.registerCorsConfiguration("/**", config);
+       return new CorsFilter(source);
+   }
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
@@ -73,7 +95,10 @@ public class WebSecurityConfig {
                 .and()
                 .authorizeHttpRequests().requestMatchers("/api/auth/**").permitAll()
                 .requestMatchers("/api/test/**").permitAll()
-                .anyRequest().authenticated();
+                .requestMatchers("/api/**").permitAll()
+                .requestMatchers("/api/registracija").permitAll()
+                .requestMatchers("/api/registracija/**").permitAll()
+                .anyRequest().permitAll();
 
         http.authenticationProvider(authenticationProvider());
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
