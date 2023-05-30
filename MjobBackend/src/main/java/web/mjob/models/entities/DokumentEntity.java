@@ -4,7 +4,6 @@ import lombok.*;
 
 import jakarta.persistence.*;
 import java.util.List;
-import java.util.Objects;
 
 @Data
 @Entity
@@ -29,6 +28,4 @@ public class DokumentEntity {
     private List<DokumentSadrzajEntity> dokumentSadrzajsById;
     @OneToMany(mappedBy = "dokumentByDokumentId")
     private List<KorisnikDokumentEntity> korisnikDokumentsById;
-
-
 }

@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import "../styles/Login.css";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
+import korisnikService from "../services/korisnik.service";
 
 function Login() {
   const navigate = useNavigate();
@@ -26,6 +27,10 @@ function Login() {
       );
       const jwt = response.data.token;
       localStorage.setItem("token", jwt);
+      korisnikService.getUserByUsername(user.username).then((res) => {
+        console.log(res.korisnikTipNaziv);
+        localStorage.setItem("tipKorisnika", res.korisnikTipNaziv);
+      });
       /* const config = {
         headers: {
           Authorization: `Bearer ${jwt}`,

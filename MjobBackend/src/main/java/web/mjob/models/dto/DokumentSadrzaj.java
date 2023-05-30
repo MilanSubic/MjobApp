@@ -7,5 +7,4 @@ public class DokumentSadrzaj {
     private Long id;
     private String sadrzaj;
     private String contentType;
-    private Long dokumentId;
 }

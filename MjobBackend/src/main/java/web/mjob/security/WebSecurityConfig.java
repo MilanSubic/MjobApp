@@ -1,6 +1,5 @@
 package web.mjob.security;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -99,8 +98,7 @@ public class WebSecurityConfig {
                 .requestMatchers("/api/**").permitAll()
                 .requestMatchers("/api/registracija").permitAll()
                 .requestMatchers("/api/registracija/**").permitAll()
-                .requestMatchers("/api/upravljanjeNalozima").permitAll()
-                .anyRequest().authenticated();
+                .anyRequest().permitAll();
 
         http.authenticationProvider(authenticationProvider());
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
@@ -128,9 +126,5 @@ public class WebSecurityConfig {
         authProvider.setPasswordEncoder(passwordEncoder());
 
         return authProvider;
-    }
-    @Bean
-    public ModelMapper modelMapper() {
-        return new ModelMapper();
     }
 }

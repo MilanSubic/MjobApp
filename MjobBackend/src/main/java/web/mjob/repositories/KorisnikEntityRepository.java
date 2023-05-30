@@ -11,9 +11,9 @@ import java.util.List;
 public interface KorisnikEntityRepository extends JpaRepository<KorisnikEntity,Long> {
    // @Query("select u from KorisnikEntity u where u.korisnickoIme = :username")
     KorisnikEntity findKorisnikEntityByKorisnickoIme(String username);
+    KorisnikEntity findKorisnikEntityById(Long id);
 
     @Override
     List<KorisnikEntity> findAll();
 
-    // KorisnikEntity getKorisnikEntityByKorisnickoIme(String username);
 }

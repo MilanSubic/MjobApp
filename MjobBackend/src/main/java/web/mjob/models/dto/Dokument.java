@@ -2,12 +2,12 @@ package web.mjob.models.dto;
 
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class Dokument {
-    private Long id;
-    private String naziv;
-    private String dokumentTipNaziv;
-    private String dokumentSadrzaj;
-    private String dokumentSadrzajKontent;
-
+    public String naziv;
+    public Long velicina;
+    public String dokumentTipNaziv;
+    public List<DokumentSadrzaj> dokumentSadrzajsById;
 }

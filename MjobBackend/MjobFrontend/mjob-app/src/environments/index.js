@@ -1,7 +1,6 @@
 import productionConfig from "./config.production.json";
-import developmentConfig from "./config.development.json"
+import developmentConfig from "./config.development.json";
 export default () => {
-
     switch (process.env.NODE_ENV) {
         case "development":
         case "test": {

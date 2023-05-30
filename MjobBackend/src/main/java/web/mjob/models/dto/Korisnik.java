@@ -39,11 +39,11 @@ public class Korisnik {
 
     private String lozinka;
 
-    private Boolean aktivan;
-
     private String korisnikPolNaziv;
 
     private String korisnikTipNaziv;
+
+    private String korisnikStatusNaziv;
 
     private String mjestoRodjenjaOpstinaNaziv;
 

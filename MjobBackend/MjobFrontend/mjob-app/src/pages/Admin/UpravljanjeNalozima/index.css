@@ -17,7 +17,7 @@
     width: 25%;
     background-color: rgb(106, 106, 234);
     padding-top: 20px;
-
+    text-align: center;
 }
 .css-omnl36
 {
@@ -27,4 +27,16 @@
 .css-1p823my-MuiListItem-root
 {
     height: 35px !important;
+}
+.AcceptUserDiv
+{
+    padding-top: 20px;
+}
+.ant-btn-icon-only
+{
+    margin-left: 5px;
+}
+.inputSearcUser
+{
+    margin-top: 15px;
 }
