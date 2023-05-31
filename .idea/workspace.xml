@@ -5,26 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c26eebbf-a9a8-42e7-adec-39f27a419e56" name="Changes" comment="com">
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_angus_jakarta_mail_1_0_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_mail_3_0_4.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_context_support_6_0_6.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/node_modules/.cache/.eslintcache" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/node_modules/.cache/.eslintcache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/node_modules/.cache/default-development/0.pack" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/node_modules/.cache/default-development/0.pack" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/node_modules/.cache/default-development/15.pack" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/node_modules/.cache/default-development/15.pack" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/node_modules/.cache/default-development/17.pack" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/node_modules/.cache/default-development/17.pack" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/node_modules/.cache/default-development/index.pack" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/node_modules/.cache/default-development/index.pack" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/node_modules/.cache/default-development/index.pack.old" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/node_modules/.cache/default-development/index.pack.old" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/components/EmptyHeader.js" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/components/EmptyHeader.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/components/Login.js" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/components/Login.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/components/Select.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/components/Select.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/pages/Admin/UpravljanjeNalozima/Jobs.js" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/pages/Admin/UpravljanjeNalozima/Jobs.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/pages/Admin/UpravljanjeNalozima/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/pages/Admin/UpravljanjeNalozima/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/pages/LoginPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/pages/LoginPage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/pages/SignUpPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/pages/SignUpPage.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/services/BasicService.js" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/services/BasicService.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/services/RegistracijaService.js" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/services/RegistracijaService.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/services/base.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/services/base.service.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/services/korisnik.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/services/korisnik.service.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MjobBackend/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MjobBackend/src/main/java/web/mjob/services/KorisnikService.java" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/src/main/java/web/mjob/services/KorisnikService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MjobBackend/src/main/java/web/mjob/services/impl/KorisnikServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/src/main/java/web/mjob/services/impl/KorisnikServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MjobBackend/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,6 +23,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="JavaScript File" />
+        <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
@@ -66,34 +55,35 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
-    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
-    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
-    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;js.linters.configure.manually.selectedeslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.standard&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.standard&quot;: &quot;&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;settings.javascript.linters.eslint&quot;,
-    &quot;spring.configuration.checksum&quot;: &quot;455dd9325db2e55dc317132991c59331&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;C:\\Program Files\\JetBrains\\IntelliJ IDEA 2022.2.3\\plugins\\JavaScriptLanguage\\jsLanguageServicesImpl\\external&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "js.linters.configure.manually.selectedeslint": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.standard": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.standard": "",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "reference.settings.project.maven.repository.indices",
+    "spring.configuration.checksum": "455dd9325db2e55dc317132991c59331",
+    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\IntelliJ IDEA 2022.2.3\\plugins\\JavaScriptLanguage\\jsLanguageServicesImpl\\external"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;mysql&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mysql"
     ]
   }
-}</component>
+}]]></component>
   <component name="RunDashboard">
     <option name="configurationTypes">
       <set>
@@ -146,7 +136,8 @@
       <workItem from="1685270084351" duration="5852000" />
       <workItem from="1685278370612" duration="1260000" />
       <workItem from="1685325372733" duration="11048000" />
-      <workItem from="1685488315909" duration="964000" />
+      <workItem from="1685488315909" duration="1898000" />
+      <workItem from="1685491075707" duration="3286000" />
     </task>
     <servers />
   </component>

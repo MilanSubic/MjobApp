@@ -10,7 +10,7 @@ public interface KorisnikService extends CrudService<Long> {
 
     Korisnik getUserByUsername(String username);
     List<Oglas> getAllUserJobs(Long id);
-    void acceptRegistration(Long id, Integer brojClanskeKarte) throws NotFoundException;
+    void acceptRegistration(Long id, Integer brojClanskeKarte) throws Exception;
     void refuseRegistration(Long id) throws NotFoundException;
     void deleteAccount(Long id) throws NotFoundException;
     void reactivateUser(Long id) throws  NotFoundException;

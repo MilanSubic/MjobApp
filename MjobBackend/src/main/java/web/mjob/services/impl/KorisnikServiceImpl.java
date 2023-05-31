@@ -13,6 +13,7 @@ import web.mjob.models.dto.Oglas;
 import web.mjob.models.dto.Request;
 import web.mjob.models.entities.*;
 import web.mjob.repositories.*;
+import web.mjob.services.EmailService;
 import web.mjob.services.KorisnikService;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -36,9 +37,17 @@ public class KorisnikServiceImpl implements KorisnikService {
     private final KorisnikPrijavljenRepository korisnikPrijavljenRepository;
     private  final OglasRepository oglasRepository;
     private final ModelMapper mapper;
+    private final EmailService emailService;
     @PersistenceContext
     private EntityManager manager;
-    public KorisnikServiceImpl(KorisnikEntityRepository repository,OglasRepository oglasRepository,KorisnikPrijavljenRepository korisnikPrijavljenRepository,DokumentSadrzajRepository dokumentSadrzajRepository,KorisnikStatusEntityRepository korisnikStatusRepository, KorisnikDokumentEntityRepository korisnikDokumentEntityRepository,ModelMapper modelMapper)
+    public KorisnikServiceImpl(KorisnikEntityRepository repository,
+                               OglasRepository oglasRepository,
+                               KorisnikPrijavljenRepository korisnikPrijavljenRepository,
+                               DokumentSadrzajRepository dokumentSadrzajRepository,
+                               KorisnikStatusEntityRepository korisnikStatusRepository,
+                               KorisnikDokumentEntityRepository korisnikDokumentEntityRepository,
+                               ModelMapper modelMapper,
+                               EmailService emailService)
     {
         this.repository = repository;
         this.mapper=modelMapper;
@@ -47,6 +56,7 @@ public class KorisnikServiceImpl implements KorisnikService {
         this.korisnikStatusRepository=korisnikStatusRepository;
         this.korisnikPrijavljenRepository=korisnikPrijavljenRepository;
         this.oglasRepository=oglasRepository;
+        this.emailService=emailService;
     }
 
     @Override
@@ -74,7 +84,7 @@ public class KorisnikServiceImpl implements KorisnikService {
     }
 
     @Override
-    public void acceptRegistration(Long id, Integer brojClanskeKarte)throws NotFoundException
+    public void acceptRegistration(Long id, Integer brojClanskeKarte)throws Exception
     {
         KorisnikEntity korisnik=repository.findKorisnikEntityById(id);
         korisnik.setDatumUclanjenja(new Timestamp(new Date().getTime()));
@@ -82,6 +92,7 @@ public class KorisnikServiceImpl implements KorisnikService {
         korisnik.setKorisnikStatusId(status);
         korisnik.setBrojClanskeKarte(brojClanskeKarte);
         korisnik = repository.saveAndFlush(korisnik);
+        emailService.sendSimpleMailApproved(korisnik.getEmail());
     }
     @Override
     public void refuseRegistration(Long id) throws NotFoundException
