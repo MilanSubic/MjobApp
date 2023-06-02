@@ -20,12 +20,12 @@ public class EmailServiceImpl implements EmailService {
 
     @Override
     @Async
-    public void sendSimpleMailApproved(String recipient) throws Exception {
+    public void sendSimpleMailApproved(String primaoc, Integer brojClanskeKarte)  {
         SimpleMailMessage mailMessage
                 = new SimpleMailMessage();
         mailMessage.setFrom(sender);
-        mailMessage.setTo(recipient);
-        String textMaila="Poštovani, \n\nVaš zahtjev za nalog je odobren.\nDobro došli u BlDonate tim!\n\nSrdačan pozdrav,\nBlDonate admin tim";
+        mailMessage.setTo(primaoc);
+        String textMaila="Poštovani, \n\nVaš zahtjev za nalog je odobren, broj vaše članske karte je "+brojClanskeKarte+".\nDobro došli u MJob!\n\nSrdačan pozdrav,\nMJob admin tim";
         mailMessage.setText(textMaila);
         mailMessage.setSubject("Potvrda o registraciji");
         javaMailSender.send(mailMessage);
@@ -33,13 +33,13 @@ public class EmailServiceImpl implements EmailService {
 
     @Override
     @Async
-    public void sendSimpleMailDeleted(String recipient) throws Exception {
+    public void sendSimpleMailDeleted(String recipient) {
 
         SimpleMailMessage mailMessage
                 = new SimpleMailMessage();
         mailMessage.setFrom(sender);
         mailMessage.setTo(recipient);
-        String textMaila="Poštovani, \n\nVaš nalog je obrisan.\nAko smatrate da se radi o grešci, obratite se administratorskom timu putem e-maila!\n\nSrdačan pozdrav,\nBlDonate admin tim";
+        String textMaila="Poštovani, \n\nVaš nalog je obrisan.\nAko smatrate da se radi o grešci, obratite se administratorskom timu putem e-maila!\n\nSrdačan pozdrav,\nMJob admin tim";
         mailMessage.setText(textMaila);
         mailMessage.setSubject("Brisanje naloga");
         javaMailSender.send(mailMessage);
@@ -47,17 +47,30 @@ public class EmailServiceImpl implements EmailService {
     }
     @Override
     @Async
-    public void sendSimpleMailNotApproved(String recipient) throws Exception {
+    public void sendSimpleMailNotApproved(String recipient)  {
 
         SimpleMailMessage mailMessage
                 = new SimpleMailMessage();
         mailMessage.setFrom(sender);
         mailMessage.setTo(recipient);
-        String textMaila="Poštovani, \n\nVaš zahtjev za nalog nije odobren.\nAko smatrate da se radi o grešci, obratite se administratorskom timu putem e-maila!\n\nSrdačan pozdrav,\nBlDonate admin tim";
+        String textMaila="Poštovani, \n\nVaš zahtjev za nalog nije odobren.\nAko smatrate da se radi o grešci, obratite se administratorskom timu putem e-maila!\n\nSrdačan pozdrav,\nMJob admin tim";
         mailMessage.setText(textMaila);
         mailMessage.setSubject("Odbijen zahtjev");
         javaMailSender.send(mailMessage);
 
     }
+    @Override
+    @Async
+    public void sendSimpleMailAboutReactivation(String recipient)  {
 
+        SimpleMailMessage mailMessage
+                = new SimpleMailMessage();
+        mailMessage.setFrom(sender);
+        mailMessage.setTo(recipient);
+        String textMaila="Poštovani, \n\nVaš zahtjev za nalog je ponovo aktivan.\n\nSrdačan pozdrav,\nMJob admin tim";
+        mailMessage.setText(textMaila);
+        mailMessage.setSubject("Odbijen zahtjev");
+        javaMailSender.send(mailMessage);
+
+    }
 }

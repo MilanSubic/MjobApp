@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { Modal, Table } from "antd";
 import korisnikService from "../../../services/korisnik.service";
+import moment from "moment";
+
 const Jobs = (props) => {
   const { visible, onCancel, userId, confirmLoading } = props;
   const [jobs, setJobs] = useState([]);
@@ -10,7 +12,7 @@ const Jobs = (props) => {
     korisnikService.getUserJobs(userId).then((res) => {
       setJobs(res);
     });
-  }, []);
+  }, [userId]);
   const columns = [
     {
       title: "Narucilac",
@@ -31,6 +33,9 @@ const Jobs = (props) => {
     {
       title: "Datum",
       dataIndex: "datum",
+      render: (record) => {
+        return moment(record).format("DD-MM-YYYY");
+      },
     },
     {
       title: "Novcana naknada",

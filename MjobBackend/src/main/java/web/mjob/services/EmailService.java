@@ -1,9 +1,9 @@
 package web.mjob.services;
 
 public interface EmailService {
-    void sendSimpleMailApproved(String recipient) throws Exception;
+    void sendSimpleMailApproved(String primaoc, Integer brojClanskeKarte);
 
-    void sendSimpleMailDeleted(String recipient) throws Exception;
-    void sendSimpleMailNotApproved(String recipient) throws Exception;
-
+    void sendSimpleMailDeleted(String recipient) ;
+    void sendSimpleMailNotApproved(String recipient);
+    void sendSimpleMailAboutReactivation(String recipient)  ;
 }
