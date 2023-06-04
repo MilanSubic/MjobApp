@@ -1,10 +1,8 @@
 package web.mjob.models.dto;
 
 import lombok.*;
-
-import javax.persistence.Basic;
-import javax.persistence.Column;
 import java.sql.Timestamp;
+import java.util.List;
 
 @Data
 public class Korisnik {
@@ -41,17 +39,17 @@ public class Korisnik {
 
     private String lozinka;
 
-    private Boolean aktivan;
+    private String korisnikPolNaziv;
 
-    private Integer korisnikPolId;
+    private String korisnikTipNaziv;
 
-    private Integer korisnikTipId;
+    private String korisnikStatusNaziv;
 
-    private Integer mjestoRodjenjaOpstinaId;
+    private String mjestoRodjenjaOpstinaNaziv;
 
-    private Integer naseljenoMjestoId;
+    private String naseljenoMjestoNaziv;
 
-    private Integer izdavaocLicneKarteOpstinaId;
+    private String izdavaocLicneKarteOpstinaNaziv;
 
     private String ulicaIBroj;
 
@@ -66,4 +64,6 @@ public class Korisnik {
     private Boolean osiguranjeZadruga;
 
     private String brojMobilogTelefona;
+
+    private List<KorisnikDokument> korisnikDokumentsById;
 }

@@ -5,6 +5,8 @@ import lombok.*;
 import web.mjob.base.BaseEntity;
 
 import jakarta.persistence.*;
+
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -65,9 +67,6 @@ public class KorisnikEntity implements BaseEntity<Long> {
     @Column(name = "lozinka", nullable = false, length = 1024)
     private String lozinka;
     @Basic
-    @Column(name = "aktivan", nullable = false)
-    private Boolean aktivan;
-    @Basic
     @Column(name = "ulicaIBroj", nullable = true, length = 255)
     private String ulicaIBroj;
     @ManyToOne
@@ -102,6 +101,9 @@ public class KorisnikEntity implements BaseEntity<Long> {
     @JoinColumn(name = "korisnik_tip_id", referencedColumnName = "id", nullable = false)
     private KorisnikTipEntity korisnikTipId;
     @ManyToOne
+    @JoinColumn(name = "korisnik_status_id", referencedColumnName = "id", nullable = false)
+    private KorisnikStatusEntity korisnikStatusId;
+    @ManyToOne
     @JoinColumn(name = "mjesto_rodjenja_opstina_id", referencedColumnName = "id", nullable = false)
     private OpstinaEntity mjestoRodjenjaOpstinaId;
     @ManyToOne
@@ -114,6 +116,5 @@ public class KorisnikEntity implements BaseEntity<Long> {
     private List<KorisnikDokumentEntity> korisnikDokumentsById;
     @OneToMany(mappedBy = "korisnikByKorisnikId")
     private List<KorisnikPrijavljenEntity> korisnikPrijavljensById;
-
 
 }

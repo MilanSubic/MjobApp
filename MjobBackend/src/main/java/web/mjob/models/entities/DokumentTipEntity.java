@@ -6,7 +6,6 @@ import jakarta.persistence.*;
 import web.mjob.base.BaseEntity;
 
 import java.util.List;
-import java.util.Objects;
 
 @Data
 @Entity

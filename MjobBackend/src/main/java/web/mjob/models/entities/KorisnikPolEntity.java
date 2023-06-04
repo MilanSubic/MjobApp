@@ -21,6 +21,10 @@ public class KorisnikPolEntity implements BaseEntity<Long> {
     private String naziv;
     @OneToMany(mappedBy = "korisnikPolId")
     private List<KorisnikEntity> korisniksById;
-
+@Override
+    public String toString()
+{
+   return id+" "+naziv;
+}
 
 }
