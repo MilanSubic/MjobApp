@@ -10,7 +10,7 @@ import java.util.List;
 @Table(name = "posao_tip", schema = "mjob_database")
 public class PosaoTipEntity {
     @Id
-    @GeneratedValue
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
     @Basic

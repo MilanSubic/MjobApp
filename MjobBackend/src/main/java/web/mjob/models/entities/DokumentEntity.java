@@ -10,7 +10,7 @@ import java.util.List;
 @Table(name = "dokument", schema = "mjob_database")
 public class DokumentEntity {
     @Id
-    @GeneratedValue
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
     @Basic

@@ -11,7 +11,7 @@ import java.util.List;
 @Table(name = "korisnik_status", schema = "mjob_database")
 public class KorisnikStatusEntity implements BaseEntity<Long> {
     @Id
-    @GeneratedValue
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
     @Basic

@@ -10,7 +10,7 @@ import java.util.Objects;
 @Table(name = "konverzija_has_korisnik", schema = "mjob_database")
 public class KonverzijaHasKorisnikEntity {
     @Id
-    @GeneratedValue
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
     @ManyToOne

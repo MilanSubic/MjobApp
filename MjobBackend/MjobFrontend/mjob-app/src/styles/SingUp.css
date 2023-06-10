@@ -7,3 +7,6 @@
 .card {
     min-width: 65vw;
 }
+.danger {
+    color: red;
+}

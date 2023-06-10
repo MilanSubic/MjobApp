@@ -11,7 +11,7 @@ import java.util.Objects;
 
 public class DokumentPorukaEntity {
     @Id
-    @GeneratedValue
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
     @ManyToOne

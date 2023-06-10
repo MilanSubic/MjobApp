@@ -12,7 +12,7 @@ import java.util.List;
 @Table(name = "dokument _tip", schema = "mjob_database")
 public class DokumentTipEntity implements BaseEntity<Long> {
     @Id
-    @GeneratedValue
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
     @Basic

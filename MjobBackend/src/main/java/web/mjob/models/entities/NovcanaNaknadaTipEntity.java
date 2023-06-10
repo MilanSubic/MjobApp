@@ -11,7 +11,7 @@ import java.util.Objects;
 @Table(name = "novcana_naknada_tip", schema = "mjob_database")
 public class NovcanaNaknadaTipEntity {
     @Id
-    @GeneratedValue
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
     @Basic

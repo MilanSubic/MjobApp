@@ -9,11 +9,11 @@ import jakarta.persistence.*;
 @Table(name = "dokument_sadrzaj", schema = "mjob_database")
 public class DokumentSadrzajEntity {
     @Id
-    @GeneratedValue
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
     @Basic
-    @Column(name = "sadrzaj", nullable = false)
+    @Column(name = "sadrzaj", nullable = false, columnDefinition="LONGTEXT")
     private String sadrzaj;
     @Basic
     @Column(name = "contentType", nullable = true, length = 45)

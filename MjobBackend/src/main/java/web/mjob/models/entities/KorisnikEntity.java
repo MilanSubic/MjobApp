@@ -15,7 +15,7 @@ import java.util.List;
 @Table(name = "korisnik", schema = "mjob_database")
 public class KorisnikEntity implements BaseEntity<Long> {
     @Id
-    @GeneratedValue
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
     @Basic
@@ -49,7 +49,7 @@ public class KorisnikEntity implements BaseEntity<Long> {
     @JoinColumn(name = "obrazovna_ustanova_tip_id", referencedColumnName = "id", nullable = false)
     private ObrazovnaUstanovaTipEntity obrazovnaUstanovaTip;
     @Basic
-    @Column(name = "obrazovnaUstanova", nullable = false, length = 45)
+    @Column(name = "obrazovnaUstanova", nullable = false, length = 250)
     private String obrazovnaUstanova;
     @Basic
     @Column(name = "identifikator", nullable = false, length = 45)
@@ -98,10 +98,10 @@ public class KorisnikEntity implements BaseEntity<Long> {
     @JoinColumn(name = "korisnik_pol_id", referencedColumnName = "id", nullable = false)
     private KorisnikPolEntity korisnikPolId;
     @ManyToOne
-    @JoinColumn(name = "korisnik_tip_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "korisnik_tip_id", referencedColumnName = "id", nullable = true)
     private KorisnikTipEntity korisnikTipId;
     @ManyToOne
-    @JoinColumn(name = "korisnik_status_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "korisnik_status_id", referencedColumnName = "id", nullable = true)
     private KorisnikStatusEntity korisnikStatusId;
     @ManyToOne
     @JoinColumn(name = "mjesto_rodjenja_opstina_id", referencedColumnName = "id", nullable = false)
