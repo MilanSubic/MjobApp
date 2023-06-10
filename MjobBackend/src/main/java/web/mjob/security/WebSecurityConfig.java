@@ -98,6 +98,9 @@ public class WebSecurityConfig {
                 .requestMatchers("/api/**").permitAll()
                 .requestMatchers("/api/registracija").permitAll()
                 .requestMatchers("/api/registracija/**").permitAll()
+                .requestMatchers("/api/korisnici1").permitAll()
+                .requestMatchers("/api/korisnici1/**").permitAll()
+                .requestMatchers("/ api/korisnik1Pol").permitAll()
                 .anyRequest().permitAll();
 
         http.authenticationProvider(authenticationProvider());
