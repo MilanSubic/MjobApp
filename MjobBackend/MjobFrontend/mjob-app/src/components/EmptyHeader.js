@@ -18,6 +18,9 @@ function EmptyHeader() {
           {tipKorisnika === null && (
             <div className="nav">
               <div className="nav-item">
+                <Link to="/users">Tabela</Link>
+              </div>
+              <div className="nav-item">
                 <a href="#">Početna</a>
               </div>
               <div className="nav-item">

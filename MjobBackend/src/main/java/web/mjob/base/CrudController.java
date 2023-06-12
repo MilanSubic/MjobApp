@@ -22,10 +22,10 @@ public abstract class CrudController<ID extends Serializable,REQ,RESP> {
         this.crudService = crudService;
     }
 
-  /*  @GetMapping
+      @GetMapping("lista")
     List<RESP> findAll() throws NotFoundException {
         return crudService.findAll((respClass));
-    }*/
+    }
 
     @GetMapping
     Page<RESP> findAll(Pageable page) throws NotFoundException {
