@@ -21,12 +21,8 @@ public class Oglas {
     private Timestamp aktivanDo;
     private BigDecimal satnica;
     private Boolean javni;
-    private Integer posaoTipId;
-    private Integer novcanaNaknadaTipId;
-    private Integer narucilacId;
-    private List<KorisnikPrijavljenEntity> korisnikPrijavljensById;
-    private PosaoTipEntity posaoTipByPosaoTipId;
-    private NovcanaNaknadaTipEntity novcanaNaknadaTipByNovcanaNaknadaTipId;
-    private NarucilacEntity narucilacByNarucilacId;
+    private String posaoTipById;
+    private String novcanaNaknadaTipById;
+    private Narucilac narucilacById;
 
 }

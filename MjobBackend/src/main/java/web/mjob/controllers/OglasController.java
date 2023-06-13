@@ -18,20 +18,20 @@ public class OglasController {
     }
 
     @GetMapping
-    List<Oglas> findAll() {
-        return oglasService.findAll();
+    List<Oglas> getAll() {
+        return oglasService.getAll();
     }
 /*
     @GetMapping("/{id}")
     public Oglas findById(@PathVariable Long id) throws NotFoundException {
         return oglasService.findById(id, Oglas.class);
     }
-*/
-    /*
+
+
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Integer id) {
         oglasService.delete(id);
     }
-     */
 
+*/
 }

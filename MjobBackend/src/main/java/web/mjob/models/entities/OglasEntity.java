@@ -1,5 +1,7 @@
 package web.mjob.models.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import jakarta.persistence.*;
 import web.mjob.base.BaseEntity;
@@ -41,17 +43,20 @@ public class OglasEntity implements BaseEntity<Long> {
     @Basic
     @Column(name = "javni", nullable = false)
     private Boolean javni;
+
     @OneToMany(mappedBy = "oglasByOglasId")
     private List<KorisnikPrijavljenEntity> korisnikPrijavljensById;
+
     @ManyToOne
     @JoinColumn(name = "posao_tip_id", referencedColumnName = "id", nullable = false)
     private PosaoTipEntity posaoTipByPosaoTipId;
+
     @ManyToOne
     @JoinColumn(name = "novcana_naknada_tip_id", referencedColumnName = "id", nullable = false)
     private NovcanaNaknadaTipEntity novcanaNaknadaTipByNovcanaNaknadaTipId;
+
     @ManyToOne
     @JoinColumn(name = "narucilac_id", referencedColumnName = "id", nullable = false)
     private NarucilacEntity narucilacByNarucilacId;
-
 
 }
