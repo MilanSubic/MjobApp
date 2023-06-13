@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RestController
-@CrossOrigin
+@CrossOrigin("http://localhost:3000")
 @RequestMapping("/api/auth")
 public class JwtAuthenticationController {
 
@@ -33,12 +33,9 @@ public class JwtAuthenticationController {
     @PostMapping("/login")
     public ResponseEntity<?> createAuthenticationToken( @RequestBody JwtRequest authenticationRequest) throws Exception {
 
-        System.out.println("dsfs"+authenticationRequest.getUsername() + authenticationRequest.getPassword());
-     //   authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
-
+        authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
         final UserDetails userDetails = userDetailsService
                 .loadUserByUsername(authenticationRequest.getUsername());
-       System.out.println("username:"+authenticationRequest.getUsername());
         final String token = jwtTokenUtil.generateToken(userDetails);
 
         return ResponseEntity.ok(new JwtResponse(token));
@@ -46,7 +43,6 @@ public class JwtAuthenticationController {
 
     private void authenticate(String username, String password) throws Exception {
         try {
-            System.out.println(username);
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
         } catch (DisabledException e) {
             throw new Exception("USER_DISABLED", e);

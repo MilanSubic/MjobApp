@@ -4,7 +4,6 @@ import lombok.*;
 
 import jakarta.persistence.*;
 import java.util.List;
-import java.util.Objects;
 
 @Data
 @Entity
@@ -15,17 +14,18 @@ public class DokumentEntity {
     @Column(name = "id", nullable = false)
     private Long id;
     @Basic
-    @Column(name = "naziv", nullable = false, length = 45)
+    @Column(name = "naziv", nullable = false, length = 1024)
     private String naziv;
+    @Basic
+    @Column(name = "velicina", nullable = false)
+    private Long velicina;
     @ManyToOne
-    @JoinColumn(name = "dokument _tip_id", referencedColumnName = "id", nullable = false)
-    private DokumentTipEntity dokumentTipByDokumentTipId;
+    @JoinColumn(name = "dokument_tip_id", referencedColumnName = "id", nullable = false)
+    private DokumentTipEntity dokumentTipId;
     @OneToMany(mappedBy = "dokumentByDokumentId")
     private List<DokumentPorukaEntity> dokumentPorukasById;
     @OneToMany(mappedBy = "dokumentByDokumentId")
     private List<DokumentSadrzajEntity> dokumentSadrzajsById;
     @OneToMany(mappedBy = "dokumentByDokumentId")
     private List<KorisnikDokumentEntity> korisnikDokumentsById;
-
-
 }

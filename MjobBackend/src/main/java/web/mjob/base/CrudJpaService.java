@@ -3,14 +3,12 @@ package web.mjob.base;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import lombok.Data;
-import lombok.Getter;
 import org.modelmapper.ModelMapper;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.transaction.annotation.Transactional;
 import web.mjob.exceptions.NotFoundException;
+import web.mjob.models.dto.Request;
 
 import java.io.Serializable;
 import java.util.List;
@@ -37,9 +35,23 @@ public abstract class CrudJpaService<E extends BaseEntity<ID>,ID extends Seriali
         return repository.findAll().stream().map(e -> modelMapper.map(e,resultDtoClass)).collect(Collectors.toList());
     }
 
-
     public <T> Page<T> findAll(Pageable page, Class<T> resultDtoClass) {
         return repository.findAll(page).map(e->modelMapper.map(e,resultDtoClass));
+    }
+
+    public <T, F> Page<T> findAllFiltered(Request<T> request, Class<T> resultDtoClass) {
+        var sort = Sort.unsorted();
+        if(request.getProperty() != null){
+            sort = Sort.by(request.getDirection(),request.getProperty());
+        }
+        if (request.getFilter() != null) {
+            var f = modelMapper.map(request.getFilter(), entityClass);
+            ExampleMatcher matcher = ExampleMatcher.matching()
+                    .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
+            Example<E> example = Example.of(f, matcher);
+            return repository.findAll(example, PageRequest.of(request.getCurrent(), request.getPageSize(), sort)).map(e -> modelMapper.map(e, resultDtoClass));
+        }
+        return repository.findAll(PageRequest.of(request.getCurrent(), request.getPageSize(), sort)).map(e -> modelMapper.map(e, resultDtoClass));
     }
 
     @Override
