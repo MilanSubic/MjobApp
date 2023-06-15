@@ -5,7 +5,9 @@ import Login from "./components/Login";
 import { SignUpPage } from "./pages/SignUpPage";
 import UpravljanjeNalozima from "./pages/Admin/UpravljanjeNalozima";
 import { UsersList } from "./components/UsersList";
-import Index from "./pages/Oglasi";
+import Oglasi from "./pages/OglasiKorisnik";
+import MojiOglasi from "./pages/OglasiNarucilac";
+import JavniOglasi from "./pages/JavniOglasi/JavniOglasi";
 function App() {
   return (
     <BrowserRouter>
@@ -18,8 +20,9 @@ function App() {
           path="/upravljanjeNalozima"
           element={<UpravljanjeNalozima />}
         ></Route>
-        <Route path="/oglasi" element={<Index />}></Route>
-
+        <Route path="/oglasi" element={<Oglasi />}></Route>
+        <Route path="/mojiOglasi" element={<MojiOglasi />}></Route>
+        <Route path="/javniOglasi" element={<JavniOglasi />}></Route>
       </Routes>
     </BrowserRouter>
   );

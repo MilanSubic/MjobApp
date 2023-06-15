@@ -29,11 +29,9 @@ public class PosaoTipServiceImpl implements PosaoTipService {
         this.mapper = mapper;
     }
 
-
     @Override
     public PosaoTipEntity findById(Long id) throws NotFoundException {
         return repository.findById(id).get();
-
     }
 
     @Override

@@ -6,25 +6,48 @@
   <component name="ChangeListManager">
     <list default="true" id="c26eebbf-a9a8-42e7-adec-39f27a419e56" name="Changes" comment="com">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/node_modules/.cache/.eslintcache" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/node_modules/.cache/.eslintcache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/node_modules/.cache/default-development/0.pack" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/node_modules/.cache/default-development/0.pack" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/node_modules/.cache/default-development/15.pack" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/node_modules/.cache/default-development/15.pack" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/node_modules/.cache/default-development/17.pack" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/node_modules/.cache/default-development/17.pack" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/node_modules/.cache/default-development/index.pack" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/node_modules/.cache/default-development/index.pack" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/node_modules/.cache/default-development/index.pack.old" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/node_modules/.cache/default-development/index.pack.old" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MjobBackend/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/.eslintrc.json" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/.eslintrc.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/App.test.js" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/App.test.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/components/BasicStyledComponents.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/components/BasicStyledComponents.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/components/EmptyHeader.js" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/components/EmptyHeader.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/components/Login.js" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/components/Login.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/components/Select.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/components/Select.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/components/UsersList.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/components/UsersList.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/components/UsersModal.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/components/UsersModal.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/environments/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/environments/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/pages/Admin/UpravljanjeNalozima/Jobs.js" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/pages/Admin/UpravljanjeNalozima/Jobs.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/pages/Admin/UpravljanjeNalozima/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/pages/Admin/UpravljanjeNalozima/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/pages/JavniOglasi/JavniOglasi.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/pages/JavniOglasi/JavniOglasi.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/pages/LoginPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/pages/LoginPage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/pages/OglasiKorisnik/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/pages/OglasiKorisnik/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/pages/OglasiNarucilac/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/pages/OglasiNarucilac/index.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/pages/SignUpPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/pages/SignUpPage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/redux/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/redux/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/reportWebVitals.js" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/reportWebVitals.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/services/BasicService.js" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/services/BasicService.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/services/KorisnikPolService.js" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/services/KorisnikPolService.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/services/KorisnikStatusService.js" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/services/KorisnikStatusService.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/services/KorisnikTip1Service.js" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/services/KorisnikTip1Service.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/services/NaseljenoMjestoService.js" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/services/NaseljenoMjestoService.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/services/ObrazovnaUstanovaTipService.js" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/services/ObrazovnaUstanovaTipService.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/services/OglasiService.js" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/services/OglasiService.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/services/OpstinaService.js" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/services/OpstinaService.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/services/RegistracijaService.js" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/services/RegistracijaService.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/services/UsersService.js" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/services/UsersService.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/services/base.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/services/base.service.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/services/korisnik.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/services/korisnik.service.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/setupTests.js" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/MjobFrontend/mjob-app/src/setupTests.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MjobBackend/src/main/java/web/mjob/controllers/OglasController.java" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/src/main/java/web/mjob/controllers/OglasController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MjobBackend/src/main/java/web/mjob/repositories/OglasEntityRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/src/main/java/web/mjob/repositories/OglasEntityRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MjobBackend/src/main/java/web/mjob/security/WebSecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/src/main/java/web/mjob/security/WebSecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MjobBackend/src/main/java/web/mjob/services/OglasService.java" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/src/main/java/web/mjob/services/OglasService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MjobBackend/src/main/java/web/mjob/services/impl/OglasServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/src/main/java/web/mjob/services/impl/OglasServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MjobBackend/src/main/java/web/mjob/services/impl/PosaoTipServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/MjobBackend/src/main/java/web/mjob/services/impl/PosaoTipServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,8 +57,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="JavaScript File" />
         <option value="Class" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
@@ -66,34 +89,38 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
-    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
-    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
-    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;js.linters.configure.manually.selectedeslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.standard&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.standard&quot;: &quot;&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;settings.javascript.linters.eslint&quot;,
-    &quot;spring.configuration.checksum&quot;: &quot;455dd9325db2e55dc317132991c59331&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;C:\\Program Files\\JetBrains\\IntelliJ IDEA 2022.2.3\\plugins\\JavaScriptLanguage\\jsLanguageServicesImpl\\external&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "js.linters.configure.manually.selectedeslint": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.standard": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.standard": "",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "prettierjs.PrettierConfiguration.Package": "C:\\Users\\admin\\Documents\\Fakultet\\Cetvrta godina\\Inf 2\\Projekat\\MjobApp\\node_modules\\prettier",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "spring.configuration.checksum": "455dd9325db2e55dc317132991c59331",
+    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\IntelliJ IDEA 2022.2.3\\plugins\\JavaScriptLanguage\\jsLanguageServicesImpl\\external",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;mysql&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mysql"
     ]
   }
-}</component>
+}]]></component>
   <component name="RunDashboard">
     <option name="configurationTypes">
       <set>
@@ -147,6 +174,12 @@
       <workItem from="1685278370612" duration="1260000" />
       <workItem from="1685325372733" duration="11048000" />
       <workItem from="1685488315909" duration="964000" />
+      <workItem from="1686661924814" duration="3172000" />
+      <workItem from="1686668701455" duration="9402000" />
+      <workItem from="1686736209033" duration="8824000" />
+      <workItem from="1686758593711" duration="12017000" />
+      <workItem from="1686776955466" duration="1736000" />
+      <workItem from="1686778780584" duration="9517000" />
     </task>
     <servers />
   </component>
@@ -163,6 +196,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

@@ -8,7 +8,6 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeMap;
 import org.springframework.stereotype.Service;
 
-import web.mjob.models.dto.Narucilac;
 import web.mjob.models.dto.Oglas;
 
 import web.mjob.models.entities.NarucilacEntity;
@@ -27,9 +26,7 @@ import java.util.stream.Collectors;
 public class OglasServiceImpl implements OglasService {
     private final ModelMapper modelMapper;
     private final OglasEntityRepository repository;
-
     private final PosaoTipEntityRepository posaoTipRepo;
-
     private final NarucilacEntityRepository narucilacEntityRepo;
     private final NovcanaNaknadaTipEntityRepository novcanaNaknadaTipEntityRepo;
 
@@ -50,24 +47,41 @@ public class OglasServiceImpl implements OglasService {
         this.property =this.modelMapper.createTypeMap(OglasEntity.class,Oglas.class);
 
         property.addMappings(
-                m -> m.map(src->src.getPosaoTipByPosaoTipId().getNaziv(),Oglas::setPosaoTipById)
+                m -> m.map(src->src.getPosaoTipByPosaoTipId().getNaziv(),Oglas::setPosaoTipNaziv)
         );
-        /*
-
+/*
         property.addMappings(
                 m -> m.map(src->src.getNarucilacByNarucilacId(),Oglas::setNarucilacById)
         );
 
-         */
-
+ */
         property.addMappings(
-                m->m.map(src->src.getNovcanaNaknadaTipByNovcanaNaknadaTipId().getNaziv(),Oglas::setNovcanaNaknadaTipById)
+                m->m.map(src->src.getNovcanaNaknadaTipByNovcanaNaknadaTipId().getNaziv(),Oglas::setNovcanaNaknadaTipNaziv)
         );
+
     }
 
     @Override
     public List<Oglas> getAll() {
         return repository.findAll().stream().map(e->modelMapper.map(e,Oglas.class)).collect(Collectors.toList());
     }
+
+
+    @Override
+    public void delete(Long id) throws Exception {
+        repository.deleteById(id);
+    }
+
+    @Override
+    public List<Oglas> getAllJavniOglasi() {
+        return repository.findAllByJavni(true).stream().map(e->modelMapper.map(e, Oglas.class)).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Oglas> getAllOglasiByNarucilacId(Long id) {
+        return repository.getAllOglasiByNarucilacId(id).stream().map(e->modelMapper.map(e,Oglas.class)).collect(Collectors.toList());
+    }
+
+
 
 }

@@ -132,9 +132,9 @@ public class WebSecurityConfig {
         return authProvider;
     }
 
-    @Bean
+  /*  @Bean
     public ModelMapper modelMapper()
     {
         return new ModelMapper();
-    }
+    }*/
 }
