@@ -3,12 +3,14 @@ package web.mjob.models.entities;
 import lombok.*;
 
 import jakarta.persistence.*;
+import web.mjob.base.BaseEntity;
+
 import java.util.List;
 
 @Data
 @Entity
 @Table(name = "posao_tip", schema = "mjob_database")
-public class PosaoTipEntity {
+public class PosaoTipEntity implements BaseEntity<Long> {
     @Id
     @GeneratedValue
     @Column(name = "id", nullable = false)
