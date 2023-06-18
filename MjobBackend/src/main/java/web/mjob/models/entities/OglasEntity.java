@@ -2,6 +2,8 @@ package web.mjob.models.entities;
 
 import lombok.*;
 import jakarta.persistence.*;
+import web.mjob.base.BaseEntity;
+
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.List;
@@ -10,7 +12,7 @@ import java.util.Objects;
 @Data
 @Entity
 @Table(name = "oglas", schema = "mjob_database")
-public class OglasEntity {
+public class OglasEntity implements BaseEntity<Long> {
     @Id
     @GeneratedValue
     @Column(name = "id", nullable = false)
