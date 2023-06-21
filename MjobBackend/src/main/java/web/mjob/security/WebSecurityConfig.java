@@ -101,6 +101,8 @@ public class WebSecurityConfig {
                 .requestMatchers("/api/korisnici1").permitAll()
                 .requestMatchers("/api/korisnici1/**").permitAll()
                 .requestMatchers("/ api/korisnik1Pol").permitAll()
+                .requestMatchers("/api/oglas").permitAll()
+                .requestMatchers("/api/oglas/**").permitAll()
                 .anyRequest().permitAll();
 
         http.authenticationProvider(authenticationProvider());
