@@ -14,6 +14,7 @@ import {
   Form,
   Input,
   Space,
+  message,
 } from "antd";
 import {
   UserAddOutlined,
@@ -22,7 +23,10 @@ import {
   CheckCircleOutlined,
   MinusCircleOutlined,
   InfoCircleOutlined,
+  EditOutlined,
 } from "@ant-design/icons";
+import UsersModal from "../../../components/UsersModal";
+import UsersService from "../../../services/UsersService";
 const { Search } = Input;
 
 const UpravljanjeNalozima = () => {
@@ -53,6 +57,12 @@ const UpravljanjeNalozima = () => {
   const [godina, setGodina] = useState();
   const [slike] = useState([]);
   const [status, setStatus] = useState([]);
+  const [selectedUser, setSelectedUser] = useState(null);
+
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isModalJobsOpen, setIsModalJobsOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const setRightSide = (user) => {
     while (slike.length > 0) slike.pop();
     for (let i = 0; i < user.korisnikDokumentsById.length; i++) {
@@ -97,6 +107,7 @@ const UpravljanjeNalozima = () => {
     setNaseljenoMjesto(user.naseljenoMjestoNaziv);
     setSmijer(user.smijer);
     setUlica(user.ulicaIBroj);
+    setSelectedUser(user);
   };
   const onSearch = (value) => {
     if (listTip === "neobradjen") {
@@ -155,15 +166,14 @@ const UpravljanjeNalozima = () => {
     korisnikService.reactivateUser(id);
     window.location.reload(false);
   };
-  const [isModalJobsOpen, setIsModalJobsOpen] = useState(false);
 
   const prikazPoslova = () => {
     setIsModalJobsOpen(true);
   };
+
   const closeJobsModal = () => {
     setIsModalJobsOpen(false);
   };
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -185,9 +195,29 @@ const UpravljanjeNalozima = () => {
       setListTip("neobradjen");
     });
   };
+
+  const openEditModal = () => {
+    setIsEditModalOpen(true);
+  };
+  const closeModal = () => {
+    setIsEditModalOpen(false);
+  };
+
+  const saveData = (user) => {
+    UsersService.update(user)
+      .then((res) => {
+        message.success("Uspjesna izmjena");
+        closeModal();
+      })
+      .catch((err) => {
+        console.error(err);
+        message.error("Doslo je do greske prilikom izmjene");
+      });
+  };
   const handleCancel = () => {
     setIsModalOpen(false);
   };
+
   return (
     <div className="upravljanjeNalozimaAdmin">
       <div className="left-side">
@@ -333,6 +363,14 @@ const UpravljanjeNalozima = () => {
               )}
               {status === "aktivan" && (
                 <div>
+                  <Tooltip title="Izmjeni nalog">
+                    <Button
+                      shape="circle"
+                      size="large"
+                      icon={<EditOutlined />}
+                      onClick={() => openEditModal()}
+                    />
+                  </Tooltip>
                   <Tooltip title="Obrisi nalog">
                     <Button
                       shape="circle"
@@ -373,6 +411,13 @@ const UpravljanjeNalozima = () => {
           </div>
         )}
       </div>
+      <UsersModal
+        editMode={isEditModalOpen}
+        visible={isEditModalOpen}
+        onCancel={closeModal}
+        onOk={saveData}
+        user={selectedUser}
+      ></UsersModal>
     </div>
   );
 };

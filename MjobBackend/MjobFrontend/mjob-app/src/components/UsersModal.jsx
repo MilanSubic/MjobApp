@@ -6,7 +6,6 @@ import {
   InputNumber,
   DatePicker,
   Select,
-  Switch,
   Checkbox,
 } from "antd";
 import PropTypes from "prop-types";
@@ -17,7 +16,6 @@ import styled from "styled-components";
 // import "moment-timezone";
 import KorisnikPolService from "../services/KorisnikPolService";
 import KorisnikTip1Service from "../services/KorisnikTip1Service";
-import KorisnikStatusService from "../services/KorisnikStatusService";
 import OpstinaService from "../services/OpstinaService";
 import NaseljenoMjestoService from "../services/NaseljenoMjestoService";
 import ObrazovnaUstanovaTipService from "../services/ObrazovnaUstanovaTipService";
@@ -35,7 +33,6 @@ const UsersModal = (props) => {
   const [form] = Form.useForm();
   const [usersGender, setUsersGender] = useState([]);
   const [usersTip, setUsersTip] = useState([]);
-  const [usersState, setUsersState] = useState([]);
   const [usersOpstina, setUsersOpstina] = useState([]);
   const [usersMjesto, setUsersMjesto] = useState([]);
   const [usersUstanova, setUsersUstanova] = useState([]);
@@ -88,9 +85,6 @@ const UsersModal = (props) => {
   }, []);
   useEffect(() => {
     KorisnikTip1Service.getAll().then((res) => setUsersTip(res.data));
-  }, []);
-  useEffect(() => {
-    KorisnikStatusService.getAll().then((res) => setUsersState(res.data));
   }, []);
   useEffect(() => {
     OpstinaService.getAll().then((res) => setUsersOpstina(res.data));
@@ -249,38 +243,8 @@ const UsersModal = (props) => {
           <Input />
         </Form.Item>
         <Form.Item
-          label="Lozinka"
-          name="lozinka"
-          rules={[{ required: true, message: "Polje je obavezno" }]}
-        >
-          <Input.Password />
-        </Form.Item>
-
-        <Form.Item
-          label="Potvrdite lozinku"
-          name="potrvdaLozinke"
-          dependencies={["lozinka"]}
-          hasFeedback
-          rules={[
-            {
-              required: true,
-              message: "Polje je obavezno",
-            },
-            ({ getFieldValue }) => ({
-              validator(_, value) {
-                if (!value || getFieldValue("lozinka") === value) {
-                  return Promise.resolve();
-                }
-                return Promise.reject(new Error("Lozinke nisu iste"));
-              },
-            }),
-          ]}
-        >
-          <Input.Password />
-        </Form.Item>
-        <Form.Item
           label="Pol korisnika:"
-          name="korisnikPolId"
+          name="korisnikPolNaziv"
           rules={[{ required: true, message: "Polje je obavezno" }]}
         >
           <Select>
@@ -293,7 +257,7 @@ const UsersModal = (props) => {
         </Form.Item>
         <Form.Item
           label="Tip korisnika:"
-          name="korisnikTipId"
+          name="korisnikTipNaziv"
           rules={[{ required: true, message: "Polje je obavezno" }]}
         >
           <Select>
@@ -305,21 +269,8 @@ const UsersModal = (props) => {
           </Select>
         </Form.Item>
         <Form.Item
-          label="Status korisnika:"
-          name="korisnikStatusId"
-          rules={[{ required: true, message: "Polje je obavezno" }]}
-        >
-          <Select>
-            {usersState.map((e) => (
-              <Select.Option key={e.id} value={e.id}>
-                {e.naziv}
-              </Select.Option>
-            ))}
-          </Select>
-        </Form.Item>
-        <Form.Item
           label="Mjesto rodjenja opstina:"
-          name="mjestoRodjenjaOpstinaId"
+          name="mjestoRodjenjaOpstinaNaziv"
           rules={[{ required: true, message: "Polje je obavezno" }]}
         >
           <Select>
@@ -332,7 +283,7 @@ const UsersModal = (props) => {
         </Form.Item>
         <Form.Item
           label="Naseljeno mjesto:"
-          name="naseljenoMjestoId"
+          name="naseljenoMjestoNaziv"
           rules={[{ required: true, message: "Polje je obavezno" }]}
         >
           <Select>
@@ -345,7 +296,7 @@ const UsersModal = (props) => {
         </Form.Item>
         <Form.Item
           label="Izdavaoc licne karte opstina:"
-          name="izdavaocLicneKarteOpstinaId"
+          name="izdavaocLicneKarteOpstinaNaziv"
           rules={[{ required: true, message: "Polje je obavezno" }]}
         >
           <Select>
@@ -358,7 +309,7 @@ const UsersModal = (props) => {
         </Form.Item>
         <Form.Item
           label="Obrazovna ustanova:"
-          name="obrazovnaUstanovaTipId"
+          name="obrazovnaUstanova"
           rules={[{ required: true, message: "Polje je obavezno" }]}
         >
           <Select>
@@ -388,13 +339,6 @@ const UsersModal = (props) => {
             min="1"
             max="7"
           />
-        </Form.Item>
-        <Form.Item
-          label="Budzet:"
-          name="budzet"
-          rules={[{ required: true, message: "polje je obavezno" }]}
-        >
-          <Switch />
         </Form.Item>
         <Form.Item
           name="smijer"
