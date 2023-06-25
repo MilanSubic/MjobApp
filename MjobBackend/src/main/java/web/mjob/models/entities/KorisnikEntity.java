@@ -92,8 +92,8 @@ public class KorisnikEntity implements BaseEntity<Long> {
     private String brojMobilogTelefona;
     @OneToMany(mappedBy = "korisnikByKorisnikId")
     private List<ClanstvoOsnovEntity> clanstvoOsnovsById;
-    @OneToMany(mappedBy = "korisnikByKorisnikId")
-    private List<KonverzijaHasKorisnikEntity> konverzijaHasKorisniksById;
+    @OneToMany(mappedBy = "korisnik")
+    private List<KonverzacijaKorisnikEntity> konverzacijaKorisniks;
     @ManyToOne
     @JoinColumn(name = "korisnik_pol_id", referencedColumnName = "id", nullable = false)
     private KorisnikPolEntity korisnikPolId;

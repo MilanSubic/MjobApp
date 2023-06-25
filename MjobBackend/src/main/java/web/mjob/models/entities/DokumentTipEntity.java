@@ -18,8 +18,4 @@ public class DokumentTipEntity implements BaseEntity<Long> {
     @Basic
     @Column(name = "naziv", nullable = false, length = 100)
     private String naziv;
-    @OneToMany(mappedBy = "dokumentTipId")
-    private List<DokumentEntity> dokumentsById;
-
-
 }

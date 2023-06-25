@@ -21,7 +21,7 @@ public class RegistracijaServiceImpl implements RegistracijaService {
     private final DokumentSadrzajEntityRepository dokumentSadrzajEntityRepository;
     private final KorisnikDokumentEntityRepository korisnikDokumentEntityRepository;
     public final ModelMapper modelMapper;
-    public final PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     @PersistenceContext
     private EntityManager entityManager;

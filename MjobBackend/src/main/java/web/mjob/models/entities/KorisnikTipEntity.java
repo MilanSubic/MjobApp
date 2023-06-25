@@ -19,7 +19,7 @@ public class KorisnikTipEntity implements BaseEntity<Long> {
     @Column(name = "naziv", nullable = false, length = 45)
     private String naziv;
     @OneToMany(mappedBy = "korisnikTipId")
-    private List<KorisnikEntity> korisniksById;
+    private List<KorisnikEntity> korisniks;
 
 
 }

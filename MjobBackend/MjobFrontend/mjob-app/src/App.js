@@ -2,19 +2,21 @@ import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import EmptyHeader from "./components/EmptyHeader";
 import Login from "./components/Login";
-import { SignUpPage } from "./pages/SignUpPage";
+import { Registracija } from "./pages/Registracija";
 import UpravljanjeNalozima from "./pages/Admin/UpravljanjeNalozima";
+import { Konverzacija } from "./pages/Konverzacija";
 function App() {
   return (
     <BrowserRouter>
       <EmptyHeader />
       <Routes>
         <Route path="login" element={<Login />}></Route>
-        <Route path="signup" element={<SignUpPage />}></Route>
+        <Route path="signup" element={<Registracija />}></Route>
         <Route
           path="/upravljanjeNalozima"
           element={<UpravljanjeNalozima />}
         ></Route>
+        <Route exact path="/konverzacije" element={<Konverzacija />}></Route>
       </Routes>
     </BrowserRouter>
   );

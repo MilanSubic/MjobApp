@@ -19,7 +19,7 @@ import { CustomSelect } from "../components/Select";
 import BasicService from "../services/BasicService";
 import { useNavigate } from "react-router-dom";
 
-export const SignUpPage = () => {
+export const Registracija = () => {
   const navigate = useNavigate();
   const [form] = Form.useForm();
 

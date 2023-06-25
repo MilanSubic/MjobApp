@@ -4,6 +4,7 @@ package web.mjob.base;
 import lombok.Getter;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import web.mjob.exceptions.NotFoundException;
 import org.springframework.data.domain.Page;
@@ -45,7 +46,7 @@ public abstract class CrudController<ID extends Serializable,REQ,RESP> {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public RESP insert(@RequestBody REQ object) throws NotFoundException {
-        return crudService.insert(object, respClass);
+        return crudService.insert(object, respClass, SecurityContextHolder.getContext().getAuthentication());
     }
 
     @PutMapping("/{id}")

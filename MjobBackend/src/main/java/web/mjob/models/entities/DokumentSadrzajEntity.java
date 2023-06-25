@@ -3,11 +3,12 @@ package web.mjob.models.entities;
 import lombok.*;
 
 import jakarta.persistence.*;
+import web.mjob.base.BaseEntity;
 
 @Data
 @Entity
 @Table(name = "dokument_sadrzaj", schema = "mjob_database")
-public class DokumentSadrzajEntity {
+public class DokumentSadrzajEntity implements BaseEntity<Long> {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)

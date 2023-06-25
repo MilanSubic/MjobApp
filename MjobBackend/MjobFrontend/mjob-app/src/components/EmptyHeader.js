@@ -15,49 +15,63 @@ function EmptyHeader() {
       <div className="first-div">
         <div className="logo-div"></div>
         <nav>
-          {tipKorisnika === null && (
-            <div className="nav">
-              <div className="nav-item">
-                <a href="#">Početna</a>
-              </div>
-              <div className="nav-item">
-                <a href="#">Oglasi</a>
-              </div>
-              <div className="nav-item">
-                <a href="#">O nama</a>
-              </div>
-              <div className="nav-item">
-                <a href="#">Kontakt</a>
-              </div>
-              <div className="nav-item">
-                <Link to="/login">Prijavi se</Link>
-              </div>
-              <div className="nav-item">
-                <Link to="/signup">Registruj se</Link>
-              </div>
+          <div className="nav">
+            <div className="nav-item">
+              <a href="#">Početna</a>
             </div>
-          )}
-          {tipKorisnika === "admin" && (
-            <div className="nav">
+            <div className="nav-item">
+              <a href="#">Oglasi</a>
+            </div>
+            {tipKorisnika !== null && (
               <div className="nav-item">
-                <a href="#">Oglasi</a>
+                <Link to="/konverzacije">Konverzacije</Link>
               </div>
-              <div className="nav-item">
-                <a href="/upravljanjeNalozima">Nalozi</a>
-              </div>
-              <div className="nav-item">
-                <a href="#">Moj nalog</a>
-              </div>
+            )}
+            <div className="nav-item">
+              <a href="#">O nama</a>
+            </div>
+            <div className="nav-item">
+              <a href="#">Kontakt</a>
+            </div>
+            {!tipKorisnika && (
+              <span>
+                <div className="nav-item">
+                  <Link to="/login">Prijavi se</Link>
+                </div>
+                <div className="nav-item">
+                  <Link to="/signup">Registruj se</Link>
+                </div>
+              </span>
+            )}
+
+            {tipKorisnika === "admin" && (
+              <span>
+                <div className="nav-item">
+                  <a href="#">Oglasi</a>
+                </div>
+                <div className="nav-item">
+                  <a href="/upravljanjeNalozima">Nalozi</a>
+                </div>
+                <div className="nav-item">
+                  <a href="#">Moj nalog</a>
+                </div>
+              </span>
+            )}
+            {tipKorisnika && (
               <div className="nav-item">
                 <a
                   href="/"
-                  onClick={() => localStorage.removeItem("tipKorisnika")}
+                  onClick={() => {
+                    localStorage.removeItem("tipKorisnika");
+                    setTipKorisnika();
+                    localStorage.removeItem("token");
+                  }}
                 >
                   Odjava
                 </a>
               </div>
-            </div>
-          )}
+            )}
+          </div>
         </nav>
         <div className="nav-menu">
           <div className="line-1"></div>

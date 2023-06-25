@@ -3,6 +3,7 @@ import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import web.mjob.exceptions.NotFoundException;
 import web.mjob.models.dto.Korisnik;
@@ -119,7 +120,7 @@ public class KorisnikServiceImpl implements KorisnikService {
     }
 
     @Override
-    public <T, F> Page<T> findAllFiltered(Request<T> request, Class<T> resultDtoClass) {
+    public <T, F> Page<T> findAllFiltered(Request<T> request, Class<T> resultDtoClass, Authentication authentication) {
         return null;
     }
 
@@ -129,7 +130,7 @@ public class KorisnikServiceImpl implements KorisnikService {
     }
 
     @Override
-    public <T, U> T insert(U object, Class<T> resultDtoClass) throws NotFoundException {
+    public <T, U> T insert(U object, Class<T> resultDtoClass, Authentication authentication) throws NotFoundException {
         return null;
     }
 
