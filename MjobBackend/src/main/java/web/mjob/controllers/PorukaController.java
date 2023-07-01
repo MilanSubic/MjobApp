@@ -2,6 +2,9 @@ package web.mjob.controllers;
 
 import io.jsonwebtoken.Claims;
 import org.springframework.data.domain.Page;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,6 +25,7 @@ import java.security.Principal;
 @RestController
 @RequestMapping("api/poruke")
 public class PorukaController extends CrudController<Long, PorukaDto,PorukaDto> {
+
     public PorukaController(PorukaService crudService) {
         super(PorukaDto.class, crudService);
     }

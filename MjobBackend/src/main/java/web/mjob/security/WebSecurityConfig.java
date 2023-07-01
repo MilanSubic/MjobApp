@@ -72,8 +72,8 @@ public class WebSecurityConfig {
                new UrlBasedCorsConfigurationSource();
        CorsConfiguration config = new CorsConfiguration();
        //treba true stavila sam false da bi radilo
-       config.setAllowCredentials(false);
-       config.addAllowedOrigin("*");
+       config.setAllowCredentials(true);
+       config.addAllowedOrigin("http://localhost:3000");
        config.addAllowedHeader("*");
        config.addAllowedMethod("*");
        config.addAllowedMethod("PATCH");

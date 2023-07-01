@@ -29,10 +29,14 @@ import {
   getPoruke,
   getSadrzajDokumenta,
   postKonverzacija,
-  postPoruka,
 } from "../services/KonverzacijaService";
 import { getCurrentUser } from "../services/auth.service";
 import "../styles/Konverzacija.css";
+import { over } from "stompjs";
+import SockJS from "sockjs-client";
+import environments from "../environments";
+
+let stompClient = null;
 
 export const Konverzacija = () => {
   const {
@@ -43,10 +47,13 @@ export const Konverzacija = () => {
   const [total, setTotal] = useState();
   const [konverzacije, setKonverzacije] = useState([]);
   const [poruke, setPoruke] = useState([]);
-  const [currentUser, setCurrentUser] = useState(getCurrentUser());
+  const [currentUser] = useState(getCurrentUser());
   const [tema, setTema] = useState();
   const [novaTema, setNovaTema] = useState();
   const [showModal, setShowModal] = useState();
+  const [subscription, setSubscription] = useState();
+  const [subscribeTo, setSubscribeTo] = useState();
+
   const [pagination, setPagination] = useState({
     current: 1,
     pageSize: 15,
@@ -71,6 +78,59 @@ export const Konverzacija = () => {
       setKonverzacije([...konverzacije]);
     }
     scrollToBottom();
+  };
+
+  const connect = () => {
+    if (!stompClient) {
+      const Sock = new SockJS(environments().wsUrl);
+      stompClient = over(Sock);
+
+      const token = localStorage.getItem("token");
+      stompClient.connect(
+        { Authorization: `Bearer ${token}` },
+        onConnected,
+        onError
+      );
+    } else onConnected();
+  };
+
+  const onConnected = () => {
+    if (konverzacija) {
+      if (subscribeTo !== konverzacija.key) {
+        setSubscribeTo(konverzacija.key);
+        setSubscription(
+          stompClient.subscribe(
+            "/konverzacija/" + konverzacija.key + "/poruke",
+            onMessageReceived
+          )
+        );
+      }
+    } else setSubscription();
+  };
+
+  const onSend = () => {
+    if (stompClient) {
+      const obj = {
+        sadrzaj,
+        dokumenti: fileList,
+        konverzacijaId: konverzacija.key,
+      };
+      stompClient.send("/app/poruka", {}, JSON.stringify(obj));
+    }
+  };
+
+  const onMessageReceived = (payload) => {
+    const poruka = JSON.parse(payload.body);
+    if (poruka.korisnikKorisnickoIme === currentUser.sub) {
+      setFileList([]);
+      setSadrzaj();
+    }
+
+    setPoruke([poruka, ...poruke]);
+  };
+
+  const onError = (err) => {
+    console.log(err);
   };
 
   const map = (d) => ({
@@ -109,7 +169,6 @@ export const Konverzacija = () => {
   };
 
   useEffect(() => {
-    setCurrentUser(getCurrentUser());
     getKonverzacijeData();
   }, [pagination.current]);
 
@@ -129,16 +188,22 @@ export const Konverzacija = () => {
 
   useEffect(() => {
     if (konverzacija) {
+      if (subscription) {
+        subscription.unsubscribe();
+      }
+
       getPorukaData();
+
+      setFileList([]);
+      setSadrzaj();
     }
   }, [konverzacija]);
 
   useEffect(() => {
     if (poruke && poruke.length > 0) {
       scrollToBottom();
+      connect();
     }
-    setFileList([]);
-    setSadrzaj();
   }, [poruke]);
 
   const formatDate = (date) => {
@@ -161,7 +226,7 @@ export const Konverzacija = () => {
   const onChangeText = (e) => {
     setSadrzaj(e.target.value);
   };
-
+  /*
   const onSend = () => {
     const obj = {
       sadrzaj,
@@ -174,6 +239,7 @@ export const Konverzacija = () => {
       getPorukaData();
     });
   };
+  */
 
   const onDownload = (dokument) => {
     getSadrzajDokumenta(dokument.id).then((res) => {
@@ -496,7 +562,7 @@ export const Konverzacija = () => {
                 </Upload>
                 <Button
                   icon={<SendOutlined />}
-                  disabled={fileList?.length === 0 && !sadrzaj}
+                  disabled={!sadrzaj}
                   onClick={onSend}
                 ></Button>
               </div>
