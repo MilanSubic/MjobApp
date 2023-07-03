@@ -7,8 +7,9 @@ import java.util.List;
 
 @Data
 public class DokumentDto {
-    public String naziv;
-    public Long velicina;
-    public Long dokumentTipId;
-    public String sadrzaj;
+    private Long id;
+    private String naziv;
+    private Long velicina;
+    private Long dokumentTipId;
+    private String sadrzaj;
 }

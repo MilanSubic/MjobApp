@@ -11,15 +11,15 @@ import java.util.Objects;
 
 public class DokumentPorukaEntity {
     @Id
-    @GeneratedValue
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
     @ManyToOne
     @JoinColumn(name = "dokument_id", referencedColumnName = "id", nullable = false)
-    private DokumentEntity dokumentByDokumentId;
+    private DokumentEntity dokumentEntity;
     @ManyToOne
     @JoinColumn(name = "poruka_id", referencedColumnName = "id", nullable = false)
-    private PorukaEntity porukaByPorukaId;
+    private PorukaEntity porukaEntity;
 
 
 }

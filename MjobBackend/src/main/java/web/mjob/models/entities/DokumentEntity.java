@@ -10,7 +10,7 @@ import java.util.List;
 @Table(name = "dokument", schema = "mjob_database")
 public class DokumentEntity {
     @Id
-    @GeneratedValue
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
     @Basic
@@ -20,10 +20,10 @@ public class DokumentEntity {
     @Column(name = "velicina", nullable = false)
     private Long velicina;
     @ManyToOne
-    @JoinColumn(name = "dokument_tip_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "dokument_tip_id", referencedColumnName = "id")
     private DokumentTipEntity dokumentTipId;
-    @OneToMany(mappedBy = "dokumentByDokumentId")
-    private List<DokumentPorukaEntity> dokumentPorukasById;
+    @OneToMany(mappedBy = "dokumentEntity")
+    private List<DokumentPorukaEntity> dokumentPorukas;
     @OneToMany(mappedBy = "dokumentByDokumentId")
     private List<DokumentSadrzajEntity> dokumentSadrzajsById;
     @OneToMany(mappedBy = "dokumentByDokumentId")

@@ -113,7 +113,7 @@ export const CustomSelect = ({
       >
         <Input
           ref={searchInput}
-          placeholder={`Search ${dataIndex}`}
+          placeholder={`Pretaži ${dataIndex}`}
           value={selectedKeys[0]}
           onChange={(e) => {
             setSelectedKeys(e.target.value ? [e.target.value] : []);
@@ -143,7 +143,7 @@ export const CustomSelect = ({
               width: 90,
             }}
           >
-            Search
+            Traži
           </Button>
           <Button
             onClick={() => clearFilters && handleReset(clearFilters)}
@@ -152,7 +152,7 @@ export const CustomSelect = ({
               width: 90,
             }}
           >
-            Reset
+            Resetuj
           </Button>
         </Space>
       </div>
@@ -207,6 +207,9 @@ export const CustomSelect = ({
           onChange={onTableChange}
           pagination={pagination}
           rowSelection={rowSelection}
+          style={{
+            marginTop: "20px",
+          }}
         ></Table>
       </Modal>
     </>

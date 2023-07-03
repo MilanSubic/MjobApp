@@ -15,16 +15,19 @@ function EmptyHeader() {
       <div className="first-div">
         <div className="logo-div"></div>
         <nav>
-          {tipKorisnika === null && (
-            <div className="nav">
+          <div className="nav">
+          <div className="nav-item">
+                          <Link to="/users">Tabela</Link>
+                        </div>
+            <div className="nav-item">
+              <a href="#">Početna</a>
+            </div>
+            <div className="nav-item">
+              <a href="#">Oglasi</a>
+            </div>
+            {tipKorisnika !== null && (
               <div className="nav-item">
-                <Link to="/users">Tabela</Link>
-              </div>
-              <div className="nav-item">
-                <a href="#">Početna</a>
-              </div>
-              <div className="nav-item">
-                <a href="#">Oglasi</a>
+                <Link to="/konverzacije">Konverzacije</Link>
               </div>
               <div className="nav-item">
                 <a href="#">O nama</a>

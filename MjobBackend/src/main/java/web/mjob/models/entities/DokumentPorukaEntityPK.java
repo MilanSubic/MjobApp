@@ -9,7 +9,7 @@ import java.util.Objects;
 @Data
 public class DokumentPorukaEntityPK implements Serializable {
     @Column(name = "id", nullable = false)
-    @GeneratedValue
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
     @Column(name = "dokument_id", nullable = false)

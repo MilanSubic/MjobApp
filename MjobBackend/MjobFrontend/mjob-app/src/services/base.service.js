@@ -1,5 +1,6 @@
 import axios from "axios";
 import environment from "../environments";
+
 const baseConfig = {
   baseURL: environment().baseServiceUrl,
 };
@@ -12,7 +13,7 @@ export default {
     if (useAuth) {
       instance.interceptors.request.use(
         async (config) => {
-          const token = sessionStorage.getItem("auth");
+          const token = localStorage.getItem("token");
           if (token) {
             config.headers = {
               ...config.headers,

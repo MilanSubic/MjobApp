@@ -13,7 +13,7 @@ import java.util.Objects;
 @Table(name = "korisnik_pol", schema = "mjob_database")
 public class KorisnikPolEntity implements BaseEntity<Long> {
     @Id
-    @GeneratedValue
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
     @Basic
