@@ -64,13 +64,13 @@ const UsersModal = (props) => {
 
       form.setFieldsValue({
         datumRodjenja: dayjs(
-          user.datumRodjenja.toString(),
+          user.datumRodjenja?.toString(),
           "YYYY-MM-DDTHH:mm:ss.SSSZ"
         ),
       });
       form.setFieldsValue({
         datumUclanjenja: dayjs(
-          user.datumUclanjenja.toString(),
+          user.datumUclanjenja?.toString(),
           "YYYY-MM-DDTHH:mm:ss.SSSZ"
         ),
       });

@@ -31,10 +31,6 @@ import java.util.List;
 @EnableWebSocketMessageBroker
 @Order(Ordered.HIGHEST_PRECEDENCE + 99)
     public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
-    @Value("${ws.buffer.size}")
-    private int bufferSize;
-    @Value("${ws.send.time.limit}")
-    private int sendTime;
     @Autowired
     public JwtUserDetailsService jwtUserDetailsService;
     @Autowired

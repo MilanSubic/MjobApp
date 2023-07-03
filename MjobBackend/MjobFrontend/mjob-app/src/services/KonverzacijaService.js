@@ -21,3 +21,7 @@ export const postPoruka = (data) => {
 export const postKonverzacija = (data) => {
   return instance.post(`api/konverzacija`, data);
 };
+
+export const procitaj = (data) => {
+  return instance.put(`api/konverzacija/procitaj/${data}`);
+};

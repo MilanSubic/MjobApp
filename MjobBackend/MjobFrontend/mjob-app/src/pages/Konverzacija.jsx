@@ -29,6 +29,7 @@ import {
   getPoruke,
   getSadrzajDokumenta,
   postKonverzacija,
+  procitaj,
 } from "../services/KonverzacijaService";
 import { getCurrentUser } from "../services/auth.service";
 import "../styles/Konverzacija.css";
@@ -97,6 +98,9 @@ export const Konverzacija = () => {
   const onConnected = () => {
     if (konverzacija) {
       if (subscribeTo !== konverzacija.key) {
+        if (subscribeTo)
+          procitaj(subscribeTo).then(() => console.log("procitana"));
+
         setSubscribeTo(konverzacija.key);
         setSubscription(
           stompClient.subscribe(

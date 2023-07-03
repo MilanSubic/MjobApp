@@ -3,6 +3,7 @@ package web.mjob.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import web.mjob.base.CrudController;
@@ -44,22 +45,22 @@ public class OglasController extends CrudController<Long, OglasDto,OglasDto> {
     public OglasDto insert( @RequestBody OglasDto oglasDto) throws NotFoundException {
         oglasDto.setDatum(new Timestamp(System.currentTimeMillis()));
         oglasDto.setAktivanDo( Timestamp.valueOf(oglasDto.getAktivanDo().toString()));
-        return oglasService.insert(oglasDto, OglasDto.class);
+        return oglasService.insert(oglasDto, OglasDto.class, SecurityContextHolder.getContext().getAuthentication());
     }
 
 
     @PostMapping("tipoviPoslova")
     public Page<PosaoTipDto> findAllTipoviPoslova(@RequestBody Request<PosaoTipDto> request) throws NotFoundException {
-        return posaoTipService.findAllFiltered(request, PosaoTipDto.class);
+        return posaoTipService.findAllFiltered(request, PosaoTipDto.class, SecurityContextHolder.getContext().getAuthentication());
     }
     @PostMapping ("novcanaNaknadaTip")
     public Page<NovcanaNaknadaDto> findAllTipoveNovcanihNaknada(@RequestBody Request<NovcanaNaknadaDto> request) throws NotFoundException {
-        return novcanaNaknadaTipService.findAllFiltered(request, NovcanaNaknadaDto.class);
+        return novcanaNaknadaTipService.findAllFiltered(request, NovcanaNaknadaDto.class, SecurityContextHolder.getContext().getAuthentication());
     }
 
     @PostMapping("narucioci")
     public Page<NarucilacDto> findAllNarucioce(@RequestBody Request<NarucilacDto> request) throws NotFoundException {
-        return narucilacService.findAllFiltered(request, NarucilacDto.class);
+        return narucilacService.findAllFiltered(request, NarucilacDto.class, SecurityContextHolder.getContext().getAuthentication());
     }
 
 
