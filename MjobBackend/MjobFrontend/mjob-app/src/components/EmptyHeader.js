@@ -20,17 +20,15 @@ function EmptyHeader() {
               <Link to="/users">Tabela</Link>
             </div>
             <div className="nav-item">
-              <a href="#">Početna</a>
+              <Link to="/home">Početna</Link>
             </div>
-            <div className="nav-item">
-              <a href="#">Oglasi</a>
-            </div>
+
             {tipKorisnika !== null && (
               <div className="nav-item">
                 <Link to="/konverzacije">Konverzacije</Link>
               </div>
             )}
-            {tipKorisnika === "Admin" && (
+            {tipKorisnika === "admin" && (
               <>
                 <div className="nav-item">
                   <a href="/upravljanjeNalozima">Nalozi</a>
@@ -40,16 +38,11 @@ function EmptyHeader() {
                 </div>
               </>
             )}
-            <div className="nav-item">
-              <a href="#">O nama</a>
-            </div>
-            <div className="nav-item">
-              <a href="#">Kontakt</a>
-            </div>
+
             {tipKorisnika !== null && (
               <div className="nav-item">
                 <a
-                  href="/"
+                  href="/home"
                   onClick={() => {
                     localStorage.removeItem("tipKorisnika");
                     localStorage.removeItem("token");
