@@ -17,6 +17,7 @@ import web.mjob.services.OglasService;
 import web.mjob.services.PosaoTipService;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 
 @RestController
@@ -61,6 +62,11 @@ public class OglasController extends CrudController<Long, OglasDto,OglasDto> {
     @PostMapping("narucioci")
     public Page<NarucilacDto> findAllNarucioce(@RequestBody Request<NarucilacDto> request) throws NotFoundException {
         return narucilacService.findAllFiltered(request, NarucilacDto.class, SecurityContextHolder.getContext().getAuthentication());
+    }
+
+    @GetMapping("svi")
+    public List<Oglas> findAll(){
+        return oglasService.findAll();
     }
 
 

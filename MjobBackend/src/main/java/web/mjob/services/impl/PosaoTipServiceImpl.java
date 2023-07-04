@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import web.mjob.base.CrudJpaService;
+import web.mjob.models.dto.Korisnik;
+import web.mjob.models.dto.PosaoTipDto;
 import web.mjob.models.entities.PosaoTipEntity;
 import web.mjob.repositories.PosaoTipRepository;
 import web.mjob.services.PosaoTipService;
@@ -19,5 +21,12 @@ public class PosaoTipServiceImpl extends CrudJpaService<PosaoTipEntity,Long>  im
         super(repository,modelMapper,PosaoTipEntity.class);
         this.repository = repository;
         this.modelMapper = modelMapper;
+    }
+
+    @Override
+    public PosaoTipDto getPosaoTipById(Long id) {
+
+            return modelMapper.map(repository.findPosaoTipEntityById(id),PosaoTipDto.class);
+
     }
 }
