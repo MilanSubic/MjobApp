@@ -3,10 +3,10 @@ package web.mjob.controllers;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import web.mjob.base.CrudController;
+import web.mjob.models.dto.NarucilacDto;
+import web.mjob.models.dto.NaseljenoMjesto;
 import web.mjob.models.dto.NaseljenoMjestoDto;
-import web.mjob.models.entities.KorisnikPolEntity;
-import web.mjob.models.entities.NaseljenoMjestoEntity;
-import web.mjob.services.KorisnikPolService;
+import web.mjob.services.NarucilacService;
 import web.mjob.services.NaseljenoMjestoService;
 
 

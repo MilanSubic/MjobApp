@@ -15,6 +15,7 @@ target/
 
 ### IntelliJ IDEA ###
 .idea
+.git
 *.iws
 *.iml
 *.ipr
@@ -33,4 +34,5 @@ build/
 .vscode/
 
 
-/MjobFrontend/mjob-app/node_modules/
+/node_modules/
+
