@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./index.css";
 import Box from "@mui/material/Box";
 import ListItem from "@mui/material/ListItem";
@@ -27,6 +27,12 @@ import {
 } from "@ant-design/icons";
 import UsersModal from "../../../components/UsersModal";
 import UsersService from "../../../services/UsersService";
+import KorisnikPolService from "../../../services/KorisnikPolService";
+import KorisnikTip1Service from "../../../services/KorisnikTip1Service";
+import OpstinaService from "../../../services/OpstinaService";
+import NaseljenoMjestoService from "../../../services/NaseljenoMjestoService";
+import ObrazovnaUstanovaTipService from "../../../services/ObrazovnaUstanovaTipService";
+
 const { Search } = Input;
 
 const UpravljanjeNalozima = () => {
@@ -62,6 +68,30 @@ const UpravljanjeNalozima = () => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isModalJobsOpen, setIsModalJobsOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const [usersGender, setUsersGender] = useState([]);
+  const [usersTip, setUsersTip] = useState([]);
+  const [usersOpstina, setUsersOpstina] = useState([]);
+  const [usersMjesto, setUsersMjesto] = useState([]);
+  const [usersUstanova, setUsersUstanova] = useState([]);
+
+  useEffect(() => {
+    KorisnikPolService.getAll().then((res) => setUsersGender(res.data));
+  }, []);
+  useEffect(() => {
+    KorisnikTip1Service.getAll().then((res) => setUsersTip(res.data));
+  }, []);
+  useEffect(() => {
+    OpstinaService.getAll().then((res) => setUsersOpstina(res.data));
+  }, []);
+  useEffect(() => {
+    NaseljenoMjestoService.getAll().then((res) => setUsersMjesto(res.data));
+  }, []);
+  useEffect(() => {
+    ObrazovnaUstanovaTipService.getAll().then((res) =>
+      setUsersUstanova(res.data)
+    );
+  }, []);
 
   const setRightSide = (user) => {
     while (slike.length > 0) slike.pop();
@@ -107,7 +137,8 @@ const UpravljanjeNalozima = () => {
     setNaseljenoMjesto(user.naseljenoMjestoNaziv);
     setSmijer(user.smijer);
     setUlica(user.ulicaIBroj);
-    setSelectedUser(user);
+
+    UsersService.findById(user.id).then((res) => setSelectedUser(res.data));
   };
   const onSearch = (value) => {
     if (listTip === "neobradjen") {
@@ -208,11 +239,90 @@ const UpravljanjeNalozima = () => {
       .then((res) => {
         message.success("Uspjesna izmjena");
         closeModal();
+        // setList(list.map((e1) => (e1.id === res.id ? { ...e1, ...res } : e1)));
+        setList(
+          list.map((e1) => {
+            if (e1.id === res.id) {
+              e1.ime = res.ime;
+              e1.prezime = res.prezime;
+              e1.imeRoditelja = res.imeRoditelja;
+              e1.godina = res.godina;
+              e1.datumRodjenja = res.datumRodjenja;
+              e1.jmbg = res.jmbg;
+              e1.brojLicneKarte = res.brojLicneKarte;
+              e1.brojTelefona = res.brojTelefona;
+              e1.brojTekucegRacuna = res.brojTekucegRacuna;
+              e1.identifikator = res.identifikator;
+              e1.email = res.email;
+              e1.obrazovnaUstanova = res.obrazovnaUstanova;
+              e1.brojClanskeKarte = res.brojClanskeKarte;
+              e1.brojZdravstveneKnjizice = res.brojZdravstveneKnjizice;
+              e1.smijer = res.smijer;
+              e1.ulicaIBroj = res.ulicaIBroj;
+
+              const foundUser = usersGender.find(
+                (e2) => res.korisnikPolId === e2.id
+              );
+              e1.korisnikPolNaziv = foundUser.naziv;
+              setPol(e1.korisnikPolNaziv);
+
+              e1.korisnikTipNaziv = usersTip.find(
+                (e2) => res.korisnikTipId === e2.id
+              ).naziv;
+              setTipKorisnika(e1.korisnikTipNaziv);
+              e1.mjestoRodjenjaOpstinaNaziv = usersOpstina.find(
+                (e2) => res.mjestoRodjenjaOpstinaId === e2.id
+              ).naziv;
+              setMjestoRodjenja(e1.mjestoRodjenjaOpstinaNaziv);
+              e1.izdavaocLicneKarteOpstinaNaziv = usersOpstina.find(
+                (e2) => res.izdavaocLicneKarteOpstinaId === e2.id
+              ).naziv;
+              setIzdavaocLicneKarte(e1.izdavaocLicneKarteOpstinaNaziv);
+              e1.naseljenoMjestoNaziv = usersMjesto.find(
+                (e2) => res.naseljenoMjestoId === e2.id
+              ).naziv;
+              setNaseljenoMjesto(e1.naseljenoMjestoNaziv);
+              e1.obrazovnaUstanovaTipId = usersUstanova.find(
+                (e2) => res.obrazovnaUstanovaTipId === e2.id
+              ).id;
+              // setObrazovnaUstanova(e1.obrazovnaUstanova);
+            }
+            return e1;
+          })
+        );
       })
       .catch((err) => {
         console.error(err);
         message.error("Doslo je do greske prilikom izmjene");
       });
+    setIme(user.ime);
+    setPrezime(user.prezime);
+    setImeRoditelja(user.imeRoditelja);
+    setStatus(user.korisnikStatusNaziv);
+    setGodina(user.godina);
+    const date = new Date(user.datumRodjenja);
+    const month = date.getMonth() + 1;
+    setDatumRodjenja(
+      date.getDate() + "." + month + "." + date.getFullYear() + "."
+    );
+    setJMBG(user.jmbg);
+    setBrojLicneKarte(user.brojLicneKarte);
+    setBrojTelefona(user.brojTelefona);
+    setBrojTekucegRacuna(user.brojTekucegRacuna);
+    setIdentifikator(user.identifikator);
+    setEmail(user.email);
+    setObrazovnaUstanova(user.obrazovnaUstanova);
+    // if (user.datumUclanjenja != null) {
+    //   date = new Date(user.datumUclanjenja);
+    //  const month = date.getMonth() + 1;
+    //  setDatumUclanjenja(
+    //     date.getDate() + "." + month + "." + date.getFullYear() + "."
+    //   );
+    // }
+    setBrojClanskeKarte(user.brojClanskeKarte);
+    setBrojZdravstveneKnjizice(user.brojZdravstveneKnjizice);
+    setSmijer(user.smijer);
+    setUlica(user.ulicaIBroj);
   };
   const handleCancel = () => {
     setIsModalOpen(false);

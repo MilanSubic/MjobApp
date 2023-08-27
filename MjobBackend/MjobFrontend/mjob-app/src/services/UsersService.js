@@ -16,4 +16,8 @@ export const remove = (id) => {
 export const insert = (user) => {
   return instance.post("/api/korisnici1".user).then((res) => res.data);
 };
-export default { getAll, update, remove, insert };
+
+export const findById = (id) => {
+  return instance.get(`/api/korisnici1/${id}`);
+};
+export default { getAll, update, remove, insert, findById };

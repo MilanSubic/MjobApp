@@ -1,13 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Form,
-  Modal,
-  Input,
-  InputNumber,
-  DatePicker,
-  Select,
-  Checkbox,
-} from "antd";
+import { Form, Modal, Input, InputNumber, DatePicker, Select } from "antd";
 import PropTypes from "prop-types";
 import dayjs from "dayjs";
 // import moment from "moment";
@@ -99,9 +91,9 @@ const UsersModal = (props) => {
   }, []);
   return (
     <UsersModal1
-      title={editMode ? "edituj" : "dodaj"}
-      okText={"Sacuvaj"}
-      cancelText={"Izadji"}
+      title={editMode ? "izmjeni" : "dodaj"}
+      okText={"sačuvaj"}
+      cancelText={"izađi"}
       onOk={() => onSubmit()}
       destroyOnClose
       onCancel={() => onCancel()}
@@ -244,7 +236,7 @@ const UsersModal = (props) => {
         </Form.Item>
         <Form.Item
           label="Pol korisnika:"
-          name="korisnikPolNaziv"
+          name="korisnikPolId"
           rules={[{ required: true, message: "Polje je obavezno" }]}
         >
           <Select>
@@ -257,7 +249,7 @@ const UsersModal = (props) => {
         </Form.Item>
         <Form.Item
           label="Tip korisnika:"
-          name="korisnikTipNaziv"
+          name="korisnikTipId"
           rules={[{ required: true, message: "Polje je obavezno" }]}
         >
           <Select>
@@ -270,7 +262,7 @@ const UsersModal = (props) => {
         </Form.Item>
         <Form.Item
           label="Mjesto rodjenja opstina:"
-          name="mjestoRodjenjaOpstinaNaziv"
+          name="mjestoRodjenjaOpstinaId"
           rules={[{ required: true, message: "Polje je obavezno" }]}
         >
           <Select>
@@ -283,7 +275,7 @@ const UsersModal = (props) => {
         </Form.Item>
         <Form.Item
           label="Naseljeno mjesto:"
-          name="naseljenoMjestoNaziv"
+          name="naseljenoMjestoId"
           rules={[{ required: true, message: "Polje je obavezno" }]}
         >
           <Select>
@@ -296,7 +288,7 @@ const UsersModal = (props) => {
         </Form.Item>
         <Form.Item
           label="Izdavaoc licne karte opstina:"
-          name="izdavaocLicneKarteOpstinaNaziv"
+          name="izdavaocLicneKarteOpstinaId"
           rules={[{ required: true, message: "Polje je obavezno" }]}
         >
           <Select>
@@ -308,8 +300,8 @@ const UsersModal = (props) => {
           </Select>
         </Form.Item>
         <Form.Item
-          label="Obrazovna ustanova:"
-          name="obrazovnaUstanova"
+          label="Obrazovna ustanova tip:"
+          name="obrazovnaUstanovaTipId"
           rules={[{ required: true, message: "Polje je obavezno" }]}
         >
           <Select>
@@ -353,13 +345,6 @@ const UsersModal = (props) => {
           label={"Broj zdravstvene knjizice:"}
         >
           <Input />
-        </Form.Item>
-        <Form.Item
-          label="Osiguranje zadruga:"
-          name="osiguranjeZadruga"
-          rules={[{ required: true, message: "polje je obavezno" }]}
-        >
-          <Checkbox>Osiguranje zadruga:</Checkbox>
         </Form.Item>
         <Form.Item
           name="brojMobilogTelefona"
