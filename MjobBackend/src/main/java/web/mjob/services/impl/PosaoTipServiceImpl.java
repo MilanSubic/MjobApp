@@ -26,7 +26,38 @@ public class PosaoTipServiceImpl extends CrudJpaService<PosaoTipEntity,Long>  im
     @Override
     public PosaoTipDto getPosaoTipById(Long id) {
 
-            return modelMapper.map(repository.findPosaoTipEntityById(id),PosaoTipDto.class);
+        return modelMapper.map(repository.findPosaoTipEntityById(id),PosaoTipDto.class);
 
     }
 }
+/*
+public class PosaoTipServiceImpl extends CrudJpaService<PosaoTipEntity,Long>  implements PosaoTipService {
+    public final PosaoTipRepository repository;
+    public final ModelMapper modelMapper;
+    @PersistenceContext
+    private EntityManager manager;
+
+    public PosaoTipServiceImpl(PosaoTipRepository repository, ModelMapper modelMapper) {
+        super(repository,modelMapper,PosaoTipEntity.class);
+        this.repository = repository;
+        this.modelMapper = modelMapper;
+    }
+
+    @Override
+    public PosaoTipDto getPosaoTipById(Long id) {
+
+        return modelMapper.map(repository.findPosaoTipEntityById(id),PosaoTipDto.class);
+
+    }
+    @Override
+    public PosaoTipEntity findById(Long id) throws NotFoundException {
+        return repository.findById(id).get();
+    }
+
+    @Override
+    public List<PosaoTip> getAll() {
+        return repository.findAll().stream().map(e->modelMapper.map(e, PosaoTip.class)).collect(Collectors.toList());
+    }
+}
+
+ */

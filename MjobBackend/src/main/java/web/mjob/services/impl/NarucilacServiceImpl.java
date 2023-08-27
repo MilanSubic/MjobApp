@@ -25,3 +25,40 @@ public class NarucilacServiceImpl  extends CrudJpaService<NarucilacEntity,Long> 
         this.modelMapper = modelMapper;
     }
 }
+
+/*
+    @PersistenceContext
+    private EntityManager manager;
+
+    public final NarucilacRepository repository;
+    private final NarucilacEntityRepository repositoryEntity;
+    private final NaseljenoMjestoRepository naseljenoMjestoRepository;
+
+    public final ModelMapper modelMapper;
+
+    TypeMap<NarucilacEntity, Narucilac> property;
+
+    public NarucilacServiceImpl(NarucilacRepository repository, NarucilacEntityRepository repositoryEntity, ModelMapper modelMapper, NaseljenoMjestoRepository naseljenoMjestoRepository) {
+        super(repository, modelMapper, NarucilacEntity.class);
+        this.repository = repository;
+        this.repositoryEntity = repositoryEntity;
+        this.naseljenoMjestoRepository = naseljenoMjestoRepository;
+        this.modelMapper = modelMapper;
+        this.property = this.modelMapper.createTypeMap(NarucilacEntity.class, Narucilac.class);
+        property.addMappings(
+                m -> m.map(src -> src.getNaseljenoMjestoByNaseljenoMjestoId().getNaziv(), Narucilac::setNaseljenoMjestoByNaseljenoMjestoId)
+        );
+    }
+
+    @Override
+    public NarucilacEntity findById(Long id) throws NotFoundException {
+        return repository.findById(id).get();
+
+    }
+
+    @Override
+    public List<Narucilac> getAll() {
+        return repository.findAll().stream().map(e -> modelMapper.map(e, Narucilac.class)).collect(Collectors.toList());
+    }
+
+ */
