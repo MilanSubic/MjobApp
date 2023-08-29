@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import "../styles/EmptyHeader.css";
 import { Link } from "react-router-dom";
-
+import "../pages/Admin/UpravljanjeNalozima/index.css";
 function EmptyHeader() {
   // const [isNavExpanded, setIsNavExpanded] = useState(false);
   const [tipKorisnika, setTipKorisnika] = useState();
@@ -29,28 +29,28 @@ function EmptyHeader() {
               </div>
             )}
             {tipKorisnika === "admin" && (
-              <>
-                <div className="nav-item">
-                  <a href="/upravljanjeNalozima">Nalozi</a>
-                </div>
-                <div className="nav-item">
-                  <a href="#">Moj nalog</a>
-                </div>
-              </>
+              <div className="nav-item">
+                <a href="/upravljanjeNalozima">Nalozi</a>
+              </div>
             )}
 
             {tipKorisnika !== null && (
-              <div className="nav-item">
-                <a
-                  href="/home"
-                  onClick={() => {
-                    localStorage.removeItem("tipKorisnika");
-                    localStorage.removeItem("token");
-                  }}
-                >
-                  Odjava
-                </a>
-              </div>
+              <>
+                <div className="nav-item">
+                  <a href="/mojNalog">Moj nalog</a>
+                </div>
+                <div className="nav-item">
+                  <a
+                    href="/home"
+                    onClick={() => {
+                      localStorage.removeItem("tipKorisnika");
+                      localStorage.removeItem("token");
+                    }}
+                  >
+                    Odjava
+                  </a>
+                </div>
+              </>
             )}
             {tipKorisnika === null && (
               <>

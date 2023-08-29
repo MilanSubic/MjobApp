@@ -1,5 +1,6 @@
 package web.mjob.controllers;
 
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import web.mjob.exceptions.NotFoundException;
 import web.mjob.models.dto.Korisnik;
@@ -31,6 +32,11 @@ public class KorisnikController {
     public Korisnik getByUsername(@PathVariable String username)
     {
      return korisnikService.getUserByUsername(username);
+    }
+    @GetMapping("/user")
+    public Korisnik getUser()
+    {
+        return korisnikService.getUser( SecurityContextHolder.getContext().getAuthentication());
     }
     @PutMapping("{id}/acceptRegistration/{brojClanskeKarte}")
     public void acceptRegistration(@PathVariable Long id, @PathVariable Integer brojClanskeKarte) throws Exception {

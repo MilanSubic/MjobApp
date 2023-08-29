@@ -1,5 +1,6 @@
 package web.mjob.services;
 
+import org.springframework.security.core.Authentication;
 import web.mjob.base.CrudService;
 import web.mjob.models.dto.Korisnik;
 import web.mjob.models.dto.Oglas;
@@ -14,4 +15,6 @@ public interface KorisnikService extends CrudService<Long> {
     void deleteAccount(Long id) ;
     void reactivateUser(Long id);
     List<Korisnik> findAll();
+    Korisnik getUser(Authentication authentication);
+
 }
