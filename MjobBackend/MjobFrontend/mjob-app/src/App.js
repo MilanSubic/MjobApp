@@ -11,6 +11,7 @@ import JavniOglasi from "./pages/JavniOglasi/JavniOglasi";
 import { Konverzacija } from "./pages/Konverzacija";
 import Home from "./pages/Home";
 import OglasDetalji from "./pages/OglasDetalji";
+import MojNalog from "./pages/MojNalog";
 function App() {
   return (
     <BrowserRouter>
@@ -24,6 +25,7 @@ function App() {
         <Route path="/oglasi" element={<Oglasi />}></Route>
         <Route path="/mojiOglasi" element={<MojiOglasi />}></Route>
         <Route path="/javniOglasi" element={<JavniOglasi />}></Route>
+        <Route path="/mojNalog" element={<MojNalog />}></Route>
         <Route
           path="/upravljanjeNalozima"
           element={<UpravljanjeNalozima />}

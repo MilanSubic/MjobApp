@@ -46,7 +46,11 @@ public class KorisnikServiceImpl implements KorisnikService {
         this.korisnikPrijavljenRepository=korisnikPrijavljenRepository;
         this.emailService=emailService;
     }
-
+    @Override
+    public Korisnik getUser(Authentication authentication)
+    {
+        return mapper.map(repository.findKorisnikEntityByKorisnickoIme(authentication.getName()),Korisnik.class);
+    }
     @Override
     public Korisnik getUserByUsername(String username) {
 
