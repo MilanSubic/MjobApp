@@ -36,6 +36,9 @@ import "../styles/Konverzacija.css";
 import { over } from "stompjs";
 import SockJS from "sockjs-client";
 import environments from "../environments";
+import { useSelector, useDispatch } from "react-redux";
+import { setMessages, addMessage } from "../slices/messageSlice";
+import _map from "lodash/map";
 
 let stompClient = null;
 
@@ -47,13 +50,16 @@ export const Konverzacija = () => {
   const [konverzacija, setKonverzacija] = useState();
   const [total, setTotal] = useState();
   const [konverzacije, setKonverzacije] = useState([]);
-  const [poruke, setPoruke] = useState([]);
   const [currentUser] = useState(getCurrentUser());
   const [tema, setTema] = useState();
   const [novaTema, setNovaTema] = useState();
   const [showModal, setShowModal] = useState();
   const [subscription, setSubscription] = useState();
   const [subscribeTo, setSubscribeTo] = useState();
+  const [scroll, setScroll] = useState();
+
+  const messages = useSelector((state) => state.messages.value);
+  const dispatch = useDispatch();
 
   const [pagination, setPagination] = useState({
     current: 1,
@@ -78,7 +84,6 @@ export const Konverzacija = () => {
       );
       setKonverzacije([...konverzacije]);
     }
-    scrollToBottom();
   };
 
   const connect = () => {
@@ -98,8 +103,7 @@ export const Konverzacija = () => {
   const onConnected = () => {
     if (konverzacija) {
       if (subscribeTo !== konverzacija.key) {
-        if (subscribeTo)
-          procitaj(subscribeTo).then(() => console.log("procitana"));
+        if (subscribeTo) procitaj(subscribeTo).then(() => {});
 
         setSubscribeTo(konverzacija.key);
         setSubscription(
@@ -130,7 +134,11 @@ export const Konverzacija = () => {
       setSadrzaj();
     }
 
-    setPoruke([poruka, ...poruke]);
+    dispatch(addMessage(poruka));
+
+    setTimeout(() => {
+      setScroll(poruka);
+    });
   };
 
   const onError = (err) => {
@@ -176,6 +184,10 @@ export const Konverzacija = () => {
     getKonverzacijeData();
   }, [pagination.current]);
 
+  useEffect(() => {
+    scrollToBottom();
+  }, [scroll]);
+
   const getPorukaData = () => {
     getPoruke({
       current: 0,
@@ -185,8 +197,9 @@ export const Konverzacija = () => {
       direction: "DESC",
       filter: { konverzacijaId: konverzacija.key },
     }).then((res) => {
-      setPoruke(res.data.content);
-      scrollToBottom();
+      dispatch(setMessages(res.data.content));
+      connect();
+      setScroll(true);
     });
   };
 
@@ -202,13 +215,6 @@ export const Konverzacija = () => {
       setSadrzaj();
     }
   }, [konverzacija]);
-
-  useEffect(() => {
-    if (poruke && poruke.length > 0) {
-      scrollToBottom();
-      connect();
-    }
-  }, [poruke]);
 
   const formatDate = (date) => {
     const year = date.getFullYear();
@@ -458,7 +464,7 @@ export const Konverzacija = () => {
                   flexDirection: "column-reverse",
                 }}
               >
-                {poruke?.map((p) => (
+                {_map(messages, (p) => (
                   <div key={p.id} style={{ width: "100%", margin: "10px" }}>
                     <div
                       style={{
