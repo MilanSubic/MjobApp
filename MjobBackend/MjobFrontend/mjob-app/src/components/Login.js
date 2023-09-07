@@ -27,6 +27,7 @@ function Login() {
       );
       const jwt = response.data.token;
       localStorage.setItem("token", jwt);
+      localStorage.setItem("reloadCount", "1");
       korisnikService.getUserByUsername(user.username).then((res) => {
         console.log(res.korisnikTipNaziv);
         localStorage.setItem("tipKorisnika", res.korisnikTipNaziv);

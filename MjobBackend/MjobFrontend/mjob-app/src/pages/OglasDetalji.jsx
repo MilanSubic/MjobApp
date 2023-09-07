@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import Oglas from "./Oglas";
+import PostData from "./PostData";
 import OglasiService from "../services/OglasiService";
 
 function PostDetails() {
@@ -23,7 +23,7 @@ function PostDetails() {
 
   return (
     <div style={{ padding: "20px" }}>
-      <Oglas
+      <PostData
         id={oglas.id}
         sadrzaj={oglas.sadrzaj}
         napomena={oglas.napomena}
@@ -34,7 +34,7 @@ function PostDetails() {
         posaoTip={oglas.posaoTipNaziv}
         novcanaNaknadaTip={oglas.novcanaNaknadaTipNaziv}
         narucilac={oglas.narucilacNaziv}
-      ></Oglas>
+      ></PostData>
     </div>
   );
 }

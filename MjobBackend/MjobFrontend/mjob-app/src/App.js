@@ -12,6 +12,7 @@ import { Konverzacija } from "./pages/Konverzacija";
 import Home from "./pages/Home";
 import OglasDetalji from "./pages/OglasDetalji";
 import MojNalog from "./pages/MojNalog";
+import { CreatAdPage } from "./pages/CreateAdPage";
 function App() {
   return (
     <BrowserRouter>
@@ -31,6 +32,7 @@ function App() {
           element={<UpravljanjeNalozima />}
         ></Route>
         <Route path="/konverzacije" element={<Konverzacija />}></Route>
+        <Route path="/kreirajOglas" element={<CreatAdPage />}></Route>
       </Routes>
     </BrowserRouter>
   );

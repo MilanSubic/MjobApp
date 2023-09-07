@@ -1,4 +1,4 @@
-import { Button, Card, DatePicker, Form, Input, InputNumber,Checkbox } from "antd";
+import { Button, Card, DatePicker, Form, Input, InputNumber } from "antd";
 import React from "react";
 import "../styles/SingUp.css";
 import { CustomSelect } from "../components/Select";
@@ -6,14 +6,13 @@ import BasicService from "../services/BasicService";
 import { creatad } from "../services/OglasService";
 import { useNavigate } from "react-router-dom";
 
-
 export const CreatAdPage = () => {
   const navigate = useNavigate();
   const [form] = Form.useForm();
   const onFinish = (values) => {
     creatad(values).then((res) => {
       form.resetFields();
-      navigate("/login", { replace: true });
+      navigate("/home", { replace: true });
     });
   };
   const httpService = BasicService.service();
@@ -25,17 +24,8 @@ export const CreatAdPage = () => {
     },
   ];
   const display = (e) => e?.naziv;
- 
-  const [checked, setChecked] = React.useState(false);
 
-  const handleChange = () => {
-    form.setFieldValue('javni',!checked);
-    setChecked(!checked);
-  };
-
-
-
- return (
+  return (
     <div className="container">
       <Card className="card" title="Kreiraj oglas">
         <Form
@@ -50,7 +40,7 @@ export const CreatAdPage = () => {
           autoComplete="off"
         >
           <Form.Item
-            label="Sadrzaj"
+            label="Sadržaj"
             name="sadrzaj"
             rules={[{ required: true, message: "Polje je obavezno" }]}
           >
@@ -74,7 +64,7 @@ export const CreatAdPage = () => {
           </Form.Item>
 
           <Form.Item
-            label="Tip novcane naknade"
+            label="Tip novčane naknade"
             name="tipNovcaneNaknade"
             rules={[{ required: true, message: "Polje je obavezno" }]}
           >
@@ -89,7 +79,10 @@ export const CreatAdPage = () => {
               itemName="novcanaNaknadaTipByNovcanaNaknadaTipId"
             />
           </Form.Item>
-          <Form.Item name="novcanaNaknadaTipByNovcanaNaknadaTipId" hidden={true}>
+          <Form.Item
+            name="novcanaNaknadaTipByNovcanaNaknadaTipId"
+            hidden={true}
+          >
             <Input />
           </Form.Item>
 
@@ -119,7 +112,7 @@ export const CreatAdPage = () => {
             rules={[{ required: true, message: "Polje je obavezno" }]}
           >
             <Input />
-             </Form.Item>
+          </Form.Item>
 
           <Form.Item
             label="Potreban broj ljudi"
@@ -150,7 +143,7 @@ export const CreatAdPage = () => {
           </Form.Item>
 
           <Form.Item
-            label="Narucilac"
+            label="Naručilac"
             name="narucilac"
             rules={[{ required: true, message: "Polje je obavezno" }]}
           >
@@ -169,22 +162,12 @@ export const CreatAdPage = () => {
             <Input />
           </Form.Item>
 
-          <Form.Item label="Napomena" 
-          name="napomena">
+          <Form.Item label="Napomena" name="napomena">
             <Input.TextArea />
           </Form.Item>
-
-          <Form.Item name="javni">
-            <Checkbox name="javni"
-            value={checked} 
-            defaultChecked={false}
-            onChange={handleChange}>Da li je oglas javni?</Checkbox>
-            
-          </Form.Item>
-       
-          <Form.Item wrapperCol={{ offset: 10, span: 10 }} >
-            <Button type="primary" htmlType="submit" >
-              Submit
+          <Form.Item wrapperCol={{ offset: 11, span: 10 }}>
+            <Button type="primary" htmlType="submit">
+              Kreiraj
             </Button>
           </Form.Item>
         </Form>

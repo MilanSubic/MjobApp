@@ -17,9 +17,6 @@ function EmptyHeader() {
         <nav>
           <div className="nav">
             <div className="nav-item">
-              <Link to="/users">Tabela</Link>
-            </div>
-            <div className="nav-item">
               <Link to="/home">Početna</Link>
             </div>
 
@@ -29,8 +26,14 @@ function EmptyHeader() {
               </div>
             )}
             {tipKorisnika === "admin" && (
-              <div className="nav-item">
-                <a href="/upravljanjeNalozima">Nalozi</a>
+              <div style={{ display: "flex" }}>
+                <div className="nav-item">
+                  <a href="/kreirajOglas">Kreiraj oglas</a>
+                </div>
+
+                <div className="nav-item">
+                  <a href="/upravljanjeNalozima">Nalozi</a>
+                </div>
               </div>
             )}
 

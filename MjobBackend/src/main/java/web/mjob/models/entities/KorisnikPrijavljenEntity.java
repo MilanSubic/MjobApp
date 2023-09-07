@@ -7,7 +7,7 @@ import java.util.Objects;
 
 @Data
 @Entity
-@Table(name = "korisnik_prijavljen", schema = "mjob_database")
+@Table(name = "korisnik_prijavljen", schema = "mydb")
 
 public class KorisnikPrijavljenEntity {
     @Id
@@ -25,4 +25,13 @@ public class KorisnikPrijavljenEntity {
     private KorisnikEntity korisnikByKorisnikId;
 
 
+    public KorisnikPrijavljenEntity(boolean b, OglasEntity oglasEntityById, KorisnikEntity korisnikEntityById) {
+        this.odobren=b;
+        this.oglasByOglasId=oglasEntityById;
+        this.korisnikByKorisnikId=korisnikEntityById;
+    }
+
+    public KorisnikPrijavljenEntity() {
+
+    }
 }

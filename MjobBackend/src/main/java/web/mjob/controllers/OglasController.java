@@ -3,7 +3,7 @@ package web.mjob.controllers;
 import org.springframework.web.bind.annotation.*;
 import web.mjob.exceptions.NotFoundException;
 import web.mjob.models.dto.Oglas;
-import web.mjob.services.OglasService;
+import web.mjob.services.*;
 
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -11,10 +11,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import web.mjob.base.CrudController;
 import web.mjob.models.dto.*;
-
-import web.mjob.services.NarucilacService;
-import web.mjob.services.NovcanaNaknadaTipService;
-import web.mjob.services.PosaoTipService;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -29,14 +25,16 @@ public class OglasController extends CrudController<Long, OglasDto,OglasDto> {
     public final NovcanaNaknadaTipService novcanaNaknadaTipService;
     public final NarucilacService narucilacService;
     public final PosaoTipService posaoTipService;
+    public final KorisnikPrijavljenService korisnikPrijavljenService;
 
-    public OglasController( NovcanaNaknadaTipService novcanaNaknadaTipService, NarucilacService narucilacService, PosaoTipService posaoTipService, OglasService oglasService) {
+    public OglasController( NovcanaNaknadaTipService novcanaNaknadaTipService, NarucilacService narucilacService, PosaoTipService posaoTipService, OglasService oglasService,KorisnikPrijavljenService korisnikPrijavljenService) {
         super(OglasDto.class,oglasService);
 
         this.novcanaNaknadaTipService = novcanaNaknadaTipService;
         this.narucilacService = narucilacService;
         this.posaoTipService = posaoTipService;
         this.oglasService = oglasService;
+        this.korisnikPrijavljenService=korisnikPrijavljenService;
     }
 
 
@@ -70,6 +68,12 @@ public class OglasController extends CrudController<Long, OglasDto,OglasDto> {
     @GetMapping("users/{id}")
     public List<Oglas> findByNarucilacId(@PathVariable Long id) throws NotFoundException {
         return oglasService.getAllOglasiByNarucilacId(id);
+    }
+
+    @PostMapping("/{userId}/{oglasId}/prijava")
+    public void prijaviKorisnikaNaOglas(@PathVariable Long userId,@PathVariable Long oglasId)
+    {
+        korisnikPrijavljenService.prijaviKorisnikaNaOglas(userId,oglasId);
     }
 
     @GetMapping("/javni")
