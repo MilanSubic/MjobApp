@@ -39,6 +39,7 @@ import environments from "../environments";
 import { useSelector, useDispatch } from "react-redux";
 import { setMessages, addMessage } from "../slices/messageSlice";
 import _map from "lodash/map";
+import { Role } from "../enums/role.enum";
 
 let stompClient = null;
 
@@ -156,7 +157,7 @@ export const Konverzacija = () => {
         }}
       >
         {(currentUser &&
-        currentUser.authorities.find((a) => a.authority === "ROLE_Admin")
+        currentUser.authorities.find((a) => Role.Admin === a.authority)
           ? d.korisnikIme + " " + d.korisnikPrezime + " - "
           : "") + d.tema}
       </div>

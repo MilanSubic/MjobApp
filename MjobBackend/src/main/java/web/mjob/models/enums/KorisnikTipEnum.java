@@ -2,8 +2,12 @@ package web.mjob.models.enums;
 
 public enum KorisnikTipEnum {
 
-    ROLE_Admin("ROLE_Admin"),
-    ROLE_Student("ROLE_Student");
+    Admin("admin"),
+    Student("student"),
+    ROLE_Admin("ROLE_admin"),
+    ROLE_Student("ROLE_student");
+
+
 
     KorisnikTipEnum(String tip) {
     }

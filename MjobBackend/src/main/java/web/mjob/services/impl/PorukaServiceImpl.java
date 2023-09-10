@@ -6,6 +6,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import web.mjob.base.CrudJpaService;
+import web.mjob.exceptions.NotFoundException;
 import web.mjob.models.dto.DokumentPorukaDto;
 import web.mjob.models.dto.PorukaDto;
 import web.mjob.models.dto.Request;
@@ -45,7 +46,7 @@ public class PorukaServiceImpl extends CrudJpaService<PorukaEntity,Long> impleme
         this.modelMapper = modelMapper;
     }
 
-    public <T, F> Page<T> findAllFiltered(Request<T> request, Class<T> resultDtoClass, Authentication authentication) {
+    public <T, F> Page<T> findAllFiltered(Request<T> request, Class<T> resultDtoClass, Authentication authentication) throws NotFoundException {
         var sort = Sort.unsorted();
         var name = authentication.getName();
 
@@ -56,12 +57,11 @@ public class PorukaServiceImpl extends CrudJpaService<PorukaEntity,Long> impleme
 
         if (request.getFilter() != null) {
             var f = getModelMapper().map(request.getFilter(), PorukaEntity.class);
-
+            var korisnik = korisniRepo.findKorisnikEntityByKorisnickoIme(name);
             var konverzacijaKorisnik = konverzacijaKorisniRepo.findByKonverzacijaIdAndKorisnikKorisnickoIme(f.getKonverzacija().getId(),name);
             if(konverzacijaKorisnik != null){
                 konverzacijaKorisnik.setProcitana(true);
             } else {
-                var korisnik = korisniRepo.findKorisnikEntityByKorisnickoIme(name);
                 konverzacijaKorisnik = new KonverzacijaKorisnikEntity();
                 konverzacijaKorisnik.setKonverzacija(f.getKonverzacija());
                 konverzacijaKorisnik.setKorisnik(korisnik);
@@ -69,15 +69,9 @@ public class PorukaServiceImpl extends CrudJpaService<PorukaEntity,Long> impleme
             }
             konverzacijaKorisniRepo.saveAndFlush(konverzacijaKorisnik);
 
-            if (!authentication.getAuthorities().stream().anyMatch(a -> KorisnikTipEnum.ROLE_Admin.name().equals(a.getAuthority())))
-                return repository.findByKonverzacijaKorisnikKorisnickoImeAndKonverzacijaId(name, f.getKonverzacija().getId(), page).map(e -> getModelMapper().map(e, resultDtoClass));
-
-            return repository.findByKonverzacijaId(f.getKonverzacija().getId(), page).map(e -> getModelMapper().map(e, resultDtoClass));
+            return repository.findByKonverzacijaAndKorisnik(f.getKonverzacija().getId(), korisnik.getId(), page).map(e -> getModelMapper().map(e, resultDtoClass));
         }
-        if (authentication.getAuthorities().stream().anyMatch(a-> KorisnikTipEnum.ROLE_Admin.name().equals(a.getAuthority())))
-            return getRepository().findAll(page).map(e -> getModelMapper().map(e, resultDtoClass));
-
-        return repository.findByKonverzacijaKorisnikKorisnickoIme(name, page).map(e -> getModelMapper().map(e, resultDtoClass));
+        throw new NotFoundException("Nije specifikovana konverzacija");
     }
 
     @Override

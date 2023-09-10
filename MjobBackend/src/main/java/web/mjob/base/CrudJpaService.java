@@ -41,7 +41,7 @@ public abstract class CrudJpaService<E extends BaseEntity<ID>,ID extends Seriali
         return repository.findAll(page).map(e->modelMapper.map(e,resultDtoClass));
     }
 
-    public <T, F> Page<T> findAllFiltered(Request<T> request, Class<T> resultDtoClass, Authentication authentication) {
+    public <T, F> Page<T> findAllFiltered(Request<T> request, Class<T> resultDtoClass, Authentication authentication) throws NotFoundException {
         var sort = Sort.unsorted();
         if(request.getProperty() != null){
             sort = Sort.by(request.getDirection(),request.getProperty());

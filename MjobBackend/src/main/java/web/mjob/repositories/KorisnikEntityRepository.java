@@ -13,6 +13,8 @@ public interface KorisnikEntityRepository extends JpaRepository<KorisnikEntity,L
     KorisnikEntity findKorisnikEntityByKorisnickoIme(String username);
     KorisnikEntity findKorisnikEntityById(Long id);
 
+    List<KorisnikEntity> findAllByKorisnikTipIdNaziv(String naziv);
+
     List<KorisnikEntity> findAllByKorisnikTipIdId(Long korisnikTipId);
 
     @Override

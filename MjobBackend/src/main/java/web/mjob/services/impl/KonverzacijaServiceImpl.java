@@ -39,6 +39,7 @@ public class KonverzacijaServiceImpl extends CrudJpaService<KonverzacijaEntity,L
         var sort = Sort.by(Sort.Direction.DESC, "id");
         var name = authentication.getName();
 
+        var korisnik = korisniciRepo.findKorisnikEntityByKorisnickoIme(name);
         if(request.getProperty() != null){
             sort = Sort.by(request.getDirection(),request.getProperty());
         }
@@ -46,22 +47,10 @@ public class KonverzacijaServiceImpl extends CrudJpaService<KonverzacijaEntity,L
 
         if (request.getFilter() != null) {
             var f = getModelMapper().map(request.getFilter(), KonverzacijaEntity.class);
-            ExampleMatcher matcher = ExampleMatcher.matching()
-                    .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
-            Example<KonverzacijaEntity> example = Example.of(f, matcher);
-            if (authentication.getAuthorities().stream().noneMatch(a -> KorisnikTipEnum.ROLE_Admin.name().equals(a.getAuthority())))
-            {
-                if(f.getTema() != null)
-                    return repository.findByKorisnikKorisnickoImeAndTemaContains(name, f.getTema(), page).map(e -> map(name, e));
-                return repository.findByKorisnikKorisnickoIme(name, page).map(e -> map(name, e));
-            }
 
-            return getRepository().findAll(example, page).map(e -> map(name, e));
+            return repository.findAllByKornikUkonverzaciji(korisnik.getId(), f.getTema(), page).map(e -> map(name, e));
         }
-        if (authentication.getAuthorities().stream().anyMatch(a-> KorisnikTipEnum.ROLE_Admin.name().equals(a.getAuthority())))
-            return getRepository().findAll(page).map(e -> map(name, e));
-
-        return repository.findByKorisnikKorisnickoIme(name, page).map(e -> map(name, e));
+        return repository.findAllByKornikUkonverzaciji(korisnik.getId(), null, page).map(e -> map(name, e));
     }
 
     private <T> T map (String name, KonverzacijaEntity entity) {
@@ -83,7 +72,9 @@ public class KonverzacijaServiceImpl extends CrudJpaService<KonverzacijaEntity,L
         ((KonverzacijaDto) object).setKorisnikId(korisnik.getId());
         var entity = super.insert(object, resultDtoClass, authentication);
 
-        var korisnici = korisniciRepo.findAllByKorisnikTipIdId(KorisnikTipIdEnum.Admin.value);
+        var korisnici = korisniciRepo.findAllByKorisnikTipIdNaziv(KorisnikTipEnum.Admin.name());
+        if(!authentication.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals(KorisnikTipEnum.ROLE_Admin.name())))
+            korisnici.add(korisnik);
         var konverzacija = getModelMapper().map(entity, KonverzacijaEntity.class);
 
         ((KonverzacijaDto) entity).setProcitana(true);
