@@ -4,11 +4,14 @@ import { Button } from "antd";
 import axios from "axios";
 import korisnikService from "../services/korisnik.service";
 import oglasService from "../services/OglasService";
+import oglasiService from "../services/OglasiService";
 import { PropTypes } from "prop-types";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import UsersListModal from "../components/UsersListModal";
 
 const PostData = (props) => {
   const navigate = useNavigate();
+  const [modalOpen, setModalOpen] = useState(false);
   const [post, setPost] = useState({
     id: 0,
     sadrzaj: "",
@@ -23,10 +26,11 @@ const PostData = (props) => {
     novcanaNaknadaTipNaziv: "",
     posaoTipNaziv: "",
   });
-
+  const [userType, setUserType] = useState();
   useEffect(() => {
     console.log(post.id);
     loadPost();
+    setUserType(localStorage.getItem("tipKorisnika"));
   }, []);
 
   const loadPost = () => {
@@ -34,7 +38,16 @@ const PostData = (props) => {
       setPost(result.data);
     });
   };
+  const obrisiOglas = () => {
+    oglasiService.remove(post.id);
+  };
+  const openModal = () => {
+    setModalOpen(true);
+  };
 
+  const closeModal = () => {
+    setModalOpen(false);
+  };
   const containerStyle = {
     border: "1px solid gray",
     padding: "10px 10px 10px 10px",
@@ -70,19 +83,35 @@ const PostData = (props) => {
         <br />
         <b>Satnica: </b> {post.satnica} {post.novcanaNaknadaTip}
         <br />
-        <b>Tip posla: </b> {post.posaoTip}
+        <b>Tip posla: </b> {post.posaoTipNaziv}
         <br />
         <b>Napomena: </b>
+        {post.napomena}
         <br />
         <b>Datum objave: </b> {post.datum.substring(0, 10)}
         <br />
-        <b>Narucilac: </b> {post.narucilac}
+        <b>Narucilac: </b> {post.narucilacNaziv}
         <br />
         <br />
-        <Button onClick={prijaviButtonClick}>PRIJAVI SE</Button>
-        <Button a href={`/api/oglasi/${post.id}/edit`}>
-          IZMJENA
-        </Button>
+        {userType === "admin" && (
+          <div>
+            <Button a href={`/api/oglasi/${post.id}/edit`}>
+              IZMIJENI
+            </Button>
+            <Button onClick={() => obrisiOglas()}>
+              <Link to="/home">OBRISI</Link>
+            </Button>
+            <Button onClick={() => openModal()}>PRIJAVLJENI KORISNICI</Button>
+            <UsersListModal
+              visible={modalOpen}
+              jobId={post.id}
+              onCancel={closeModal}
+            />
+          </div>
+        )}
+        {userType === "korisnik" && (
+          <Button onClick={prijaviButtonClick}>PRIJAVI SE</Button>
+        )}
       </StyledCard>
     </div>
   );

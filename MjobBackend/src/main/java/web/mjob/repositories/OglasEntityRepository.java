@@ -10,15 +10,17 @@ import java.util.Optional;
 
 @Repository
 public interface OglasEntityRepository extends JpaRepository<OglasEntity, Long> {
-   // List<OglasEntity> findAll();
+    @Query("SELECT o from OglasEntity o where o.obrisan=false ")
+    List<OglasEntity> findAll();
 
-    List<OglasEntity> findAllByJavni(Boolean javni);
+    List<OglasEntity> findAllByJavniAndObrisan(Boolean javni,Boolean obrisan);
 
     void deleteById(Long id);
 
     Optional<OglasEntity> findById(Long id);
+    OglasEntity findOglasEntityById(Long id);
 
-    @Query("SELECT o from OglasEntity o where o.narucilacByNarucilacId.id=:id")
+    @Query("SELECT o from OglasEntity o where o.narucilacByNarucilacId.id=:id and o.obrisan=false ")
     List<OglasEntity> getAllOglasiByNarucilacId(Long id);
 
 }

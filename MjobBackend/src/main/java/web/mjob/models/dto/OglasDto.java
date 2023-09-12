@@ -28,6 +28,7 @@ public class OglasDto {
     private BigDecimal satnica;
 
     private Boolean javni;
+    private Boolean obrisan;
 
     private List<Integer> korisnikPrijavljensById;
 

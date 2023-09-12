@@ -11,7 +11,7 @@ export const getAll = () => {
 };
 
 export const getPostById = (id) => {
-  return instance.get(`/api/oglas/${id}`);
+  return instance.get(`/api/oglas/oglas/${id}`);
 };
 
 export default {

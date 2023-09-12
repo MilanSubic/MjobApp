@@ -43,6 +43,7 @@ public class OglasController extends CrudController<Long, OglasDto,OglasDto> {
     public OglasDto insert( @RequestBody OglasDto oglasDto) throws NotFoundException {
         oglasDto.setDatum(new Timestamp(System.currentTimeMillis()));
         oglasDto.setAktivanDo( Timestamp.valueOf(oglasDto.getAktivanDo().toString()));
+       oglasDto.setObrisan(false);
         return oglasService.insert(oglasDto, OglasDto.class, SecurityContextHolder.getContext().getAuthentication());
     }
 
@@ -95,6 +96,15 @@ public class OglasController extends CrudController<Long, OglasDto,OglasDto> {
     public Oglas findByIdOglas(@PathVariable Long id) throws NotFoundException {
         return oglasService.findById(id, Oglas.class);
     }
-
+    @GetMapping("/{id}/users")
+    public List<PrijavljenKorisnikDto> getAllUserRequestsForJob(@PathVariable Long id)
+    {
+        return korisnikPrijavljenService.getAllUsersRequestsForAd(id);
+    }
+    @PutMapping("/{oglasId}/user/{korisnikId}/{accept}")
+    public void reactOnRequestForJob(@PathVariable Long oglasId,@PathVariable Long korisnikId,@PathVariable Boolean accept)
+    {
+         korisnikPrijavljenService.acceptRequest(korisnikId,oglasId,accept);
+    }
 }
 

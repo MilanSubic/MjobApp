@@ -5,8 +5,12 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import web.mjob.exceptions.NotFoundException;
+import web.mjob.models.dto.Korisnik;
+import web.mjob.models.dto.Oglas;
+import web.mjob.models.dto.PrijavljenKorisnikDto;
 import web.mjob.models.dto.Request;
 import web.mjob.models.entities.KorisnikEntity;
 import web.mjob.models.entities.KorisnikPrijavljenEntity;
@@ -16,7 +20,10 @@ import web.mjob.repositories.*;
 import web.mjob.services.EmailService;
 import web.mjob.services.KorisnikPrijavljenService;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @Transactional
 public class KorisnikPrijavljenServiceImpl implements KorisnikPrijavljenService {
@@ -40,7 +47,8 @@ public class KorisnikPrijavljenServiceImpl implements KorisnikPrijavljenService 
     public void prijaviKorisnikaNaOglas(Long userId, Long oglasId) {
 
         KorisnikPrijavljenEntity user=new KorisnikPrijavljenEntity(false,oglasRepository.findOglasEntityById(oglasId),userRepository.findKorisnikEntityById(userId));
-        korisnikPrijavljenRepository.saveAndFlush(user);
+        if(!getAllUsersForAd(oglasId).contains( mapper.map(userRepository.findKorisnikEntityById(userId),Korisnik.class)))
+            korisnikPrijavljenRepository.saveAndFlush(user);
     }
 
     @Override
@@ -76,5 +84,36 @@ public class KorisnikPrijavljenServiceImpl implements KorisnikPrijavljenService 
     @Override
     public void delete(Long aLong) throws NotFoundException {
 
+    }
+    @Override
+    public  List<PrijavljenKorisnikDto> getAllUsersRequestsForAd(Long id)
+    {
+        OglasEntity oglas=oglasRepository.findOglasEntityById(id);
+        List<KorisnikPrijavljenEntity> prijavljeniKorisnici=korisnikPrijavljenRepository.findKorisnikPrijavljenEntitiesByOglasByOglasId(oglas);
+
+
+        return prijavljeniKorisnici.stream().map(e->mapper.map(e, PrijavljenKorisnikDto.class)).collect(Collectors.toList());
+    }
+    private List<Korisnik> getAllUsersForAd(Long id)
+    {
+        OglasEntity oglas=oglasRepository.findOglasEntityById(id);
+        List<KorisnikPrijavljenEntity> prijavljenikorisnici=korisnikPrijavljenRepository.findKorisnikPrijavljenEntitiesByOglasByOglasId(oglas);
+
+        List<KorisnikEntity> korisnikEntities=new ArrayList<>();
+        for (KorisnikPrijavljenEntity korisnikPrijavljen: prijavljenikorisnici.stream().toList()) {
+            korisnikEntities.add(korisnikPrijavljen.getKorisnikByKorisnikId());
+        }
+        return korisnikEntities.stream().map(e->mapper.map(e, Korisnik.class)).collect(Collectors.toList());
+
+    }
+    @Override
+    public void acceptRequest(Long korisnikId,Long oglasId,Boolean accept)
+    {
+        KorisnikPrijavljenEntity korisnikPrijavljenEntity=korisnikPrijavljenRepository.findKorisnikPrijavljenEntityByKorisnikByKorisnikIdAndOglasByOglasId(userRepository.findKorisnikEntityById(korisnikId),oglasRepository.findOglasEntityById(oglasId));
+        if(korisnikPrijavljenEntity!=null)
+        {
+            korisnikPrijavljenEntity.setOdobren(accept);
+            korisnikPrijavljenRepository.saveAndFlush(korisnikPrijavljenEntity);
+        }
     }
 }

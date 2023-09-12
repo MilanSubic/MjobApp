@@ -9,6 +9,9 @@ export const getAll = () => {
 export const getUserJobs = (id) => {
   return instance.get(`/users/${id}/jobs`).then((res) => res.data);
 };
+export const getAllUserRequestsForJob = (id) => {
+  return instance.get(`api/oglas/${id}/users`).then((res) => res.data);
+};
 export const getUserByUsername = (username) => {
   return instance.get(`/users/${username}`).then((res) => res.data);
 };
@@ -27,6 +30,9 @@ export const removeUser = (id) => {
 export const reactivateUser = (id) => {
   return instance.put(`/users/${id}/reactivateUser`);
 };
+export const acceptJobRequest = (oglasId, korisnikId, accept) => {
+  return instance.put(`/api/oglas/${oglasId}/user/${korisnikId}/${accept}`);
+};
 export default {
   getAll,
   getUserJobs,
@@ -36,4 +42,6 @@ export default {
   reactivateUser,
   getUserByUsername,
   getUser,
+  getAllUserRequestsForJob,
+  acceptJobRequest,
 };
