@@ -41,6 +41,9 @@ public class OglasEntity implements BaseEntity<Long> {
     @Basic
     @Column(name = "javni", nullable = false)
     private Boolean javni;
+    @Basic
+    @Column(name = "obrisan", nullable = false)
+    private Boolean obrisan;
     @OneToMany(mappedBy = "oglasByOglasId")
     private List<KorisnikPrijavljenEntity> korisnikPrijavljensById;
     @ManyToOne

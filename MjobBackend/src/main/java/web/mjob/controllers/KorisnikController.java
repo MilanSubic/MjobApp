@@ -27,7 +27,6 @@ public class KorisnikController {
     {
         return korisnikService.getAllUserJobs(id);
     }
-
     @GetMapping("{username}")
     public Korisnik getByUsername(@PathVariable String username)
     {

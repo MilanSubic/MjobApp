@@ -28,7 +28,6 @@ import {
 import UsersModal from "../../../components/UsersModal";
 import UsersService from "../../../services/UsersService";
 import KorisnikPolService from "../../../services/KorisnikPolService";
-import KorisnikTip1Service from "../../../services/KorisnikTip1Service";
 import OpstinaService from "../../../services/OpstinaService";
 import NaseljenoMjestoService from "../../../services/NaseljenoMjestoService";
 import ObrazovnaUstanovaTipService from "../../../services/ObrazovnaUstanovaTipService";
@@ -54,8 +53,6 @@ const UpravljanjeNalozima = () => {
   const [email, setEmail] = useState();
   const [datumUclanjenja, setDatumUclanjenja] = useState();
   const [brojClanskeKarte, setBrojClanskeKarte] = useState();
-  const [brojZdravstveneKnjizice, setBrojZdravstveneKnjizice] = useState();
-  const [tipKorisnika, setTipKorisnika] = useState();
   const [mjestoRodjenja, setMjestoRodjenja] = useState();
   const [naseljenoMjesto, setNaseljenoMjesto] = useState();
   const [ulica, setUlica] = useState();
@@ -70,16 +67,12 @@ const UpravljanjeNalozima = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [usersGender, setUsersGender] = useState([]);
-  const [usersTip, setUsersTip] = useState([]);
   const [usersOpstina, setUsersOpstina] = useState([]);
   const [usersMjesto, setUsersMjesto] = useState([]);
   const [usersUstanova, setUsersUstanova] = useState([]);
 
   useEffect(() => {
     KorisnikPolService.getAll().then((res) => setUsersGender(res.data));
-  }, []);
-  useEffect(() => {
-    KorisnikTip1Service.getAll().then((res) => setUsersTip(res.data));
   }, []);
   useEffect(() => {
     OpstinaService.getAll().then((res) => setUsersOpstina(res.data));
@@ -129,10 +122,8 @@ const UpravljanjeNalozima = () => {
       );
     }
     setBrojClanskeKarte(user.brojClanskeKarte);
-    setBrojZdravstveneKnjizice(user.brojZdravstveneKnjizice);
     setPol(user.korisnikPolNaziv);
     setIzdavaocLicneKarte(user.izdavaocLicneKarteOpstinaNaziv);
-    setTipKorisnika(user.korisnikTipNaziv);
     setMjestoRodjenja(user.mjestoRodjenjaOpstinaNaziv);
     setNaseljenoMjesto(user.naseljenoMjestoNaziv);
     setSmijer(user.smijer);
@@ -266,10 +257,6 @@ const UpravljanjeNalozima = () => {
               e1.korisnikPolNaziv = foundUser.naziv;
               setPol(e1.korisnikPolNaziv);
 
-              e1.korisnikTipNaziv = usersTip.find(
-                (e2) => res.korisnikTipId === e2.id
-              ).naziv;
-              setTipKorisnika(e1.korisnikTipNaziv);
               e1.mjestoRodjenjaOpstinaNaziv = usersOpstina.find(
                 (e2) => res.mjestoRodjenjaOpstinaId === e2.id
               ).naziv;
@@ -320,7 +307,6 @@ const UpravljanjeNalozima = () => {
     //   );
     // }
     setBrojClanskeKarte(user.brojClanskeKarte);
-    setBrojZdravstveneKnjizice(user.brojZdravstveneKnjizice);
     setSmijer(user.smijer);
     setUlica(user.ulicaIBroj);
   };
@@ -397,6 +383,7 @@ const UpravljanjeNalozima = () => {
             <h1>
               {ime} ({imeRoditelja}) {prezime}
             </h1>
+            <p>Identifikator : {identifikator}</p>
             <p>
               Datum rodjenja : {datumRodjenja} Pol : {pol}
             </p>
@@ -414,17 +401,15 @@ const UpravljanjeNalozima = () => {
             <p>Email : {email}</p>
             <p>Broj telefona : {brojTelefona}</p>
             <p>
-              Tip korisnika : {tipKorisnika} Obrazovna ustanova :{" "}
-              {obrazovnaUstanova} Smijer : {smijer} Godina: {godina}
+              Obrazovna ustanova : {obrazovnaUstanova} Smijer : {smijer} Godina:{" "}
+              {godina}
             </p>
-            <p>Identifikator : {identifikator}</p>
             {datumUclanjenja != null && (
               <p>
                 Datum uclanjenja : {datumUclanjenja} Broj clanske karte :{" "}
                 {brojClanskeKarte}
               </p>
             )}
-            <p>Broj zdravstvene knjizice : {brojZdravstveneKnjizice}</p>
             <p>Broj tekuceg racuna : {brojTekucegRacuna}</p>
 
             <Image.PreviewGroup>
