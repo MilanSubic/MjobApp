@@ -116,4 +116,12 @@ public class KorisnikPrijavljenServiceImpl implements KorisnikPrijavljenService 
             korisnikPrijavljenRepository.saveAndFlush(korisnikPrijavljenEntity);
         }
     }
+    @Override
+    public  List<PrijavljenKorisnikDto> getMyAds(Authentication authentication)
+    {
+        KorisnikEntity korisnik= userRepository.findKorisnikEntityByKorisnickoIme(authentication.getName());
+        List<KorisnikPrijavljenEntity> prijavljenikorisnici=korisnikPrijavljenRepository.findKorisnikPrijavljenEntitiesByKorisnikByKorisnikId(korisnik);
+        return prijavljenikorisnici.stream().map(e->mapper.map(e, PrijavljenKorisnikDto.class)).collect(Collectors.toList());
+
+    }
 }

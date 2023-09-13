@@ -36,6 +36,13 @@ function EmptyHeader() {
                 </div>
               </div>
             )}
+            {tipKorisnika === "korisnik" && (
+              <div style={{ display: "flex" }}>
+                <div className="nav-item">
+                  <a href="/oglasi">Moji oglas</a>
+                </div>
+              </div>
+            )}
 
             {tipKorisnika !== null && (
               <>

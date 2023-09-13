@@ -10,10 +10,10 @@ const UsersListModal = (props) => {
   const [usersForFirst, setUsersForFirst] = useState([]);
 
   useEffect(() => {
-    korisnikService
-      .getAllUserRequestsForJob(jobId)
-      .then((res) => setUsers(res));
-    setUsersForFirst(users.filter((el) => el.odobren === true));
+    korisnikService.getAllUserRequestsForJob(jobId).then((res) => {
+      setUsers(res);
+      setUsersForFirst(res.filter((el) => el.odobren === true));
+    });
   }, [jobId]);
   const odbijZahtjev = (id) => {
     korisnikService.acceptJobRequest(jobId, id, false);

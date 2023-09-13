@@ -65,7 +65,10 @@ public class OglasController extends CrudController<Long, OglasDto,OglasDto> {
     public List<Oglas> findAll(){
         return oglasService.findAll();
     }
-
+    @GetMapping("/mojiOglasi")
+    public List<PrijavljenKorisnikDto> findMyAds(){
+        return korisnikPrijavljenService.getMyAds(SecurityContextHolder.getContext().getAuthentication());
+    }
     @GetMapping("users/{id}")
     public List<Oglas> findByNarucilacId(@PathVariable Long id) throws NotFoundException {
         return oglasService.getAllOglasiByNarucilacId(id);

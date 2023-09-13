@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Button, Tooltip } from "antd";
 import { Content, StyledTable } from "../../components/BasicStyledComponents";
 import OglasiService from "../../services/OglasiService";
 import moment from "moment";
@@ -7,7 +6,7 @@ import moment from "moment";
 const Oglasi = () => {
   const [ads, setAds] = useState([]);
   useEffect(() => {
-    OglasiService.getAll().then((res) => setAds(res.data));
+    OglasiService.getMojiOglasi().then((res) => setAds(res.data));
   }, []);
 
   return (
@@ -19,45 +18,74 @@ const Oglasi = () => {
 
 const columns = [
   {
+    title: "Status",
+    dataIndex: "odobren",
+    render: (record) => {
+      if (record === true) return "Posao je vaš!";
+      else return "Na čekanju";
+    },
+  },
+  {
     title: "Sadržaj",
-    dataIndex: "sadrzaj",
+    dataIndex: "oglasByOglasId",
+    render: (record) => {
+      return record.sadrzaj;
+    },
   },
   {
     title: "Tip posla",
-    dataIndex: "posaoTipNaziv",
+    dataIndex: "oglasByOglasId",
+    render: (record) => {
+      return record.posaoTipNaziv;
+    },
   },
   {
     title: "Mjesto",
-    dataIndex: "mjesto",
+    dataIndex: "oglasByOglasId",
+    render: (record) => {
+      return record.mjesto;
+    },
   },
   {
     title: "Datum objave",
-    dataIndex: "datum",
-    render: (record) => moment(record).format("DD-MM-YYYY"),
+    dataIndex: "oglasByOglasId",
+    render: (record) => moment(record.datum).format("DD-MM-YYYY"),
     sorter: (a, b) => moment(a.datum).unix() - moment(b.datum).unix(),
   },
   {
     title: "Aktivan do",
-    dataIndex: "aktivanDo",
-    render: (record) => moment(record).format("DD-MM-YYYY"),
+    dataIndex: "oglasByOglasId",
+    render: (record) => moment(record.aktivanDo).format("DD-MM-YYYY"),
     sorter: (a, b) => moment(a.aktivanDo).unix() - moment(b.aktivanDo).unix(),
   },
   {
     title: "Satnica",
-    dataIndex: "satnica",
+    dataIndex: "oglasByOglasId",
+    render: (record) => {
+      return record.satnica;
+    },
   },
   {
     title: "Novčana naknada",
-    dataIndex: "novcanaNaknadaTipNaziv",
+    dataIndex: "oglasByOglasId",
+    render: (record) => {
+      return record.novcanaNaknadaTipNaziv;
+    },
   },
   {
     title: "Napomena",
-    dataIndex: "napomena",
+    dataIndex: "oglasByOglasId",
+    render: (record) => {
+      return record.napomena;
+    },
   },
   {
     title: "Naručilac",
     //   key: "actions",
-    dataIndex: "narucilacNaziv",
+    dataIndex: "oglasByOglasId",
+    render: (record) => {
+      return record.narucilacNaziv;
+    },
     // eslint-disable-next-line react/display-name
     /*
     render: (record) => (
@@ -76,17 +104,6 @@ const columns = [
       </Tooltip>
     ),
     */
-  },
-  {
-    title: "",
-    key: "actions",
-    dataIndex: "id",
-    // eslint-disable-next-line react/display-name
-    render: (record) => (
-      <Tooltip>
-        <Button>REZERVACIJA</Button>
-      </Tooltip>
-    ),
   },
 ];
 export default Oglasi;

@@ -8,6 +8,9 @@ export const getAll = () => {
 export const getAllOglasiById = (id) => {
   return instance.get(`/api/oglas/users/${id}`);
 };
+export const getMojiOglasi = () => {
+  return instance.get(`/api/oglas/mojiOglasi`);
+};
 export const getAllOglasiJavni = () => {
   return instance.get("/api/oglas/javni");
 };
@@ -24,4 +27,5 @@ export default {
   getAllOglasiJavni,
   remove,
   findById,
+  getMojiOglasi,
 };

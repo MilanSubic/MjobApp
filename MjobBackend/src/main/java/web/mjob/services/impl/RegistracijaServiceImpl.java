@@ -26,14 +26,16 @@ public class RegistracijaServiceImpl implements RegistracijaService {
     @PersistenceContext
     private EntityManager entityManager;
     private KorisnikStatusEntityRepository korisnikStatusRepository;
+    private  KorisnikTipEntityRepository korisnikTipEntityRepository;
 
     public RegistracijaServiceImpl(KorisnikEntityRepository korisnikEntityRepository, DokumentEntityRepository dokumentEntityRepository,
-                                   DokumentSadrzajEntityRepository dokumentSadrzajEntityRepository,KorisnikStatusEntityRepository korisnikStatusRepository, KorisnikDokumentEntityRepository korisnikDokumentEntityRepository, ModelMapper modelMapper, PasswordEncoder passwordEncoder){
+                                   DokumentSadrzajEntityRepository dokumentSadrzajEntityRepository,KorisnikStatusEntityRepository korisnikStatusRepository, KorisnikDokumentEntityRepository korisnikDokumentEntityRepository,KorisnikTipEntityRepository korisnikTipEntityRepository, ModelMapper modelMapper, PasswordEncoder passwordEncoder){
         this.korisnikEntityRepository=korisnikEntityRepository;
         this.dokumentEntityRepository=dokumentEntityRepository;
         this.dokumentSadrzajEntityRepository = dokumentSadrzajEntityRepository;
         this.korisnikDokumentEntityRepository=korisnikDokumentEntityRepository;
         this.korisnikStatusRepository=korisnikStatusRepository;
+        this.korisnikTipEntityRepository=korisnikTipEntityRepository;
         this.modelMapper=modelMapper;
         this.passwordEncoder = passwordEncoder;
     }
@@ -48,7 +50,10 @@ public class RegistracijaServiceImpl implements RegistracijaService {
         entity.setKorisnikStatusId(status);
         entity.setKorisnickoIme(entity.getEmail());
         entity.setLozinka(passwordEncoder.encode(entity.getLozinka()));
+        KorisnikTipEntity tip=korisnikTipEntityRepository.findKorisnikTipEntityById(1l);
+        entity.setKorisnikTipId(tip);
         entity = korisnikEntityRepository.saveAndFlush(entity);
+
         //entityManager.refresh(entity);
 
         KorisnikEntity finalEntity = entity;
