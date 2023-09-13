@@ -14,5 +14,5 @@ public interface KorisnikPrijavljenService extends CrudService<Long>{
     void prijaviKorisnikaNaOglas(Long userId,Long oglasId);
     List<PrijavljenKorisnikDto> getAllUsersRequestsForAd(Long id);
     void acceptRequest(Long korisnikId,Long oglasId, Boolean accept);
-
+    List<PrijavljenKorisnikDto> getMyAds(Authentication authentication);
 }

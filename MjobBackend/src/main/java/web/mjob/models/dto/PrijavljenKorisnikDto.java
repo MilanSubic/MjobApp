@@ -9,6 +9,6 @@ public class PrijavljenKorisnikDto {
     @Id
     private Long id;
     private Korisnik korisnikByKorisnikId;
-    private Long oglasByOglasId;
+    private Oglas oglasByOglasId;
     private boolean odobren;
 }
