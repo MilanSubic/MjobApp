@@ -12,7 +12,18 @@ export const StyledButton = styled(Button)`
 export const StyledTable = styled(Table)`
   flex-grow: 1;
 `;
-
+export const CardDiv = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
+`;
+export const CardDiv2 = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 15px;
+`;
 export const StyledCard = styled(Card)`
   .custom-card-container {
     display: flex;

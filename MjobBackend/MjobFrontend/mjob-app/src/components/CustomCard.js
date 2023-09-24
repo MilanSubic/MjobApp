@@ -2,8 +2,10 @@ import { Card } from "antd";
 import { React, useState, useEffect } from "react";
 import { PropTypes } from "prop-types";
 import oglasService from "../services/OglasService";
+import AdModal from "./AdModal";
 
 const CustomCard = (props) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [post, setPost] = useState({
     id: 0,
     sadrzaj: "",
@@ -18,11 +20,15 @@ const CustomCard = (props) => {
     novcanaNaknadaTipNaziv: "",
     posaoTipNaziv: "",
   });
-
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+  const closeModal = () => {
+    window.location.reload(false);
+    setIsModalOpen(false);
+  };
   useEffect(() => {
-    console.log(post.id);
     loadPost();
-    console.log("useEffect(CustomCard)" + post.posaoTipNaziv);
   }, []);
 
   const loadPost = () => {
@@ -32,28 +38,34 @@ const CustomCard = (props) => {
   };
 
   return (
-    <a href={`/api/oglasi/${props.id}`} style={{ textDecoration: "none" }}>
-      <Card
-        hoverable
-        style={{
-          width: 230,
-          height: 250,
-        }}
-        title={props.posaoNaziv}
-      >
-        <b>Mjesto: </b> {post.mjesto}
-        <br />
-        <b>Datum: </b> {post.datum.substring(0, 10)}
-        <br />
-        <b>Broj ljudi: </b> {post.brojLjudi}
-        <br />
-        <b>Satnica: </b> {post.satnica} KM
-        <br />
-        <b>Napomena: </b>
-        <br />
-        {post.napomena}
-      </Card>
-    </a>
+    <Card
+      onClick={() => openModal()}
+      hoverable
+      style={{
+        width: 230,
+        height: 250,
+      }}
+      title={props.posaoNaziv}
+    >
+      <b>Mjesto: </b> {post.mjesto}
+      <br />
+      <b>Datum: </b> {post.datum.substring(0, 10)}
+      <br />
+      <b>Broj potrebnih radnika: </b> {post.brojLjudi}
+      <br />
+      <b>Satnica: </b> {post.satnica} KM
+      <br />
+      <b>Napomena: </b>
+      <br />
+      {post.napomena}
+      <AdModal
+        visible={isModalOpen}
+        onCancel={closeModal}
+        post={post}
+        editMode={false}
+        id={props.id}
+      ></AdModal>
+    </Card>
   );
 };
 CustomCard.propTypes = {

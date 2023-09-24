@@ -11,6 +11,9 @@ import web.mjob.models.entities.PosaoTipEntity;
 import web.mjob.repositories.PosaoTipRepository;
 import web.mjob.services.PosaoTipService;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @Transactional
 public class PosaoTipServiceImpl extends CrudJpaService<PosaoTipEntity,Long>  implements PosaoTipService {
@@ -28,6 +31,13 @@ public class PosaoTipServiceImpl extends CrudJpaService<PosaoTipEntity,Long>  im
 
         return modelMapper.map(repository.findPosaoTipEntityById(id),PosaoTipDto.class);
 
+    }
+
+    @Override
+    public List<PosaoTipDto> getAll() {
+        List<PosaoTipEntity> posaoTipEntities=repository.findAll();
+        List<PosaoTipDto> posaoTipDtos=posaoTipEntities.stream().map(e->modelMapper.map(e,PosaoTipDto.class)).collect(Collectors.toList());
+        return  posaoTipDtos;
     }
 }
 /*

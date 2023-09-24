@@ -38,6 +38,7 @@ public class OglasController extends CrudController<Long, OglasDto,OglasDto> {
     }
 
 
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public OglasDto insert( @RequestBody OglasDto oglasDto) throws NotFoundException {
@@ -46,7 +47,15 @@ public class OglasController extends CrudController<Long, OglasDto,OglasDto> {
        oglasDto.setObrisan(false);
         return oglasService.insert(oglasDto, OglasDto.class, SecurityContextHolder.getContext().getAuthentication());
     }
+    @PutMapping("/{id}")
+    public OglasDto update(@PathVariable Long id,@RequestBody OglasDto oglasDto) throws NotFoundException
+    {
+        oglasDto.setDatum(new Timestamp(System.currentTimeMillis()));
+        oglasDto.setAktivanDo( Timestamp.valueOf(oglasDto.getAktivanDo().toString()));
+        oglasDto.setObrisan(false);
+        return oglasService.update(id,oglasDto, OglasDto.class);
 
+    }
     @PostMapping("tipoviPoslova")
     public Page<PosaoTipDto> findAllTipoviPoslova(@RequestBody Request<PosaoTipDto> request) throws NotFoundException {
         return posaoTipService.findAllFiltered(request, PosaoTipDto.class, SecurityContextHolder.getContext().getAuthentication());
@@ -64,6 +73,16 @@ public class OglasController extends CrudController<Long, OglasDto,OglasDto> {
     @GetMapping("svi")
     public List<Oglas> findAll(){
         return oglasService.findAll();
+    }
+    @GetMapping("/novcanaNaknadaTip")
+    public List<NovcanaNaknadaTip> findAllNovcanaNaknada()
+    {
+        return novcanaNaknadaTipService.getAll();
+    }
+    @GetMapping("/narucioci")
+    public List<NarucilacDto> findAllNarucioci()
+    {
+        return narucilacService.getAll();
     }
     @GetMapping("/mojiOglasi")
     public List<PrijavljenKorisnikDto> findMyAds(){

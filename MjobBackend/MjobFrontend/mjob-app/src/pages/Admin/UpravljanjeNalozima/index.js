@@ -73,17 +73,12 @@ const UpravljanjeNalozima = () => {
 
   useEffect(() => {
     KorisnikPolService.getAll().then((res) => setUsersGender(res.data));
-  }, []);
-  useEffect(() => {
     OpstinaService.getAll().then((res) => setUsersOpstina(res.data));
-  }, []);
-  useEffect(() => {
     NaseljenoMjestoService.getAll().then((res) => setUsersMjesto(res.data));
-  }, []);
-  useEffect(() => {
     ObrazovnaUstanovaTipService.getAll().then((res) =>
       setUsersUstanova(res.data)
     );
+    prikazKorisnika();
   }, []);
 
   const setRightSide = (user) => {
@@ -199,21 +194,32 @@ const UpravljanjeNalozima = () => {
   const showModal = () => {
     setIsModalOpen(true);
   };
+  const sortList = (res) => {
+    setList(
+      res.sort((a, b) => {
+        if (a.ime === b.ime) return a.prezime.localeCompare(b.prezime);
+        else return a.ime.localeCompare(b.ime);
+      })
+    );
+  };
   const prikazKorisnika = () => {
     korisnikService.getAll().then((res) => {
-      setList(res.filter((el) => el.korisnikStatusNaziv === "aktivan"));
+      res = res.filter((el) => el.korisnikStatusNaziv === "aktivan");
+      sortList(res);
       setListTip("aktivan");
+      setRightSide(res[0]);
     });
   };
   const prikazObrisanihKorisnika = () => {
     korisnikService.getAll().then((res) => {
-      setList(res.filter((el) => el.korisnikStatusNaziv === "obrisan"));
+      res = res.filter((el) => el.korisnikStatusNaziv === "obrisan");
+      sortList(res);
       setListTip("obrisan");
     });
   };
   const prikazZahtjeva = () => {
     korisnikService.getAll().then((res) => {
-      setList(res.filter((el) => el.korisnikStatusNaziv === "neobradjen"));
+      sortList(res.filter((el) => el.korisnikStatusNaziv === "neobradjen"));
       setListTip("neobradjen");
     });
   };
@@ -223,6 +229,7 @@ const UpravljanjeNalozima = () => {
   };
   const closeModal = () => {
     setIsEditModalOpen(false);
+    setStatus(selectedUser.korisnikStatusNaziv);
   };
 
   const saveData = (user) => {
@@ -285,7 +292,6 @@ const UpravljanjeNalozima = () => {
     setIme(user.ime);
     setPrezime(user.prezime);
     setImeRoditelja(user.imeRoditelja);
-    setStatus(user.korisnikStatusNaziv);
     setGodina(user.godina);
     const date = new Date(user.datumRodjenja);
     const month = date.getMonth() + 1;
@@ -299,13 +305,6 @@ const UpravljanjeNalozima = () => {
     setIdentifikator(user.identifikator);
     setEmail(user.email);
     setObrazovnaUstanova(user.obrazovnaUstanova);
-    // if (user.datumUclanjenja != null) {
-    //   date = new Date(user.datumUclanjenja);
-    //  const month = date.getMonth() + 1;
-    //  setDatumUclanjenja(
-    //     date.getDate() + "." + month + "." + date.getFullYear() + "."
-    //   );
-    // }
     setBrojClanskeKarte(user.brojClanskeKarte);
     setSmijer(user.smijer);
     setUlica(user.ulicaIBroj);
@@ -368,7 +367,15 @@ const UpravljanjeNalozima = () => {
                 <List.Item.Meta
                   title={
                     <Button type={"text"} onClick={() => setRightSide(item)}>
-                      {item.ime + " " + item.prezime}
+                      {item.brojClanskeKarte !== null &&
+                        item.ime +
+                          " " +
+                          item.prezime +
+                          "[" +
+                          item.brojClanskeKarte +
+                          "]"}
+                      {item.brojClanskeKarte === null &&
+                        item.ime + " " + item.prezime}
                     </Button>
                   }
                 />

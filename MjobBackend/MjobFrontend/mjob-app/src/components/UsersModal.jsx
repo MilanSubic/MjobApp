@@ -2,10 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Form, Modal, Input, InputNumber, DatePicker, Select } from "antd";
 import PropTypes from "prop-types";
 import dayjs from "dayjs";
-// import moment from "moment";
-// import "moment/locale/en-gb";
 import styled from "styled-components";
-// import "moment-timezone";
 import KorisnikPolService from "../services/KorisnikPolService";
 import KorisnikTip1Service from "../services/KorisnikTip1Service";
 import OpstinaService from "../services/OpstinaService";
@@ -21,16 +18,13 @@ const UsersModal1 = styled(Modal)`
 `;
 
 const UsersModal = (props) => {
-  const { editMode, visible, onOk, onCancel, confirmLoading, user } = props;
+  const { visible, onOk, onCancel, confirmLoading, user } = props;
   const [form] = Form.useForm();
   const [usersGender, setUsersGender] = useState([]);
   const [usersTip, setUsersTip] = useState([]);
   const [usersOpstina, setUsersOpstina] = useState([]);
   const [usersMjesto, setUsersMjesto] = useState([]);
   const [usersUstanova, setUsersUstanova] = useState([]);
-
-  // const [switchValue, setSwitchValue] = useState(false);
-  // const [valuee, setValuee] = useState(false);
 
   const onSubmit = () => {
     form.validateFields().then((values) => {
@@ -91,7 +85,6 @@ const UsersModal = (props) => {
   }, []);
   return (
     <UsersModal1
-      title={editMode ? "izmjeni" : "dodaj"}
       okText={"sačuvaj"}
       cancelText={"izađi"}
       onOk={() => onSubmit()}
@@ -105,6 +98,7 @@ const UsersModal = (props) => {
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 16 }}
         labelAlign="left"
+        style={{ paddingTop: "20px" }}
       >
         <Form.Item
           name="ime"
@@ -135,7 +129,7 @@ const UsersModal = (props) => {
           <DatePicker
             placeholder=""
             // locale={moment.locale()
-            format="MMM DD YYYY"
+            format="DD.MM.YYYY."
             //  value={valuee}
             // onSelect={(data) => {}}
             onChange={(newValue) => {

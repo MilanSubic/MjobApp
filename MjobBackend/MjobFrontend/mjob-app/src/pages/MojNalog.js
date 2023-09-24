@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import korisnikService from "../services/korisnik.service";
 import { Image, Tooltip } from "antd";
+import { CardDiv2, StyledCard } from "../components/BasicStyledComponents";
+
 const MojNalog = () => {
   const [ime, setIme] = useState();
   const [prezime, setPrezime] = useState();
@@ -67,55 +69,63 @@ const MojNalog = () => {
     setSmijer(user.smijer);
     setUlica(user.ulicaIBroj);
   };
-
+  const containerStyle = {
+    border: "1px solid gray",
+    borderRadius: "5px",
+    width: "700px",
+    align: "center",
+    textAlign: "center",
+  };
   useEffect(() => {
     korisnikService.getUser().then((res) => {
       setRightSide(res);
     });
   });
   return (
-    <div className="right-side-full">
-      <h1>
-        {ime} ({imeRoditelja}) {prezime}
-      </h1>
-      <p>
-        Datum rodjenja : {datumRodjenja} Pol : {pol}
-      </p>
-      <p>JMBG: {jmbg}</p>
-      <p>
-        Mjesto rodjenja: {mjestoRodjenja}, {naseljenoMjesto}
-      </p>
-      <p>Ulica i broj : {ulica}</p>
-      {brojLicneKarte != null && (
+    <CardDiv2>
+      <StyledCard style={containerStyle}>
+        <h1>
+          {ime} ({imeRoditelja}) {prezime}
+        </h1>
         <p>
-          Broj licne karte : {brojLicneKarte} Izdavaoc : {izdavaocLicneKarte}
+          Datum rodjenja : {datumRodjenja} Pol : {pol}
         </p>
-      )}
-      <p>Email : {email}</p>
-      <p>Broj telefona : {brojTelefona}</p>
-      <p>
-        Obrazovna ustanova : {obrazovnaUstanova} Smijer : {smijer} Godina:{" "}
-        {godina}
-      </p>
-      <p>Identifikator : {identifikator}</p>
-      {datumUclanjenja != null && (
+        <p>JMBG: {jmbg}</p>
         <p>
-          Datum uclanjenja : {datumUclanjenja} Broj clanske karte :{" "}
-          {brojClanskeKarte}
+          Mjesto rodjenja: {mjestoRodjenja}, {naseljenoMjesto}
         </p>
-      )}
-      <p>Broj zdravstvene knjizice : {brojZdravstveneKnjizice}</p>
-      <p>Broj tekuceg racuna : {brojTekucegRacuna}</p>
+        <p>Ulica i broj : {ulica}</p>
+        {brojLicneKarte != null && (
+          <p>
+            Broj licne karte : {brojLicneKarte} Izdavaoc : {izdavaocLicneKarte}
+          </p>
+        )}
+        <p>Email : {email}</p>
+        <p>Broj telefona : {brojTelefona}</p>
+        <p>
+          Obrazovna ustanova : {obrazovnaUstanova} Smijer : {smijer} Godina:{" "}
+          {godina}
+        </p>
+        <p>Identifikator : {identifikator}</p>
+        {datumUclanjenja != null && (
+          <p>
+            Datum uclanjenja : {datumUclanjenja} Broj clanske karte :{" "}
+            {brojClanskeKarte}
+          </p>
+        )}
+        <p>Broj zdravstvene knjizice : {brojZdravstveneKnjizice}</p>
+        <p>Broj tekuceg racuna : {brojTekucegRacuna}</p>
 
-      <Image.PreviewGroup>
-        {slike.map((slika) => (
-          // eslint-disable-next-line react/jsx-key
-          <Tooltip title={slika.naziv}>
-            <Image width={100} src={slika.sadrzaj} />
-          </Tooltip>
-        ))}
-      </Image.PreviewGroup>
-    </div>
+        <Image.PreviewGroup>
+          {slike.map((slika) => (
+            // eslint-disable-next-line react/jsx-key
+            <Tooltip title={slika.naziv}>
+              <Image width={100} src={slika.sadrzaj} />
+            </Tooltip>
+          ))}
+        </Image.PreviewGroup>
+      </StyledCard>
+    </CardDiv2>
   );
 };
 export default MojNalog;

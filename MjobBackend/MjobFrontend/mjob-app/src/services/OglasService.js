@@ -13,9 +13,12 @@ export const getAll = () => {
 export const getPostById = (id) => {
   return instance.get(`/api/oglas/oglas/${id}`);
 };
-
+export const update = (id, ad) => {
+  return instance.put(`/api/oglas/${id}`, ad).then((res) => res.data);
+};
 export default {
   creatad,
   getAll,
   getPostById,
+  update,
 };
