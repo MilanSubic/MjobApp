@@ -21,6 +21,12 @@ export const remove = (id) => {
 export const findById = (id) => {
   return instance.get(`/api/oglas/oglas/${id}`);
 };
+export const getNovcaneNaknade = () => {
+  return instance.get(`/api/oglas/novcanaNaknadaTip`);
+};
+export const getNarucioci = () => {
+  return instance.get(`/api/oglas/narucioci`);
+};
 export default {
   getAll,
   getAllOglasiById,
@@ -28,4 +34,6 @@ export default {
   remove,
   findById,
   getMojiOglasi,
+  getNovcaneNaknade,
+  getNarucioci,
 };

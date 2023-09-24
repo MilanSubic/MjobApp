@@ -1,0 +1,26 @@
+#novcanaNaknada:disabled .ant-select-item {
+    color: #999; /* Promjenjujemo boju teksta opcija */
+    font-weight: bold; /* Dodajemo debljinu fonta opcijama */
+}
+.tipoviPosla:disabled
+{
+    color: #999;
+    font-weight: bold;
+}
+.tipoviPosla
+{
+    color: #999;
+    font-weight: bold;
+}
+.ant-select-disabled .ant-select-selector {
+    background-color: #FFFFFF !important;
+    color: #000000 !important;
+}
+.ant-picker .ant-picker-input >input[disabled] {
+    color: #000000!important;
+}
+.input
+{
+    background-color: #FFFFFF !important;
+    color: #000000 !important;
+}

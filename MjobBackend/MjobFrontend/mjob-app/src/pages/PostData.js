@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { StyledCard } from "../components/BasicStyledComponents";
+import { CardDiv, StyledCard } from "../components/BasicStyledComponents";
 import { Button } from "antd";
 import axios from "axios";
 import korisnikService from "../services/korisnik.service";
@@ -19,7 +19,7 @@ const PostData = (props) => {
     napomena: "",
     datum: "",
     brojLjudi: 0,
-    aktivan_do: false,
+    aktivanDo: "",
     satnica: 0,
     javni: "true",
     narucilacNaziv: "",
@@ -35,9 +35,18 @@ const PostData = (props) => {
 
   const loadPost = () => {
     oglasService.getPostById(props.id).then((result) => {
+      var originalDate = new Date(result.data.datum);
+      result.data.datum = `${originalDate.getDate()}.${
+        originalDate.getMonth() + 1
+      }.${originalDate.getFullYear()}.`;
+      originalDate = new Date(result.data.aktivanDo);
+      result.data.aktivanDo = `${originalDate.getDate()}.${
+        originalDate.getMonth() + 1
+      }.${originalDate.getFullYear()}.`;
       setPost(result.data);
     });
   };
+
   const obrisiOglas = () => {
     oglasiService.remove(post.id);
   };
@@ -54,6 +63,7 @@ const PostData = (props) => {
     borderRadius: "5px",
     width: "700px",
     align: "center",
+    textAlign: "center",
   };
 
   function prijaviButtonClick() {
@@ -74,23 +84,25 @@ const PostData = (props) => {
   }
 
   return (
-    <div>
+    <CardDiv>
       <StyledCard style={containerStyle}>
-        <h2>{post.sadrzaj}</h2>
+        <h2>{post.posaoTipNaziv}</h2>
         <b>Mjesto: </b> {post.mjesto}
+        <br />
+        <b>Datum objave: </b> {post.datum}
+        <br />
+        <b>Aktivan do: </b> {post.aktivanDo.substring(0, 10)}
         <br />
         <b>Broj potrebnih radnika: </b> {post.brojLjudi}
         <br />
-        <b>Satnica: </b> {post.satnica} {post.novcanaNaknadaTip}
+        <b>Satnica: </b> {post.satnica} {post.novcanaNaknadaTipNaziv}
         <br />
-        <b>Tip posla: </b> {post.posaoTipNaziv}
+        <b>Narucilac: </b> {post.narucilacNaziv}
+        <br />
+        <b>Sadržaj: </b> {post.sadrzaj}
         <br />
         <b>Napomena: </b>
         {post.napomena}
-        <br />
-        <b>Datum objave: </b> {post.datum.substring(0, 10)}
-        <br />
-        <b>Narucilac: </b> {post.narucilacNaziv}
         <br />
         <br />
         {userType === "admin" && (
@@ -113,7 +125,7 @@ const PostData = (props) => {
           <Button onClick={prijaviButtonClick}>PRIJAVI SE</Button>
         )}
       </StyledCard>
-    </div>
+    </CardDiv>
   );
 };
 

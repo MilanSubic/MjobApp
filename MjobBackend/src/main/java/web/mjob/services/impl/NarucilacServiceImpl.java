@@ -4,12 +4,16 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import web.mjob.base.CrudJpaService;
+import web.mjob.models.dto.NarucilacDto;
 import web.mjob.models.entities.NarucilacEntity;
 import web.mjob.models.entities.NovcanaNaknadaTipEntity;
 import web.mjob.repositories.NarucilacRepository;
 import web.mjob.repositories.NovcanaNaknadaTipEntityRepository;
 import web.mjob.services.NarucilacService;
 import web.mjob.services.NovcanaNaknadaTipService;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -23,6 +27,13 @@ public class NarucilacServiceImpl  extends CrudJpaService<NarucilacEntity,Long> 
         super(repository, modelMapper, NarucilacEntity.class);
         this.repository = repository;
         this.modelMapper = modelMapper;
+    }
+
+    @Override
+    public List<NarucilacDto> getAll() {
+        List<NarucilacEntity> narucilacEntities=repository.findAll();
+        List<NarucilacDto> narucilacDtos=narucilacEntities.stream().map(e->modelMapper.map(e,NarucilacDto.class)).collect(Collectors.toList());
+        return  narucilacDtos;
     }
 }
 

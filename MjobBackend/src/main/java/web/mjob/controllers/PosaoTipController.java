@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RestController;
 import web.mjob.models.dto.PosaoTipDto;
 import web.mjob.services.PosaoTipService;
 
+import java.util.List;
+
 
 @RestController
 @RequestMapping("api/posaoTip")
@@ -22,6 +24,11 @@ public class PosaoTipController  {
     public PosaoTipDto getById(@PathVariable Long id)
     {
         return posaoTipService.getPosaoTipById(id);
+    }
+    @GetMapping("/tipoviPoslova")
+    public List<PosaoTipDto> getAll()
+    {
+        return posaoTipService.getAll();
     }
 
 }

@@ -12,7 +12,8 @@ import web.mjob.base.CrudService;
 
 public interface NovcanaNaknadaTipService extends CrudService<Long> {
    /* NovcanaNaknadaTipEntity findById(Long id) throws NotFoundException;
-    List<NovcanaNaknadaTip> getAll();
 
     */
+   List<NovcanaNaknadaTip> getAll();
+
 }
