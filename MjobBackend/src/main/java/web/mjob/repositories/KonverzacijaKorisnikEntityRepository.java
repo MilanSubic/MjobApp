@@ -8,5 +8,6 @@ import java.util.List;
 
 public interface KonverzacijaKorisnikEntityRepository  extends JpaRepository<KonverzacijaKorisnikEntity,Long> {
     KonverzacijaKorisnikEntity findByKonverzacijaIdAndKorisnikKorisnickoIme(Long konverzacijaId, String korisnickoIme);
+    boolean existsKonverzacijaKorisnikEntityByProcitanaAndKorisnikKorisnickoIme(boolean procitana, String korisnickoIme);
     List<KonverzacijaKorisnikEntity> findAllByKonverzacijaIdAndKorisnikKorisnickoImeNot(Long konverzacijaId, String korisnickoIme);
 }

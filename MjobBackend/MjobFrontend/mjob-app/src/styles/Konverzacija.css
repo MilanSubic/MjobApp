@@ -37,7 +37,7 @@
     max-width: inherit;
 }
 .fileItemColor{
-    background-color: #b2b9d1;
+    background-color: #545ac5;
     border: 2px solid #7e8cbd;
 }
 .messageFiles{
@@ -59,9 +59,28 @@
     max-width: inherit;
     text-overflow: ellipsis;
     padding: 10px;
+    color: white;
+}
+
+.btn{
+    margin-left: -15px;
+}
+
+.downloadIcon{
+    color: white;
+}
+
+.downloadIcon:hover{
+    color:#1677ff;
 }
 
 .deleteButton{
+    font-size: 10pt;
+    background-color: transparent !important;
+    border: none !important
+}
+
+.downloadButton{
     font-size: 10pt;
     background-color: transparent !important;
     border: none !important

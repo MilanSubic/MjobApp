@@ -185,6 +185,7 @@ export const CustomSelect = ({
               ? value.map((e) => display(e)).join(", ")
               : display(value)
           }
+          readOnly={true}
         />
         <Button type="primary" onClick={onClick}>
           <SearchOutlined />
@@ -197,6 +198,7 @@ export const CustomSelect = ({
         onOk={(v) => onSelect()}
         cancelText="Zatvori"
         okText="Izaberi"
+        okButtonProps={{ disabled: !selected || selected?.length < 1 }}
       >
         <Table
           columns={columns.map((c) => {

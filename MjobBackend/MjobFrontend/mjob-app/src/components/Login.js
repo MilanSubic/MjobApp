@@ -28,18 +28,20 @@ function Login() {
       const jwt = response.data.token;
       localStorage.setItem("token", jwt);
       localStorage.setItem("reloadCount", "1");
-      korisnikService.getUserByUsername(user.username).then((res) => {
-        console.log(res.korisnikTipNaziv);
-        localStorage.setItem("tipKorisnika", res.korisnikTipNaziv);
-      });
+
+      if (jwt) {
+        korisnikService.getUserByUsername(user.username).then((res) => {
+          console.log(res.korisnikTipNaziv);
+          localStorage.setItem("tipKorisnika", res.korisnikTipNaziv);
+          navigate("/home");
+        });
+      }
       /* const config = {
         headers: {
           Authorization: `Bearer ${jwt}`,
         },
       }; */
       console.log("Uspjesno ste se ulogovali");
-      console.log(jwt);
-      navigate("/home");
     } catch (error) {
       console.log("Niste se uspjesno ulogovali");
     }

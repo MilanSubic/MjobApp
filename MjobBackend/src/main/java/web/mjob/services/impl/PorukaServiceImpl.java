@@ -34,7 +34,10 @@ public class PorukaServiceImpl extends CrudJpaService<PorukaEntity,Long> impleme
     public final ModelMapper modelMapper;
 
 
-    public PorukaServiceImpl(PorukaEntityRepository repository, KonverzacijaKorisnikEntityRepository konverzacijaKorisniRepo, KorisnikEntityRepository korisniRepo, DokumentEntityRepository dokumentEntityRepository, DokumentSadrzajEntityRepository dokumentSadrzajEntityRepository, DokumentPorukaEntityRepository dokumentPorukaEntityRepository, KorisnikEntityRepository korisnikEntityRepository, ModelMapper modelMapper) {
+    public PorukaServiceImpl(PorukaEntityRepository repository, KonverzacijaKorisnikEntityRepository konverzacijaKorisniRepo,
+                             KorisnikEntityRepository korisniRepo, DokumentEntityRepository dokumentEntityRepository,
+                             DokumentSadrzajEntityRepository dokumentSadrzajEntityRepository, DokumentPorukaEntityRepository dokumentPorukaEntityRepository,
+                             KorisnikEntityRepository korisnikEntityRepository, ModelMapper modelMapper) {
         super(repository, modelMapper, PorukaEntity.class);
         this.repository = repository;
         this.konverzacijaKorisniRepo = konverzacijaKorisniRepo;

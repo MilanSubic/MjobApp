@@ -40,6 +40,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { setMessages, addMessage } from "../slices/messageSlice";
 import _map from "lodash/map";
 import { Role } from "../enums/role.enum";
+import { setUnreaded } from "../slices/unreadedSlice";
+import { setSubscribeTo } from "../slices/subscribeToSlice";
 
 let stompClient = null;
 
@@ -56,11 +58,17 @@ export const Konverzacija = () => {
   const [novaTema, setNovaTema] = useState();
   const [showModal, setShowModal] = useState();
   const [subscription, setSubscription] = useState();
-  const [subscribeTo, setSubscribeTo] = useState();
   const [scroll, setScroll] = useState();
 
   const messages = useSelector((state) => state.messages.value);
+  const subscribeTo = useSelector((state) => state.subscribeTo.value);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    return () => {
+      dispatch(setUnreaded(false));
+    };
+  }, []);
 
   const [pagination, setPagination] = useState({
     current: 1,
@@ -104,9 +112,10 @@ export const Konverzacija = () => {
   const onConnected = () => {
     if (konverzacija) {
       if (subscribeTo !== konverzacija.key) {
-        if (subscribeTo) procitaj(subscribeTo).then(() => {});
+        procitaj(konverzacija.key).then(() => {});
 
-        setSubscribeTo(konverzacija.key);
+        dispatch(setSubscribeTo(konverzacija.key));
+        if (subscription) subscription.unsubscribe();
         setSubscription(
           stompClient.subscribe(
             "/konverzacija/" + konverzacija.key + "/poruke",
@@ -514,8 +523,10 @@ export const Konverzacija = () => {
                                 </div>
                                 <div className="btn">
                                   <Button
-                                    icon={<DownloadOutlined />}
-                                    className="deleteButton"
+                                    icon={
+                                      <DownloadOutlined className="downloadIcon" />
+                                    }
+                                    className="downloadButton"
                                     onClick={() => onDownload(pd.dokument)}
                                   ></Button>
                                 </div>
@@ -591,6 +602,7 @@ export const Konverzacija = () => {
         bodyStyle={{ padding: "20px 10px" }}
         cancelText="Zatvori"
         okText="Kreiraj"
+        okButtonProps={{ disabled: !novaTema }}
         onOk={onOK}
       >
         <Input

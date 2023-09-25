@@ -104,4 +104,9 @@ public class KonverzacijaServiceImpl extends CrudJpaService<KonverzacijaEntity,L
         }
 
     }
+
+    @Override
+    public boolean sveProcitane(Authentication authentication) {
+        return konverzacijaKOrisnikRepo.existsKonverzacijaKorisnikEntityByProcitanaAndKorisnikKorisnickoIme(false, authentication.getName());
+    }
 }

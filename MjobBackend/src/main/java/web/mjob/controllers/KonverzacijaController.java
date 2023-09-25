@@ -33,4 +33,9 @@ public class KonverzacijaController extends CrudController<Long, KonverzacijaDto
     public void procitaj(@PathVariable Long konverzacijaId){
         konverzacijaService.procitaj(konverzacijaId, SecurityContextHolder.getContext().getAuthentication());
     }
+
+    @GetMapping("sveProcitane")
+    public boolean sveProcitane(){
+        return konverzacijaService.sveProcitane(SecurityContextHolder.getContext().getAuthentication());
+    }
 }
