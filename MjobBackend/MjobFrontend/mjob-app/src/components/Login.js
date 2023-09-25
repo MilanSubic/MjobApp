@@ -55,9 +55,11 @@ function Login() {
           </div>
         </div>
 
-        <div className="right">
+        <div
+          className="right"
+          style={{ display: "flex", flexDirection: "column" }}
+        >
           <h1>Prijavi se</h1>
-          <Link to="/signup">Registruj se</Link>
 
           <div className="inputs">
             <Input
@@ -80,6 +82,15 @@ function Login() {
           <button className="login-button" onClick={hadleClick}>
             Prijavi se
           </button>
+          <div style={{ paddingTop: 20, paddingLeft: 35 }}>
+            <p>Nemate korisnički račun?</p>
+            <Link
+              to="/signup"
+              style={{ textDecoration: "none", paddingLeft: 45, color: "blue" }}
+            >
+              Registruj se
+            </Link>
+          </div>
         </div>
       </div>
     </div>

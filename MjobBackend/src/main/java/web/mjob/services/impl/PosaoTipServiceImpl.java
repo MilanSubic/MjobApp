@@ -39,6 +39,11 @@ public class PosaoTipServiceImpl extends CrudJpaService<PosaoTipEntity,Long>  im
         List<PosaoTipDto> posaoTipDtos=posaoTipEntities.stream().map(e->modelMapper.map(e,PosaoTipDto.class)).collect(Collectors.toList());
         return  posaoTipDtos;
     }
+
+    @Override
+    public PosaoTipDto getPosaoTipByNaziv(String naziv) {
+        return modelMapper.map(repository.findPosaoTipEntityByNaziv(naziv),PosaoTipDto.class);
+    }
 }
 /*
 public class PosaoTipServiceImpl extends CrudJpaService<PosaoTipEntity,Long>  implements PosaoTipService {

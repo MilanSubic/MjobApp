@@ -49,6 +49,7 @@ const PostData = (props) => {
 
   const obrisiOglas = () => {
     oglasiService.remove(post.id);
+    window.location.reload(false);
   };
   const openModal = () => {
     setModalOpen(true);

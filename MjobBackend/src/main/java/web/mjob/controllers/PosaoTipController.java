@@ -1,9 +1,6 @@
 package web.mjob.controllers;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import web.mjob.models.dto.PosaoTipDto;
 import web.mjob.services.PosaoTipService;
 
@@ -29,6 +26,11 @@ public class PosaoTipController  {
     public List<PosaoTipDto> getAll()
     {
         return posaoTipService.getAll();
+    }
+    @GetMapping("/posao/{naziv}")
+    public PosaoTipDto getByNaziv(@PathVariable String naziv)
+    {
+        return posaoTipService.getPosaoTipByNaziv(naziv);
     }
 
 }

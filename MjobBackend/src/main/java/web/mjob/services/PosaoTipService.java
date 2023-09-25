@@ -17,4 +17,5 @@ public interface PosaoTipService extends CrudService<Long> {
   PosaoTipDto getPosaoTipById(Long id);
 
     List<PosaoTipDto> getAll();
+    PosaoTipDto getPosaoTipByNaziv(String naziv);
 }
