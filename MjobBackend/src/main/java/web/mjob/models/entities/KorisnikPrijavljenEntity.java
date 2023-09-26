@@ -17,6 +17,15 @@ public class KorisnikPrijavljenEntity {
     @Basic
     @Column(name = "odobren", nullable = false)
     private Boolean odobren;
+    @Basic
+    @Column(name = "odbijen", nullable = false)
+    private Boolean odbijen;
+    @Basic
+    @Column(name = "odjavljen", nullable = false)
+    private Boolean odjavljen;
+    @Basic
+    @Column(name = "prijavljen", nullable = false)
+    private Boolean prijavljen;
     @ManyToOne
     @JoinColumn(name = "oglas_id", referencedColumnName = "id", nullable = false)
     private OglasEntity oglasByOglasId;

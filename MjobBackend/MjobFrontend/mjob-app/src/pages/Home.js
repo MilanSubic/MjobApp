@@ -26,13 +26,19 @@ export default function Home() {
   const navigate = useNavigate();
 
   const loadPosts = () => {
+    setPageSize(8);
+    setCurrentPage(1);
     oglasService.getAll().then((result) => {
       setPosts(result.data);
       setPostsSize(result.data.length);
       setIsLoaded(true);
+      setCurrentPosts(
+        result.data.slice(
+          currentPage * pageSize - pageSize,
+          currentPage * pageSize
+        )
+      );
     });
-    setPageSize(8);
-    setCurrentPage(1);
   };
 
   const loadCurrentPosts = () => {

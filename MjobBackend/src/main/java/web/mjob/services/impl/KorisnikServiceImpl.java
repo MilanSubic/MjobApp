@@ -30,13 +30,15 @@ public class KorisnikServiceImpl implements KorisnikService {
     private final KorisnikPrijavljenRepository korisnikPrijavljenRepository;
     private final ModelMapper mapper;
     private final EmailService emailService;
+    private  final KorisnikTipEntityRepository korisnikTipEntityRepository;
     public KorisnikServiceImpl(KorisnikEntityRepository repository,
                                KorisnikPrijavljenRepository korisnikPrijavljenRepository,
                                DokumentSadrzajRepository dokumentSadrzajRepository,
                                KorisnikStatusEntityRepository korisnikStatusRepository,
                                KorisnikDokumentEntityRepository korisnikDokumentEntityRepository,
                                ModelMapper modelMapper,
-                               EmailService emailService)
+                               EmailService emailService,
+                               KorisnikTipEntityRepository korisnikTipEntityRepository)
     {
         this.repository = repository;
         this.mapper=modelMapper;
@@ -45,6 +47,7 @@ public class KorisnikServiceImpl implements KorisnikService {
         this.korisnikStatusRepository=korisnikStatusRepository;
         this.korisnikPrijavljenRepository=korisnikPrijavljenRepository;
         this.emailService=emailService;
+        this.korisnikTipEntityRepository=korisnikTipEntityRepository;
     }
     @Override
     public Korisnik getUser(Authentication authentication)
@@ -60,6 +63,8 @@ public class KorisnikServiceImpl implements KorisnikService {
     public List<Korisnik> findAll()
     {
         List<KorisnikEntity> korisnici=repository.findAll();
+        KorisnikTipEntity tip=korisnikTipEntityRepository.findKorisnikTipEntityByNaziv("admin");
+        korisnici=korisnici.stream().filter(korisnik -> korisnik.getKorisnikTipId()!=tip).toList();
         List<Korisnik>korisniciDTO=korisnici.stream().map(e->mapper.map(e,Korisnik.class)).collect(Collectors.toList());
        return  korisniciDTO;
     }

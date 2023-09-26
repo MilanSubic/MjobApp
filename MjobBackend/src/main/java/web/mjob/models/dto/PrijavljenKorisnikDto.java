@@ -10,5 +10,8 @@ public class PrijavljenKorisnikDto {
     private Long id;
     private Korisnik korisnikByKorisnikId;
     private Oglas oglasByOglasId;
+    private boolean prijavljen;
     private boolean odobren;
+    private boolean odbijen;
+    private boolean odjavljen;
 }

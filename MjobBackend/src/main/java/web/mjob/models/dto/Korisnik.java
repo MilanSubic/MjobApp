@@ -28,6 +28,7 @@ public class Korisnik {
     private String brojTekucegRacuna;
 
     private String obrazovnaUstanova;
+    private String obrazovnaUstanovaTipNaziv;
 
     private String identifikator;
 

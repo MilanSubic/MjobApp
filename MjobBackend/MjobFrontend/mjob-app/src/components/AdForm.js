@@ -138,7 +138,7 @@ const AdForm = (initialData) => {
           <DatePicker
             className="input"
             placeholder=""
-            format="DD.MM.YYYY"
+            format="DD.MM.YYYY."
             style={{
               width: "100%",
             }}
@@ -154,7 +154,7 @@ const AdForm = (initialData) => {
         <DatePicker
           className="input"
           placeholder=""
-          format="DD.MM.YYYY"
+          format="DD.MM.YYYY."
           style={{
             width: "100%",
           }}

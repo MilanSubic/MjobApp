@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 import dayjs from "dayjs";
 import styled from "styled-components";
 import KorisnikPolService from "../services/KorisnikPolService";
-import KorisnikTip1Service from "../services/KorisnikTip1Service";
 import OpstinaService from "../services/OpstinaService";
 import NaseljenoMjestoService from "../services/NaseljenoMjestoService";
 import ObrazovnaUstanovaTipService from "../services/ObrazovnaUstanovaTipService";
@@ -21,7 +20,6 @@ const UsersModal = (props) => {
   const { visible, onOk, onCancel, confirmLoading, user } = props;
   const [form] = Form.useForm();
   const [usersGender, setUsersGender] = useState([]);
-  const [usersTip, setUsersTip] = useState([]);
   const [usersOpstina, setUsersOpstina] = useState([]);
   const [usersMjesto, setUsersMjesto] = useState([]);
   const [usersUstanova, setUsersUstanova] = useState([]);
@@ -32,8 +30,6 @@ const UsersModal = (props) => {
     });
   };
   useEffect(() => {
-    console.log("useEffect:");
-
     if (user) {
       // console.log("value: ", switchValue);
       form.setFieldsValue(user);
@@ -41,12 +37,9 @@ const UsersModal = (props) => {
 
       // setSwitchValue(convertedValue);
 
-      console.log("convertedValue+: ", convertedValue);
-      console.log("value+: ", user.osiguranjeZadruga);
       form.setFieldsValue({
         osiguranjeZadruga: convertedValue,
       });
-      console.log("value+: ", user.osiguranjeZadruga);
 
       form.setFieldsValue({
         datumRodjenja: dayjs(
@@ -70,9 +63,6 @@ const UsersModal = (props) => {
     KorisnikPolService.getAll().then((res) => setUsersGender(res.data));
   }, []);
   useEffect(() => {
-    KorisnikTip1Service.getAll().then((res) => setUsersTip(res.data));
-  }, []);
-  useEffect(() => {
     OpstinaService.getAll().then((res) => setUsersOpstina(res.data));
   }, []);
   useEffect(() => {
@@ -85,8 +75,8 @@ const UsersModal = (props) => {
   }, []);
   return (
     <UsersModal1
-      okText={"sačuvaj"}
-      cancelText={"izađi"}
+      okText={"Sačuvaj"}
+      cancelText={"Izađi"}
       onOk={() => onSubmit()}
       destroyOnClose
       onCancel={() => onCancel()}
@@ -141,9 +131,136 @@ const UsersModal = (props) => {
           />
         </Form.Item>
         <Form.Item
+          label="Mjesto rodjenja:"
+          name="naseljenoMjestoId"
+          rules={[{ required: true, message: "Polje je obavezno" }]}
+        >
+          <Select>
+            {usersMjesto.map((e) => (
+              <Select.Option key={e.id} value={e.id}>
+                {e.naziv}
+              </Select.Option>
+            ))}
+          </Select>
+        </Form.Item>
+        <Form.Item
+          name="ulicaIBroj"
+          rules={[{ required: true, message: "polje je obavezno" }]}
+          label={"Adresa stanovanja:"}
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item
+          label="Opstina:"
+          name="mjestoRodjenjaOpstinaId"
+          rules={[{ required: true, message: "Polje je obavezno" }]}
+        >
+          <Select>
+            {usersOpstina.map((e) => (
+              <Select.Option key={e.id} value={e.id}>
+                {e.naziv}
+              </Select.Option>
+            ))}
+          </Select>
+        </Form.Item>
+        <Form.Item
+          label="Pol korisnika:"
+          name="korisnikPolId"
+          rules={[{ required: true, message: "Polje je obavezno" }]}
+        >
+          <Select>
+            {usersGender.map((e) => (
+              <Select.Option key={e.id} value={e.id}>
+                {e.naziv}
+              </Select.Option>
+            ))}
+          </Select>
+        </Form.Item>
+        <Form.Item
+          name="brojLicneKarte"
+          rules={[{ required: true, message: "Polje je obavezno" }]}
+          label={"Broj licne karte:"}
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item
+          label="Izdavaoc licne karte:"
+          name="izdavaocLicneKarteOpstinaId"
+          rules={[{ required: true, message: "Polje je obavezno" }]}
+        >
+          <Select>
+            {usersOpstina.map((e) => (
+              <Select.Option key={e.id} value={e.id}>
+                {e.naziv}
+              </Select.Option>
+            ))}
+          </Select>
+        </Form.Item>
+        <Form.Item
           name="jmbg"
           rules={[{ required: true, message: "Polje je obavezno" }]}
-          label={"jmbg:"}
+          label={"JMBG:"}
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item
+          label="Obrazovna ustanova:"
+          name="obrazovnaUstanovaTipId"
+          rules={[{ required: true, message: "Polje je obavezno" }]}
+        >
+          <Select>
+            {usersUstanova.map((e) => (
+              <Select.Option key={e.id} value={e.id}>
+                {e.naziv}
+              </Select.Option>
+            ))}
+          </Select>
+        </Form.Item>
+        <Form.Item
+          name="obrazovnaUstanova"
+          rules={[{ required: true, message: "Polje je obavezno" }]}
+          label={"Naziv obrazovne ustanove:"}
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item
+          name="identifikator"
+          rules={[{ required: true, message: "Polje je obavezno" }]}
+          label={"Broj indeksa, radne ili djacke knjizice:"}
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item
+          label="Godina"
+          name="godina"
+          rules={[{ required: true, message: "Polje je obavezno" }]}
+        >
+          <InputNumber
+            style={{
+              width: "100%",
+            }}
+            min="1"
+            max="6"
+          />
+        </Form.Item>
+        <Form.Item
+          name="brojTekucegRacuna"
+          rules={[{ required: true, message: "Polje je obavezno" }]}
+          label={"Broj tekuceg racuna:"}
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item
+          name="brojTelefona"
+          rules={[{ required: true, message: "Polje je obavezno" }]}
+          label={"Broj telefona:"}
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item
+          name="email"
+          rules={[{ required: true, message: "Polje je obavezno" }]}
+          label={"Email:"}
         >
           <Input />
         </Form.Item>
@@ -159,48 +276,6 @@ const UsersModal = (props) => {
             min="0"
             max="100000"
           />
-        </Form.Item>
-        <Form.Item
-          name="brojLicneKarte"
-          rules={[{ required: true, message: "Polje je obavezno" }]}
-          label={"Broj licne karte:"}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          name="brojTelefona"
-          rules={[{ required: true, message: "Polje je obavezno" }]}
-          label={"Broj telefona:"}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          name="brojTekucegRacuna"
-          rules={[{ required: true, message: "Polje je obavezno" }]}
-          label={"Broj tekuceg racuna:"}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          name="obrazovnaUstanova"
-          rules={[{ required: true, message: "Polje je obavezno" }]}
-          label={"Obrazovna ustanova:"}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          name="identifikator"
-          rules={[{ required: true, message: "Polje je obavezno" }]}
-          label={"Broj indeksa, radne ili djacke knjizice:"}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          name="email"
-          rules={[{ required: true, message: "Polje je obavezno" }]}
-          label={"Email:"}
-        >
-          <Input />
         </Form.Item>
         <Form.Item
           label="Datum uclanjenja"
@@ -220,132 +295,6 @@ const UsersModal = (props) => {
               width: "100%",
             }}
           />
-        </Form.Item>
-        <Form.Item
-          name="korisnickoIme"
-          rules={[{ required: true, message: "Polje je obavezno" }]}
-          label={"Korisnicko ime:"}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          label="Pol korisnika:"
-          name="korisnikPolId"
-          rules={[{ required: true, message: "Polje je obavezno" }]}
-        >
-          <Select>
-            {usersGender.map((e) => (
-              <Select.Option key={e.id} value={e.id}>
-                {e.naziv}
-              </Select.Option>
-            ))}
-          </Select>
-        </Form.Item>
-        <Form.Item
-          label="Tip korisnika:"
-          name="korisnikTipId"
-          rules={[{ required: true, message: "Polje je obavezno" }]}
-        >
-          <Select>
-            {usersTip.map((e) => (
-              <Select.Option key={e.id} value={e.id}>
-                {e.naziv}
-              </Select.Option>
-            ))}
-          </Select>
-        </Form.Item>
-        <Form.Item
-          label="Mjesto rodjenja opstina:"
-          name="mjestoRodjenjaOpstinaId"
-          rules={[{ required: true, message: "Polje je obavezno" }]}
-        >
-          <Select>
-            {usersOpstina.map((e) => (
-              <Select.Option key={e.id} value={e.id}>
-                {e.naziv}
-              </Select.Option>
-            ))}
-          </Select>
-        </Form.Item>
-        <Form.Item
-          label="Naseljeno mjesto:"
-          name="naseljenoMjestoId"
-          rules={[{ required: true, message: "Polje je obavezno" }]}
-        >
-          <Select>
-            {usersMjesto.map((e) => (
-              <Select.Option key={e.id} value={e.id}>
-                {e.naziv}
-              </Select.Option>
-            ))}
-          </Select>
-        </Form.Item>
-        <Form.Item
-          label="Izdavaoc licne karte opstina:"
-          name="izdavaocLicneKarteOpstinaId"
-          rules={[{ required: true, message: "Polje je obavezno" }]}
-        >
-          <Select>
-            {usersOpstina.map((e) => (
-              <Select.Option key={e.id} value={e.id}>
-                {e.naziv}
-              </Select.Option>
-            ))}
-          </Select>
-        </Form.Item>
-        <Form.Item
-          label="Obrazovna ustanova tip:"
-          name="obrazovnaUstanovaTipId"
-          rules={[{ required: true, message: "Polje je obavezno" }]}
-        >
-          <Select>
-            {usersUstanova.map((e) => (
-              <Select.Option key={e.id} value={e.id}>
-                {e.naziv}
-              </Select.Option>
-            ))}
-          </Select>
-        </Form.Item>
-        <Form.Item
-          name="ulicaIBroj"
-          rules={[{ required: true, message: "polje je obavezno" }]}
-          label={"Ulica i broj:"}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          label="Godina"
-          name="godina"
-          rules={[{ required: true, message: "Polje je obavezno" }]}
-        >
-          <InputNumber
-            style={{
-              width: "100%",
-            }}
-            min="1"
-            max="7"
-          />
-        </Form.Item>
-        <Form.Item
-          name="smijer"
-          rules={[{ required: true, message: "polje je obavezno" }]}
-          label={"Smijer:"}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          name="brojZdravstveneKnjizice"
-          rules={[{ required: true, message: "polje je obavezno" }]}
-          label={"Broj zdravstvene knjizice:"}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          name="brojMobilogTelefona"
-          rules={[{ required: true, message: "polje je obavezno" }]}
-          label={"Broj mobilog telefona:"}
-        >
-          <Input />
         </Form.Item>
       </Form>
     </UsersModal1>

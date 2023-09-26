@@ -3,6 +3,7 @@ import { React, useState, useEffect } from "react";
 import { PropTypes } from "prop-types";
 import oglasService from "../services/OglasService";
 import AdModal from "./AdModal";
+import moment from "moment";
 
 const CustomCard = (props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -49,7 +50,7 @@ const CustomCard = (props) => {
     >
       <b>Mjesto: </b> {post.mjesto}
       <br />
-      <b>Datum: </b> {post.datum.substring(0, 10)}
+      <b>Datum: </b> {moment(post.datum.substring(0, 10)).format("DD.MM.YYYY.")}
       <br />
       <b>Broj potrebnih radnika: </b> {post.brojLjudi}
       <br />

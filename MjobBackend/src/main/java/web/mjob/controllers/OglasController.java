@@ -72,7 +72,7 @@ public class OglasController extends CrudController<Long, OglasDto,OglasDto> {
 
     @GetMapping("svi")
     public List<Oglas> findAll(){
-        return oglasService.findAll();
+        return oglasService.findAll(SecurityContextHolder.getContext().getAuthentication());
     }
     @GetMapping("/novcanaNaknadaTip")
     public List<NovcanaNaknadaTip> findAllNovcanaNaknada()
@@ -127,6 +127,11 @@ public class OglasController extends CrudController<Long, OglasDto,OglasDto> {
     public void reactOnRequestForJob(@PathVariable Long oglasId,@PathVariable Long korisnikId,@PathVariable Boolean accept)
     {
          korisnikPrijavljenService.acceptRequest(korisnikId,oglasId,accept);
+    }
+    @PutMapping("/{oglasId}/refuse")
+    public void refuseRequestForJob(@PathVariable Long oglasId)
+    {
+        korisnikPrijavljenService.refuseRequest(oglasId);
     }
 }
 
