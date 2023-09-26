@@ -106,7 +106,7 @@ function EmptyHeader() {
             {tipKorisnika === "korisnik" && (
               <div style={{ display: "flex" }}>
                 <div className="nav-item">
-                  <Link to="/oglasi">Moji oglas</Link>
+                  <Link to="/oglasi">Moji oglasi</Link>
                 </div>
               </div>
             )}

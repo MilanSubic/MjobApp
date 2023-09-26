@@ -1,5 +1,6 @@
 package web.mjob.services;
 
+import org.springframework.security.core.Authentication;
 import web.mjob.base.CrudService;
 import web.mjob.models.dto.Korisnik;
 import web.mjob.models.dto.Oglas;
@@ -15,7 +16,7 @@ public interface OglasService extends CrudService<Long> {
 
     List<Oglas> getAllJavniOglasi();
 
-    List<Oglas> findAll();
+    List<Oglas> findAll(Authentication authentication);
 
     Oglas findById(Long id);
     void delete(Long id);

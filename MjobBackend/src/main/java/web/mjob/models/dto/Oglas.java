@@ -21,6 +21,7 @@ public class Oglas {
     private Timestamp aktivanDo;
     private BigDecimal satnica;
     private Boolean javni;
+    private Boolean obrisan;
     private String posaoTipNaziv;
     private String novcanaNaknadaTipNaziv;
     private String narucilacNaziv;

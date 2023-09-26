@@ -27,7 +27,6 @@ import {
 } from "@ant-design/icons";
 import UsersModal from "../../../components/UsersModal";
 import UsersService from "../../../services/UsersService";
-import KorisnikPolService from "../../../services/KorisnikPolService";
 import OpstinaService from "../../../services/OpstinaService";
 import NaseljenoMjestoService from "../../../services/NaseljenoMjestoService";
 import ObrazovnaUstanovaTipService from "../../../services/ObrazovnaUstanovaTipService";
@@ -45,7 +44,6 @@ const UpravljanjeNalozima = () => {
   const [jmbg, setJMBG] = useState();
   const [brojLicneKarte, setBrojLicneKarte] = useState();
   const [izdavaocLicneKarte, setIzdavaocLicneKarte] = useState();
-  const [pol, setPol] = useState();
   const [brojTelefona, setBrojTelefona] = useState();
   const [brojTekucegRacuna, setBrojTekucegRacuna] = useState();
   const [obrazovnaUstanova, setObrazovnaUstanova] = useState();
@@ -56,7 +54,7 @@ const UpravljanjeNalozima = () => {
   const [mjestoRodjenja, setMjestoRodjenja] = useState();
   const [naseljenoMjesto, setNaseljenoMjesto] = useState();
   const [ulica, setUlica] = useState();
-  const [smijer, setSmijer] = useState();
+  const [nazivObrazovneUstanove, setNazivObrazovneUstanove] = useState();
   const [godina, setGodina] = useState();
   const [slike] = useState([]);
   const [status, setStatus] = useState([]);
@@ -66,13 +64,11 @@ const UpravljanjeNalozima = () => {
   const [isModalJobsOpen, setIsModalJobsOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const [usersGender, setUsersGender] = useState([]);
   const [usersOpstina, setUsersOpstina] = useState([]);
   const [usersMjesto, setUsersMjesto] = useState([]);
   const [usersUstanova, setUsersUstanova] = useState([]);
 
   useEffect(() => {
-    KorisnikPolService.getAll().then((res) => setUsersGender(res.data));
     OpstinaService.getAll().then((res) => setUsersOpstina(res.data));
     NaseljenoMjestoService.getAll().then((res) => setUsersMjesto(res.data));
     ObrazovnaUstanovaTipService.getAll().then((res) =>
@@ -80,7 +76,6 @@ const UpravljanjeNalozima = () => {
     );
     prikazKorisnika();
   }, []);
-
   const setRightSide = (user) => {
     while (slike.length > 0) slike.pop();
     for (let i = 0; i < user.korisnikDokumentsById.length; i++) {
@@ -106,7 +101,7 @@ const UpravljanjeNalozima = () => {
     setBrojLicneKarte(user.brojLicneKarte);
     setBrojTelefona(user.brojTelefona);
     setBrojTekucegRacuna(user.brojTekucegRacuna);
-    setObrazovnaUstanova(user.obrazovnaUstanova);
+    setObrazovnaUstanova(user.obrazovnaUstanovaTipNaziv);
     setIdentifikator(user.identifikator);
     setEmail(user.email);
     if (user.datumUclanjenja != null) {
@@ -117,11 +112,10 @@ const UpravljanjeNalozima = () => {
       );
     }
     setBrojClanskeKarte(user.brojClanskeKarte);
-    setPol(user.korisnikPolNaziv);
     setIzdavaocLicneKarte(user.izdavaocLicneKarteOpstinaNaziv);
     setMjestoRodjenja(user.mjestoRodjenjaOpstinaNaziv);
     setNaseljenoMjesto(user.naseljenoMjestoNaziv);
-    setSmijer(user.smijer);
+    setNazivObrazovneUstanove(user.obrazovnaUstanova);
     setUlica(user.ulicaIBroj);
 
     UsersService.findById(user.id).then((res) => setSelectedUser(res.data));
@@ -129,36 +123,43 @@ const UpravljanjeNalozima = () => {
   const onSearch = (value) => {
     if (listTip === "neobradjen") {
       korisnikService.getAll().then((res) => {
-        setList(
+        sortList(
           res.filter((el) => {
-            const imePrezime = el.ime + " " + el.prezime;
+            const imePrezime =
+              el.ime + " " + el.prezime + " [" + el.brojClanskeKarte + "]";
+            const broj = "" + el.brojClanskeKarte;
             return (
               el.korisnikStatusNaziv === "neobradjen" &&
-              imePrezime.startsWith(value)
+              (imePrezime.startsWith(value) ||
+                broj.startsWith(el.brojClanskeKarte))
             );
           })
         );
       });
     } else if (listTip === "obrisan") {
       korisnikService.getAll().then((res) => {
-        setList(
+        sortList(
           res.filter((el) => {
-            const imePrezime = el.ime + " " + el.prezime;
+            const imePrezime =
+              el.ime + " " + el.prezime + " [" + el.brojClanskeKarte + "]";
+            const broj = "" + el.brojClanskeKarte;
             return (
               el.korisnikStatusNaziv === "obrisan" &&
-              imePrezime.startsWith(value)
+              (imePrezime.startsWith(value) || broj.startsWith(value))
             );
           })
         );
       });
     } else if (listTip === "aktivan") {
       korisnikService.getAll().then((res) => {
-        setList(
+        sortList(
           res.filter((el) => {
-            const imePrezime = el.ime + " " + el.prezime;
+            const imePrezime =
+              el.ime + " " + el.prezime + " [" + el.brojClanskeKarte + "]";
+            const broj = "" + el.brojClanskeKarte;
             return (
               el.korisnikStatusNaziv === "aktivan" &&
-              imePrezime.startsWith(value)
+              (imePrezime.startsWith(value) || broj.startsWith(value))
             );
           })
         );
@@ -167,21 +168,29 @@ const UpravljanjeNalozima = () => {
   };
 
   const odobriZahtjev = (values) => {
-    korisnikService.acceptRegistration(id, values.brojClanskeKarte);
-    setIsModalOpen(false);
-    window.location.reload(false);
+    korisnikService.acceptRegistration(id, values.brojClanskeKarte).then(() => {
+      setIsModalOpen(false);
+      message.success("Zahtjev odobren!");
+      prikazZahtjeva();
+    });
   };
   const odbijZahtjev = () => {
-    korisnikService.refuseRegistration(id);
-    window.location.reload(false);
+    korisnikService.refuseRegistration(id).then(() => {
+      message.success("Zahtjev odbijen!");
+      prikazZahtjeva();
+    });
   };
   const obrisiNalog = () => {
-    korisnikService.removeUser(id);
-    window.location.reload(false);
+    korisnikService.removeUser(id).then(() => {
+      message.success("Nalog obrisan!");
+      prikazKorisnika();
+    });
   };
   const aktivirajNalog = () => {
-    korisnikService.reactivateUser(id);
-    window.location.reload(false);
+    korisnikService.reactivateUser(id).then(() => {
+      message.success("Nalog je ponovo aktivan!");
+      prikazObrisanihKorisnika();
+    });
   };
 
   const prikazPoslova = () => {
@@ -207,7 +216,7 @@ const UpravljanjeNalozima = () => {
       res = res.filter((el) => el.korisnikStatusNaziv === "aktivan");
       sortList(res);
       setListTip("aktivan");
-      setRightSide(res[0]);
+      if (res.length > 0) setRightSide(res[0]);
     });
   };
   const prikazObrisanihKorisnika = () => {
@@ -215,12 +224,14 @@ const UpravljanjeNalozima = () => {
       res = res.filter((el) => el.korisnikStatusNaziv === "obrisan");
       sortList(res);
       setListTip("obrisan");
+      if (res.length > 0) setRightSide(res[0]);
     });
   };
   const prikazZahtjeva = () => {
     korisnikService.getAll().then((res) => {
       sortList(res.filter((el) => el.korisnikStatusNaziv === "neobradjen"));
       setListTip("neobradjen");
+      if (res.length > 0) setRightSide(res[0]);
     });
   };
 
@@ -229,7 +240,6 @@ const UpravljanjeNalozima = () => {
   };
   const closeModal = () => {
     setIsEditModalOpen(false);
-    setStatus(selectedUser.korisnikStatusNaziv);
   };
 
   const saveData = (user) => {
@@ -255,14 +265,8 @@ const UpravljanjeNalozima = () => {
               e1.obrazovnaUstanova = res.obrazovnaUstanova;
               e1.brojClanskeKarte = res.brojClanskeKarte;
               e1.brojZdravstveneKnjizice = res.brojZdravstveneKnjizice;
-              e1.smijer = res.smijer;
+              e1.nazivObrazovneUstanove = res.nazivObrazovneUstanove;
               e1.ulicaIBroj = res.ulicaIBroj;
-
-              const foundUser = usersGender.find(
-                (e2) => res.korisnikPolId === e2.id
-              );
-              e1.korisnikPolNaziv = foundUser.naziv;
-              setPol(e1.korisnikPolNaziv);
 
               e1.mjestoRodjenjaOpstinaNaziv = usersOpstina.find(
                 (e2) => res.mjestoRodjenjaOpstinaId === e2.id
@@ -279,7 +283,7 @@ const UpravljanjeNalozima = () => {
               e1.obrazovnaUstanovaTipId = usersUstanova.find(
                 (e2) => res.obrazovnaUstanovaTipId === e2.id
               ).id;
-              // setObrazovnaUstanova(e1.obrazovnaUstanova);
+              //              setObrazovnaUstanova(e1.obrazovnaUstanova);
             }
             return e1;
           })
@@ -306,7 +310,7 @@ const UpravljanjeNalozima = () => {
     setEmail(user.email);
     setObrazovnaUstanova(user.obrazovnaUstanova);
     setBrojClanskeKarte(user.brojClanskeKarte);
-    setSmijer(user.smijer);
+    setNazivObrazovneUstanove(user.nazivObrazovneUstanove);
     setUlica(user.ulicaIBroj);
   };
   const handleCancel = () => {
@@ -371,7 +375,7 @@ const UpravljanjeNalozima = () => {
                         item.ime +
                           " " +
                           item.prezime +
-                          "[" +
+                          " [" +
                           item.brojClanskeKarte +
                           "]"}
                       {item.brojClanskeKarte === null &&
@@ -390,33 +394,32 @@ const UpravljanjeNalozima = () => {
             <h1>
               {ime} ({imeRoditelja}) {prezime}
             </h1>
-            <p>Identifikator : {identifikator}</p>
-            <p>
-              Datum rodjenja : {datumRodjenja} Pol : {pol}
-            </p>
-            <p>JMBG: {jmbg}</p>
+            <p>Datum rodjenja : {datumRodjenja}</p>
             <p>
               Mjesto rodjenja: {mjestoRodjenja}, {naseljenoMjesto}
             </p>
-            <p>Ulica i broj : {ulica}</p>
+            <p>Adresa stanovanja : {ulica}</p>
             {brojLicneKarte != null && (
               <p>
                 Broj licne karte : {brojLicneKarte} Izdavaoc :{" "}
                 {izdavaocLicneKarte}
               </p>
             )}
+            <p>JMBG: {jmbg}</p>
             <p>Email : {email}</p>
             <p>Broj telefona : {brojTelefona}</p>
-            <p>
-              Obrazovna ustanova : {obrazovnaUstanova} Smijer : {smijer} Godina:{" "}
-              {godina}
-            </p>
             {datumUclanjenja != null && (
               <p>
                 Datum uclanjenja : {datumUclanjenja} Broj clanske karte :{" "}
                 {brojClanskeKarte}
               </p>
             )}
+            <p>Naziv obrazovne ustanove : {nazivObrazovneUstanove}</p>
+            <p>
+              Obrazovna ustanova : {obrazovnaUstanova} Godina: {godina}
+            </p>
+            <p>Identifikator : {identifikator}</p>
+
             <p>Broj tekuceg racuna : {brojTekucegRacuna}</p>
 
             <Image.PreviewGroup>

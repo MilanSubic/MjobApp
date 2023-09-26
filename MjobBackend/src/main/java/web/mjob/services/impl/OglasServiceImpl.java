@@ -1,15 +1,23 @@
 package web.mjob.services.impl;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import web.mjob.base.CrudJpaService;
 import web.mjob.models.dto.Korisnik;
 import web.mjob.models.dto.Oglas;
+import web.mjob.models.entities.KorisnikEntity;
+import web.mjob.models.entities.KorisnikPrijavljenEntity;
 import web.mjob.models.entities.OglasEntity;
+import web.mjob.repositories.KorisnikEntityRepository;
+import web.mjob.repositories.KorisnikPrijavljenRepository;
 import web.mjob.repositories.OglasEntityRepository;
 import web.mjob.services.OglasService;
 
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -19,18 +27,32 @@ import java.util.stream.Collectors;
 public class OglasServiceImpl extends CrudJpaService<OglasEntity,Long> implements OglasService {
 
     public final OglasEntityRepository repository;
-
+    public final KorisnikEntityRepository korisnikEntityRepository;
+    public final KorisnikPrijavljenRepository korisnikPrijavljenRepository;
     public final ModelMapper modelMapper;
 
-    public OglasServiceImpl(OglasEntityRepository repository, ModelMapper modelMapper) {
+    public OglasServiceImpl(OglasEntityRepository repository, KorisnikEntityRepository korisnikEntityRepository, KorisnikPrijavljenRepository korisnikPrijavljenRepository, ModelMapper modelMapper) {
         super(repository, modelMapper, OglasEntity.class);
         this.repository = repository;
         this.modelMapper = modelMapper;
+        this.korisnikEntityRepository=korisnikEntityRepository;
+        this.korisnikPrijavljenRepository=korisnikPrijavljenRepository;
     }
 
     @Override
-    public List<Oglas> findAll() {
-        List<OglasEntity> oglasi=repository.findAll();
+    public List<Oglas> findAll(Authentication authentication) {
+        List<OglasEntity> oglasi=repository.findAllByObrisanFalseAndAktivanDoAfter(new Timestamp(new Date().getTime()));
+        KorisnikEntity korisnik=korisnikEntityRepository.findKorisnikEntityByKorisnickoIme(authentication.getName());
+
+        List<Long> oglasiIds=new ArrayList<>();
+        if(korisnik!=null)
+        {
+            List<KorisnikPrijavljenEntity> korisnikoviOglasi=korisnikPrijavljenRepository.findKorisnikPrijavljenEntitiesByKorisnikByKorisnikIdIs(korisnik);
+            korisnikoviOglasi=korisnikoviOglasi.stream().filter((el)->!el.getOdjavljen()).toList();
+            for (KorisnikPrijavljenEntity prijavljenKorisnik:korisnikoviOglasi)
+                oglasiIds.add(prijavljenKorisnik.getOglasByOglasId().getId());
+        }
+        oglasi=oglasi.stream().filter(oglas -> !oglasiIds.contains(oglas.getId())).toList();
         List<Oglas> oglasiDTO=oglasi.stream().map(e->modelMapper.map(e,Oglas.class)).collect(Collectors.toList());
         return  oglasiDTO;
     }

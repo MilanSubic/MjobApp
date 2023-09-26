@@ -45,10 +45,21 @@ public class KorisnikPrijavljenServiceImpl implements KorisnikPrijavljenService 
     }
     @Override
     public void prijaviKorisnikaNaOglas(Long userId, Long oglasId) {
-
-        KorisnikPrijavljenEntity user=new KorisnikPrijavljenEntity(false,oglasRepository.findOglasEntityById(oglasId),userRepository.findKorisnikEntityById(userId));
-        if(!getAllUsersForAd(oglasId).contains( mapper.map(userRepository.findKorisnikEntityById(userId),Korisnik.class)))
+        KorisnikPrijavljenEntity user=korisnikPrijavljenRepository.findKorisnikPrijavljenEntityByKorisnikByKorisnikIdAndOglasByOglasId(userRepository.findKorisnikEntityById(userId),oglasRepository.findOglasEntityById(oglasId));
+        if(user==null) {
+            user = new KorisnikPrijavljenEntity(false, oglasRepository.findOglasEntityById(oglasId), userRepository.findKorisnikEntityById(userId));
+            user.setPrijavljen(true);
+            user.setOdjavljen(false);
+            user.setOdbijen(false);
             korisnikPrijavljenRepository.saveAndFlush(user);
+        }else
+        {
+            user.setPrijavljen(true);
+            user.setOdjavljen(false);
+            user.setOdbijen(false);
+            korisnikPrijavljenRepository.saveAndFlush(user);
+        }
+        //if(!getAllUsersForAd(oglasId).contains( mapper.map(userRepository.findKorisnikEntityById(userId),Korisnik.class)))
     }
 
     @Override
@@ -101,6 +112,7 @@ public class KorisnikPrijavljenServiceImpl implements KorisnikPrijavljenService 
 
         List<KorisnikEntity> korisnikEntities=new ArrayList<>();
         for (KorisnikPrijavljenEntity korisnikPrijavljen: prijavljenikorisnici.stream().toList()) {
+            if(!korisnikPrijavljen.getOdjavljen())
             korisnikEntities.add(korisnikPrijavljen.getKorisnikByKorisnikId());
         }
         return korisnikEntities.stream().map(e->mapper.map(e, Korisnik.class)).collect(Collectors.toList());
@@ -112,7 +124,10 @@ public class KorisnikPrijavljenServiceImpl implements KorisnikPrijavljenService 
         KorisnikPrijavljenEntity korisnikPrijavljenEntity=korisnikPrijavljenRepository.findKorisnikPrijavljenEntityByKorisnikByKorisnikIdAndOglasByOglasId(userRepository.findKorisnikEntityById(korisnikId),oglasRepository.findOglasEntityById(oglasId));
         if(korisnikPrijavljenEntity!=null)
         {
+            if(accept)
             korisnikPrijavljenEntity.setOdobren(accept);
+            else
+                korisnikPrijavljenEntity.setOdbijen(!accept);
             korisnikPrijavljenRepository.saveAndFlush(korisnikPrijavljenEntity);
         }
     }
@@ -121,7 +136,21 @@ public class KorisnikPrijavljenServiceImpl implements KorisnikPrijavljenService 
     {
         KorisnikEntity korisnik= userRepository.findKorisnikEntityByKorisnickoIme(authentication.getName());
         List<KorisnikPrijavljenEntity> prijavljenikorisnici=korisnikPrijavljenRepository.findKorisnikPrijavljenEntitiesByKorisnikByKorisnikId(korisnik);
-        return prijavljenikorisnici.stream().map(e->mapper.map(e, PrijavljenKorisnikDto.class)).collect(Collectors.toList());
+        List<PrijavljenKorisnikDto> lista=prijavljenikorisnici.stream().map(e->mapper.map(e, PrijavljenKorisnikDto.class)).collect(Collectors.toList());
+        return lista.stream().filter((el)->!el.getOglasByOglasId().getObrisan()).toList();
 
+    }
+
+    @Override
+    public void refuseRequest(Long id) {
+        KorisnikPrijavljenEntity korisnikPrijavljenEntity=korisnikPrijavljenRepository.findKorisnikPrijavljenEntityById(id);
+        if(korisnikPrijavljenEntity!=null && !korisnikPrijavljenEntity.getOdbijen())
+        {
+            korisnikPrijavljenEntity.setOdjavljen(true);
+            korisnikPrijavljenEntity.setPrijavljen(false);
+            if(korisnikPrijavljenEntity.getOdobren())
+                korisnikPrijavljenEntity.setOdobren(false);
+            korisnikPrijavljenRepository.saveAndFlush(korisnikPrijavljenEntity);
+        }
     }
 }

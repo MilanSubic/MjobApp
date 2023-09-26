@@ -5,13 +5,13 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import web.mjob.models.entities.OglasEntity;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface OglasEntityRepository extends JpaRepository<OglasEntity, Long> {
-    @Query("SELECT o from OglasEntity o where o.obrisan=false ")
-    List<OglasEntity> findAll();
+    List<OglasEntity> findAllByObrisanFalseAndAktivanDoAfter(Timestamp date);
 
     List<OglasEntity> findAllByJavniAndObrisan(Boolean javni,Boolean obrisan);
 

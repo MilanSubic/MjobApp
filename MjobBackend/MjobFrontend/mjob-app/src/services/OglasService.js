@@ -1,5 +1,6 @@
 import BasicService from "./BasicService";
-
+import service from "./base.service";
+const authInstance = service.service(true);
 const instance = BasicService.service();
 
 export const creatad = (data) => {
@@ -7,7 +8,7 @@ export const creatad = (data) => {
 };
 
 export const getAll = () => {
-  return instance.get("/api/oglas/svi");
+  return authInstance.get("/api/oglas/svi");
 };
 
 export const getPostById = (id) => {

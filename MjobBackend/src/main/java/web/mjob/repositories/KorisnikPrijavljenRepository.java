@@ -10,4 +10,7 @@ public interface KorisnikPrijavljenRepository extends JpaRepository<KorisnikPrij
     List<KorisnikPrijavljenEntity> findKorisnikPrijavljenEntitiesByKorisnikByKorisnikId(KorisnikEntity korisnik);
     List<KorisnikPrijavljenEntity> findKorisnikPrijavljenEntitiesByOglasByOglasId(OglasEntity oglas);
     KorisnikPrijavljenEntity findKorisnikPrijavljenEntityByKorisnikByKorisnikIdAndOglasByOglasId(KorisnikEntity korisnik,OglasEntity oglas);
+    List<KorisnikPrijavljenEntity> findKorisnikPrijavljenEntitiesByKorisnikByKorisnikIdIs(KorisnikEntity korisnik);
+    KorisnikPrijavljenEntity findKorisnikPrijavljenEntityById(Long id);
+
 }
