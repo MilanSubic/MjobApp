@@ -418,7 +418,7 @@ const UpravljanjeNalozima = () => {
             <p>
               Obrazovna ustanova : {obrazovnaUstanova} Godina: {godina}
             </p>
-            <p>Identifikator : {identifikator}</p>
+            <p>Broj indeksa, radne ili djacke knjizice : {identifikator}</p>
 
             <p>Broj tekuceg racuna : {brojTekucegRacuna}</p>
 
