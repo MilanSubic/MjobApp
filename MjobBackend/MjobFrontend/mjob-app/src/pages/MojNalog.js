@@ -106,7 +106,7 @@ const MojNalog = () => {
           Obrazovna ustanova : {obrazovnaUstanova} Smijer : {smijer} Godina:{" "}
           {godina}
         </p>
-        <p>Identifikator : {identifikator}</p>
+        <p>Broj indeksa, radne ili djacke knjizice : {identifikator}</p>
         {datumUclanjenja != null && (
           <p>
             Datum uclanjenja : {datumUclanjenja} Broj clanske karte :{" "}
