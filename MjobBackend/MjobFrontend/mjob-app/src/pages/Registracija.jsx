@@ -302,7 +302,13 @@ export const Registracija = () => {
             <Form.Item
               label="Broj licne karte"
               name="brojLicneKarte"
-              rules={[{ max: 7, message: "Maksimalna dužina je 7 karaktera" }]}
+              rules={[
+                {
+                  message:
+                    "Polje mora imati 9 karaktera i može sadržavati samo velika slova i brojeve.",
+                  pattern: /^[A-Z0-9]{9}$/,
+                },
+              ]}
             >
               <Input />
             </Form.Item>
@@ -391,7 +397,7 @@ export const Registracija = () => {
                   width: "100%",
                 }}
                 min="1"
-                max="7"
+                max="6"
               />
             </Form.Item>
 
@@ -402,7 +408,8 @@ export const Registracija = () => {
                 { required: true, message: "Polje je obavezno" },
                 {
                   pattern: /^[0-9]{1,16}$/,
-                  message: "Broj tekuceg racuna mora ima maksimalno 16 cifara",
+                  message:
+                    "Broj tekuceg racuna mora imati maksimalno 16 cifara",
                 },
               ]}
             >
@@ -415,8 +422,8 @@ export const Registracija = () => {
               rules={[
                 { required: true, message: "Polje je obavezno" },
                 {
-                  pattern: /^[0-9]{1,16}$/,
-                  message: "Broj tekuceg racuna mora ima maksimalno 16 cifara",
+                  pattern: /^[0-9+\-\\/\s]{1,16}$/,
+                  message: "Broj telefona može imati maksimalno 16 cifara",
                 },
               ]}
             >

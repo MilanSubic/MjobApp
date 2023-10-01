@@ -65,6 +65,8 @@ public class Korisnik {
     private Boolean osiguranjeZadruga;
 
     private String brojMobilogTelefona;
+    
+    private String ustanovaOpstinaNaziv;
 
     private List<KorisnikDokument> korisnikDokumentsById;
 }

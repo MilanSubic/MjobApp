@@ -37,7 +37,7 @@ public class KorisnikEntity implements BaseEntity<Long> {
     @Column(name = "brojClanskeKarte", nullable = true)
     private Integer brojClanskeKarte;
     @Basic
-    @Column(name = "brojLicneKarte", nullable = true, length = 7)
+    @Column(name = "brojLicneKarte", nullable = true, length = 9)
     private String brojLicneKarte;
     @Basic
     @Column(name = "brojTelefona", nullable = false, length = 45)
@@ -112,6 +112,9 @@ public class KorisnikEntity implements BaseEntity<Long> {
     @ManyToOne
     @JoinColumn(name = "izdavaoc_licne_karte_opstina_id", referencedColumnName = "id", nullable = true)
     private OpstinaEntity izdavaocLicneKarteOpstinaId;
+    @ManyToOne
+    @JoinColumn(name = "ustanova_opstina_id", referencedColumnName = "id", nullable = true)
+    private OpstinaEntity ustanovaOpstinaId;
     @OneToMany(mappedBy = "korisnikByKorisnikId")
     private List<KorisnikDokumentEntity> korisnikDokumentsById;
     @OneToMany(mappedBy = "korisnikByKorisnikId")

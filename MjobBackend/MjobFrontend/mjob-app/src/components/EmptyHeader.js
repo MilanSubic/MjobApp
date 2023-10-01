@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from "react";
+import korisnikService from "../services/korisnik.service";
+import UsersModal from "../components/UsersModal";
+import UsersService from "../services/UsersService";
 
 import "../styles/EmptyHeader.css";
 import { Link } from "react-router-dom";
@@ -11,12 +14,23 @@ import { getSveProcitane } from "../services/KonverzacijaService";
 import SockJS from "sockjs-client";
 import environments from "../environments";
 import { over } from "stompjs";
+import styled from "styled-components";
+const StyledLink = styled.a`
+  cursor: pointer;
+  .custom-cursor:hover {
+    cursor: pointer;
+  }
+`;
 
 let stompClient = null;
 
 function EmptyHeader() {
   // const [isNavExpanded, setIsNavExpanded] = useState(false);
   const [tipKorisnika, setTipKorisnika] = useState();
+
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
 
   const dispatch = useDispatch();
   const unreaded = useSelector((state) => state.unreaded.value);
@@ -25,8 +39,27 @@ function EmptyHeader() {
     setTipKorisnika(localStorage.getItem("tipKorisnika"));
     console.log(tipKorisnika);
   });
+  useEffect(() => {
+    korisnikService.getUser().then((res) => {
+      setRightSide(res);
+    });
+  }, []);
 
+  const saveData = (user) => {};
+
+  const closeModal = () => {
+    setIsEditModalOpen(false);
+    setModalVisible(false);
+  };
+  const showModal = () => {
+    setIsEditModalOpen(true);
+    setModalVisible(true);
+  };
+  const setRightSide = (user) => {
+    UsersService.findById(user.id).then((res) => setSelectedUser(res.data));
+  };
   const [currentUser] = useState(getCurrentUser());
+
   const now = Date.now() / 1000;
 
   useEffect(() => {
@@ -114,7 +147,7 @@ function EmptyHeader() {
             {tipKorisnika !== null && (
               <>
                 <div className="nav-item">
-                  <Link to="/mojNalog">Moj nalog</Link>
+                  <StyledLink onClick={showModal}>Moj nalog</StyledLink>
                 </div>
                 <div className="nav-item">
                   <a
@@ -147,6 +180,14 @@ function EmptyHeader() {
           <div className="line-3"></div>
         </div>
       </div>
+      <UsersModal
+        editMode={isEditModalOpen}
+        visible={modalVisible}
+        onCancel={closeModal}
+        onOk={saveData}
+        user={selectedUser}
+        isViewOnly={true}
+      ></UsersModal>
     </div>
   );
 }

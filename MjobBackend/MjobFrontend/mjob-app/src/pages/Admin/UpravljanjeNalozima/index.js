@@ -56,6 +56,7 @@ const UpravljanjeNalozima = () => {
   const [ulica, setUlica] = useState();
   const [nazivObrazovneUstanove, setNazivObrazovneUstanove] = useState();
   const [godina, setGodina] = useState();
+  const [ustanovaOpstina, setUstanovaOpstina] = useState();
   const [slike] = useState([]);
   const [status, setStatus] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
@@ -68,6 +69,8 @@ const UpravljanjeNalozima = () => {
   const [usersMjesto, setUsersMjesto] = useState([]);
   const [usersUstanova, setUsersUstanova] = useState([]);
 
+  const [userOpstinaStanovanja, setuserOpstinaStanovanja] = useState(null);
+
   useEffect(() => {
     OpstinaService.getAll().then((res) => setUsersOpstina(res.data));
     NaseljenoMjestoService.getAll().then((res) => setUsersMjesto(res.data));
@@ -76,6 +79,17 @@ const UpravljanjeNalozima = () => {
     );
     prikazKorisnika();
   }, []);
+  useEffect(() => {
+    if (naseljenoMjesto && usersMjesto && usersOpstina) {
+      setuserOpstinaStanovanja(
+        usersOpstina.find(
+          (e2) =>
+            usersMjesto.find((e2) => naseljenoMjesto === e2.naziv).opstinaId ===
+            e2.id
+        ).naziv
+      );
+    }
+  }, [naseljenoMjesto]);
   const setRightSide = (user) => {
     while (slike.length > 0) slike.pop();
     for (let i = 0; i < user.korisnikDokumentsById.length; i++) {
@@ -115,8 +129,10 @@ const UpravljanjeNalozima = () => {
     setIzdavaocLicneKarte(user.izdavaocLicneKarteOpstinaNaziv);
     setMjestoRodjenja(user.mjestoRodjenjaOpstinaNaziv);
     setNaseljenoMjesto(user.naseljenoMjestoNaziv);
+
     setNazivObrazovneUstanove(user.obrazovnaUstanova);
     setUlica(user.ulicaIBroj);
+    setUstanovaOpstina(user.ustanovaOpstinaNaziv);
 
     UsersService.findById(user.id).then((res) => setSelectedUser(res.data));
   };
@@ -265,9 +281,13 @@ const UpravljanjeNalozima = () => {
               e1.obrazovnaUstanova = res.obrazovnaUstanova;
               e1.brojClanskeKarte = res.brojClanskeKarte;
               e1.brojZdravstveneKnjizice = res.brojZdravstveneKnjizice;
-              e1.nazivObrazovneUstanove = res.nazivObrazovneUstanove;
+              // e1.nazivObrazovneUstanove = res.nazivObrazovneUstanove;
               e1.ulicaIBroj = res.ulicaIBroj;
 
+              e1.ustanovaOpstinaNaziv = usersOpstina.find(
+                (e2) => res.ustanovaOpstinaId === e2.id
+              ).naziv;
+              setUstanovaOpstina(e1.ustanovaOpstinaNaziv);
               e1.mjestoRodjenjaOpstinaNaziv = usersOpstina.find(
                 (e2) => res.mjestoRodjenjaOpstinaId === e2.id
               ).naziv;
@@ -280,10 +300,11 @@ const UpravljanjeNalozima = () => {
                 (e2) => res.naseljenoMjestoId === e2.id
               ).naziv;
               setNaseljenoMjesto(e1.naseljenoMjestoNaziv);
-              e1.obrazovnaUstanovaTipId = usersUstanova.find(
+              e1.obrazovnaUstanovaTipNaziv = usersUstanova.find(
                 (e2) => res.obrazovnaUstanovaTipId === e2.id
-              ).id;
-              //              setObrazovnaUstanova(e1.obrazovnaUstanova);
+              ).naziv;
+
+              setObrazovnaUstanova(e1.obrazovnaUstanovaTipNaziv);
             }
             return e1;
           })
@@ -308,9 +329,9 @@ const UpravljanjeNalozima = () => {
     setBrojTekucegRacuna(user.brojTekucegRacuna);
     setIdentifikator(user.identifikator);
     setEmail(user.email);
-    setObrazovnaUstanova(user.obrazovnaUstanova);
+    // setObrazovnaUstanova(user.obrazovnaUstanovaTipNaziv);
     setBrojClanskeKarte(user.brojClanskeKarte);
-    setNazivObrazovneUstanove(user.nazivObrazovneUstanove);
+    setNazivObrazovneUstanove(user.obrazovnaUstanova);
     setUlica(user.ulicaIBroj);
   };
   const handleCancel = () => {
@@ -395,10 +416,11 @@ const UpravljanjeNalozima = () => {
               {ime} ({imeRoditelja}) {prezime}
             </h1>
             <p>Datum rodjenja : {datumRodjenja}</p>
+            <p>Mjesto rodjenja: {mjestoRodjenja}</p>
             <p>
-              Mjesto rodjenja: {mjestoRodjenja}, {naseljenoMjesto}
+              Adresa stanovanja : {ulica}
+              {"-"} {naseljenoMjesto} {"-"} {userOpstinaStanovanja}
             </p>
-            <p>Adresa stanovanja : {ulica}</p>
             {brojLicneKarte != null && (
               <p>
                 Broj licne karte : {brojLicneKarte} Izdavaoc :{" "}
@@ -416,7 +438,8 @@ const UpravljanjeNalozima = () => {
             )}
             <p>Naziv obrazovne ustanove : {nazivObrazovneUstanove}</p>
             <p>
-              Obrazovna ustanova : {obrazovnaUstanova} Godina: {godina}
+              Obrazovna ustanova : {obrazovnaUstanova} Mjesto: {ustanovaOpstina}{" "}
+              Godina: {godina}
             </p>
             <p>Broj indeksa, radne ili djacke knjizice : {identifikator}</p>
 
@@ -522,6 +545,7 @@ const UpravljanjeNalozima = () => {
         onCancel={closeModal}
         onOk={saveData}
         user={selectedUser}
+        isViewOnly={false}
       ></UsersModal>
     </div>
   );
