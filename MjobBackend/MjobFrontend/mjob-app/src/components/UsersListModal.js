@@ -11,8 +11,10 @@ const UsersListModal = (props) => {
 
   useEffect(() => {
     korisnikService.getAllUserRequestsForJob(jobId).then((res) => {
-      setUsers(res);
-      setUsersForFirst(res.filter((el) => el.odobren === true));
+      setUsers(res.filter((el) => el.odjavljen === false));
+      setUsersForFirst(
+        res.filter((el) => el.odobren === true && el.odjavljen === false)
+      );
     });
   }, [jobId]);
   const odbijZahtjev = (id) => {

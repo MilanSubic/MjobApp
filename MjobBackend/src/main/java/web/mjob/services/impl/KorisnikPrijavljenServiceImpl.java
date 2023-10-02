@@ -125,9 +125,15 @@ public class KorisnikPrijavljenServiceImpl implements KorisnikPrijavljenService 
         if(korisnikPrijavljenEntity!=null)
         {
             if(accept)
-            korisnikPrijavljenEntity.setOdobren(accept);
-            else
+            {
+                korisnikPrijavljenEntity.setOdobren(accept);
                 korisnikPrijavljenEntity.setOdbijen(!accept);
+            }
+            else
+            {
+                korisnikPrijavljenEntity.setOdbijen(!accept);
+                korisnikPrijavljenEntity.setOdobren(accept);
+            }
             korisnikPrijavljenRepository.saveAndFlush(korisnikPrijavljenEntity);
         }
     }
@@ -142,7 +148,7 @@ public class KorisnikPrijavljenServiceImpl implements KorisnikPrijavljenService 
     }
 
     @Override
-    public void refuseRequest(Long id) {
+    public boolean refuseRequest(Long id) {
         KorisnikPrijavljenEntity korisnikPrijavljenEntity=korisnikPrijavljenRepository.findKorisnikPrijavljenEntityById(id);
         if(korisnikPrijavljenEntity!=null && !korisnikPrijavljenEntity.getOdbijen())
         {
@@ -151,6 +157,8 @@ public class KorisnikPrijavljenServiceImpl implements KorisnikPrijavljenService 
             if(korisnikPrijavljenEntity.getOdobren())
                 korisnikPrijavljenEntity.setOdobren(false);
             korisnikPrijavljenRepository.saveAndFlush(korisnikPrijavljenEntity);
+            return true;
         }
+        return false;
     }
 }

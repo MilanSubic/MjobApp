@@ -11,7 +11,7 @@ export default function Home() {
   const [posts, setPosts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(12);
-  const [isLoaded, setIsLoaded] = useState(false);
+  // const [isLoaded, setIsLoaded] = useState(false);
   const [postsSize, setPostsSize] = useState(0);
   const [currentPosts, setCurrentPosts] = useState([]);
 
@@ -31,7 +31,7 @@ export default function Home() {
     oglasService.getAll().then((result) => {
       setPosts(result.data);
       setPostsSize(result.data.length);
-      setIsLoaded(true);
+      // setIsLoaded(true);
       setCurrentPosts(
         result.data.slice(
           currentPage * pageSize - pageSize,
@@ -64,7 +64,7 @@ export default function Home() {
       );
     }
 
-    setIsLoaded(true);
+    // setIsLoaded(true);
     setPageSize(8);
     setCurrentPage(1);
   };
@@ -99,7 +99,7 @@ export default function Home() {
     setCurrentPosts(
       posts.slice(currentPage * pageSize - pageSize, currentPage * pageSize)
     );
-  }, [isLoaded]);
+  }, [currentPosts]);
 
   useEffect(() => {
     handleSubmit();

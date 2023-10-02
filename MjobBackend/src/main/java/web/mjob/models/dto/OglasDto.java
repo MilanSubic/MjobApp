@@ -30,7 +30,7 @@ public class OglasDto {
     private Boolean javni;
     private Boolean obrisan;
 
-    private List<Integer> korisnikPrijavljensById;
+    //private List<Integer> korisnikPrijavljensById;
 
     private Long posaoTipByPosaoTipId;
 

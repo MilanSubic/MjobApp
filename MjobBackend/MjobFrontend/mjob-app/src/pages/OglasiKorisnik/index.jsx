@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Content, StyledTable } from "../../components/BasicStyledComponents";
 import OglasiService from "../../services/OglasiService";
 import moment from "moment";
-import { Button, Tooltip } from "antd";
+import { Button, Tooltip, message } from "antd";
 import korisnikService from "../../services/korisnik.service";
 
 const Oglasi = () => {
@@ -89,8 +89,14 @@ const Oglasi = () => {
     load();
   }, []);
   const odjaviSe = (id) => {
-    korisnikService.refuseJobRequest(id);
-    window.location.reload(false);
+    korisnikService.refuseJobRequest(id).then((res) => {
+      console.log(res.data);
+      if (res.data === true) {
+        message.success("Uspješna odjava!");
+        load();
+      } else
+        message.error("Nije moguća odjava sa oglasa na kojem ste odbijeni!");
+    });
   };
   const load = () => {
     OglasiService.getMojiOglasi().then((res) => {

@@ -115,7 +115,7 @@ function EmptyHeader() {
         <nav>
           <div className="nav">
             <div className="nav-item">
-              <Link to="/home">Početna</Link>
+              <Link to="/home">Oglasi</Link>
             </div>
 
             {currentUser && currentUser.exp > now && (
