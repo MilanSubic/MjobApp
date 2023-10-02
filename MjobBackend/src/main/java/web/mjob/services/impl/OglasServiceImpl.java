@@ -41,18 +41,32 @@ public class OglasServiceImpl extends CrudJpaService<OglasEntity,Long> implement
 
     @Override
     public List<Oglas> findAll(Authentication authentication) {
-        List<OglasEntity> oglasi=repository.findAllByObrisanFalseAndAktivanDoAfter(new Timestamp(new Date().getTime()));
         KorisnikEntity korisnik=korisnikEntityRepository.findKorisnikEntityByKorisnickoIme(authentication.getName());
+        List<OglasEntity> oglasi=new ArrayList<>();
 
-        List<Long> oglasiIds=new ArrayList<>();
-        if(korisnik!=null)
+        if(korisnik==null || korisnik.getKorisnikTipId().getNaziv().equals("korisnik"))
+            oglasi=repository.findAllByObrisanFalseAndAktivanDoAfter(new Timestamp(new Date().getTime()));
+        else if(korisnik.getKorisnikTipId().getNaziv().equals("admin"))
         {
+            oglasi=repository.findAllByObrisanFalse();
+        }
+        if(korisnik!=null && korisnik.getKorisnikTipId().getNaziv().equals("korisnik"))
+        {
+            oglasi=oglasi.stream().filter((el)->{
+                List<KorisnikPrijavljenEntity> prijavljeniKorisnici=el.getKorisnikPrijavljensById();
+                prijavljeniKorisnici=prijavljeniKorisnici.stream().filter(kor->kor.getOdobren()==true).toList();
+                if(el.getBrojLjudi()>prijavljeniKorisnici.size())
+                    return true;
+                return false;
+            }).toList();
+            List<Long> oglasiIds=new ArrayList<>();
             List<KorisnikPrijavljenEntity> korisnikoviOglasi=korisnikPrijavljenRepository.findKorisnikPrijavljenEntitiesByKorisnikByKorisnikIdIs(korisnik);
             korisnikoviOglasi=korisnikoviOglasi.stream().filter((el)->!el.getOdjavljen()).toList();
             for (KorisnikPrijavljenEntity prijavljenKorisnik:korisnikoviOglasi)
                 oglasiIds.add(prijavljenKorisnik.getOglasByOglasId().getId());
+            oglasi=oglasi.stream().filter(oglas -> !oglasiIds.contains(oglas.getId())).toList();
+
         }
-        oglasi=oglasi.stream().filter(oglas -> !oglasiIds.contains(oglas.getId())).toList();
         List<Oglas> oglasiDTO=oglasi.stream().map(e->modelMapper.map(e,Oglas.class)).collect(Collectors.toList());
         return  oglasiDTO;
     }

@@ -12,6 +12,7 @@ import java.util.Optional;
 @Repository
 public interface OglasEntityRepository extends JpaRepository<OglasEntity, Long> {
     List<OglasEntity> findAllByObrisanFalseAndAktivanDoAfter(Timestamp date);
+    List<OglasEntity> findAllByObrisanFalse();
 
     List<OglasEntity> findAllByJavniAndObrisan(Boolean javni,Boolean obrisan);
 

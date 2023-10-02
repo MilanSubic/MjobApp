@@ -129,9 +129,9 @@ public class OglasController extends CrudController<Long, OglasDto,OglasDto> {
          korisnikPrijavljenService.acceptRequest(korisnikId,oglasId,accept);
     }
     @PutMapping("/{oglasId}/refuse")
-    public void refuseRequestForJob(@PathVariable Long oglasId)
+    public boolean refuseRequestForJob(@PathVariable Long oglasId)
     {
-        korisnikPrijavljenService.refuseRequest(oglasId);
+       return korisnikPrijavljenService.refuseRequest(oglasId);
     }
 }
 
