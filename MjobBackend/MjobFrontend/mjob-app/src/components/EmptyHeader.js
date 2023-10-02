@@ -56,7 +56,8 @@ function EmptyHeader() {
     setModalVisible(true);
   };
   const setRightSide = (user) => {
-    UsersService.findById(user.id).then((res) => setSelectedUser(res.data));
+    if (user.id !== undefined)
+      UsersService.findById(user.id).then((res) => setSelectedUser(res.data));
   };
   const [currentUser] = useState(getCurrentUser());
 
