@@ -99,7 +99,7 @@ export default function Home() {
     setCurrentPosts(
       posts.slice(currentPage * pageSize - pageSize, currentPage * pageSize)
     );
-  }, [currentPosts]);
+  }, currentPosts);
 
   useEffect(() => {
     handleSubmit();
