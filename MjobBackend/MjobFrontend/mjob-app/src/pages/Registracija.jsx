@@ -375,7 +375,22 @@ export const Registracija = () => {
             >
               <Input />
             </Form.Item>
-
+            <Form.Item
+              label="Obrazovna ustanova(mjesto):"
+              name="ustanovaOpstinaId"
+              rules={[{ required: true, message: "Polje je obavezno" }]}
+            >
+              <CustomSelect
+                columns={selectColumns}
+                api="/api/registracija/opstine"
+                httpService={httpService}
+                keyProp="id"
+                display={display}
+                entityKey="id"
+                parent={form}
+                itemName="ustanovaOpstinaId"
+              />
+            </Form.Item>
             <Form.Item
               label="Broj indeksa, radne ili djacke knjizice"
               name="identifikator"

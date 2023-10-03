@@ -4,7 +4,7 @@ import UsersModal from "../components/UsersModal";
 import UsersService from "../services/UsersService";
 
 import "../styles/EmptyHeader.css";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import "../pages/Admin/UpravljanjeNalozima/index.css";
 import { Badge } from "antd";
 import { getCurrentUser } from "../services/auth.service";
@@ -27,6 +27,8 @@ let stompClient = null;
 function EmptyHeader() {
   // const [isNavExpanded, setIsNavExpanded] = useState(false);
   const [tipKorisnika, setTipKorisnika] = useState();
+
+  const location = useLocation();
 
   const [selectedUser, setSelectedUser] = useState(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -106,7 +108,7 @@ function EmptyHeader() {
   };
 
   const onMessageReceived = (payload) => {
-    dispatch(setUnreaded(true));
+    if (location.pathname !== "/konverzacije") dispatch(setUnreaded(true));
   };
 
   return (

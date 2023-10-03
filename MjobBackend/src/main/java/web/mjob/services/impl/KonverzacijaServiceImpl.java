@@ -2,6 +2,7 @@ package web.mjob.services.impl;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.*;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,7 +11,6 @@ import web.mjob.models.dto.KonverzacijaDto;
 import web.mjob.models.dto.Request;
 import web.mjob.models.entities.KonverzacijaEntity;
 import web.mjob.models.entities.KonverzacijaKorisnikEntity;
-import web.mjob.models.enums.KorisnikTipIdEnum;
 import web.mjob.repositories.KonverzacijaEntityRepository;
 import web.mjob.repositories.KonverzacijaKorisnikEntityRepository;
 import web.mjob.repositories.KorisnikEntityRepository;
@@ -26,11 +26,14 @@ public class KonverzacijaServiceImpl extends CrudJpaService<KonverzacijaEntity,L
     private final KonverzacijaEntityRepository repository;
     private final KorisnikEntityRepository korisniciRepo;
     private final KonverzacijaKorisnikEntityRepository konverzacijaKOrisnikRepo;
-    public KonverzacijaServiceImpl(KonverzacijaEntityRepository repository, ModelMapper modelMapper, KorisnikEntityRepository korisniciRepo, KonverzacijaKorisnikEntityRepository konverzacijaKOrisnikRepo) {
+    private final SimpMessagingTemplate simpMessagingTemplate;
+
+    public KonverzacijaServiceImpl(KonverzacijaEntityRepository repository, ModelMapper modelMapper, KorisnikEntityRepository korisniciRepo, KonverzacijaKorisnikEntityRepository konverzacijaKOrisnikRepo, SimpMessagingTemplate simpMessagingTemplate) {
         super(repository, modelMapper, KonverzacijaEntity.class);
         this.repository = repository;
         this.korisniciRepo = korisniciRepo;
         this.konverzacijaKOrisnikRepo = konverzacijaKOrisnikRepo;
+        this.simpMessagingTemplate = simpMessagingTemplate;
     }
 
     @Override
@@ -77,7 +80,6 @@ public class KonverzacijaServiceImpl extends CrudJpaService<KonverzacijaEntity,L
             korisnici.add(korisnik);
         var konverzacija = getModelMapper().map(entity, KonverzacijaEntity.class);
 
-        ((KonverzacijaDto) entity).setProcitana(true);
         korisnici.forEach(k -> {
 
             var kk = new KonverzacijaKorisnikEntity();
@@ -88,6 +90,8 @@ public class KonverzacijaServiceImpl extends CrudJpaService<KonverzacijaEntity,L
 
             konverzacijaKOrisnikRepo.saveAndFlush(kk);
         });
+
+        ((KonverzacijaDto) entity).setProcitana(true);
 
         return entity;
     }

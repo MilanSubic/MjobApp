@@ -2,16 +2,17 @@ package web.mjob.services.impl;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.*;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import web.mjob.base.CrudJpaService;
 import web.mjob.exceptions.NotFoundException;
 import web.mjob.models.dto.DokumentPorukaDto;
+import web.mjob.models.dto.KonverzacijaDto;
 import web.mjob.models.dto.PorukaDto;
 import web.mjob.models.dto.Request;
 import web.mjob.models.entities.*;
-import web.mjob.models.enums.KorisnikTipEnum;
 import web.mjob.repositories.*;
 import web.mjob.services.PorukaService;
 import web.mjob.util.UnpagedSorted;
