@@ -7,11 +7,12 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Controller;
 import web.mjob.exceptions.NotFoundException;
+import web.mjob.models.dto.KonverzacijaDto;
 import web.mjob.models.dto.PorukaDto;
+import web.mjob.repositories.KonverzacijaEntityRepository;
 import web.mjob.repositories.KonverzacijaKorisnikEntityRepository;
 import web.mjob.services.PorukaService;
 
-import java.io.Console;
 import java.security.Principal;
 import java.util.Collection;
 
@@ -21,11 +22,14 @@ public class PorukeWsController {
     private final SimpMessagingTemplate simpMessagingTemplate;
     private final PorukaService porukaService;
     private final KonverzacijaKorisnikEntityRepository kkRepository;
+    private final KonverzacijaEntityRepository konverzacijaEntityRepository;
 
-    public PorukeWsController(SimpMessagingTemplate simpMessagingTemplate, PorukaService porukaService, KonverzacijaKorisnikEntityRepository kkRepository) {
+
+    public PorukeWsController(SimpMessagingTemplate simpMessagingTemplate, PorukaService porukaService, KonverzacijaKorisnikEntityRepository kkRepository, KonverzacijaEntityRepository konverzacijaEntityRepository) {
         this.simpMessagingTemplate = simpMessagingTemplate;
         this.porukaService = porukaService;
         this.kkRepository = kkRepository;
+        this.konverzacijaEntityRepository = konverzacijaEntityRepository;
     }
 
     @MessageMapping("/poruka")
@@ -72,8 +76,18 @@ public class PorukeWsController {
 
         var kk = kkRepository.findAllByKonverzacijaIdAndKorisnikKorisnickoImeNot(message.getKonverzacijaId(), principal.getName());
 
-        kk.forEach(x->
-                simpMessagingTemplate.convertAndSendToUser(x.getKorisnik().getKorisnickoIme(), "/obavjestenje",true));
+        var konverzacija = konverzacijaEntityRepository.findById(res.getKonverzacijaId()).get();
+        var konverzacijaDto = new KonverzacijaDto();
+        konverzacijaDto.setId(konverzacija.getId());
+        konverzacijaDto.setTema(konverzacija.getTema());
+        konverzacijaDto.setKorisnikIme(konverzacija.getKorisnik().getIme());
+        konverzacijaDto.setKorisnikPrezime(konverzacija.getKorisnik().getPrezime());
+        konverzacijaDto.setProcitana(false);
+        kk.forEach(x->{
+            simpMessagingTemplate.convertAndSendToUser(x.getKorisnik().getKorisnickoIme(), "/obavjestenje",true);
+            simpMessagingTemplate.convertAndSendToUser(x.getKorisnik().getKorisnickoIme(),"/novePoruke", konverzacijaDto);
+        });
+
         return res;
     }
 }

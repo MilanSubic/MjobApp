@@ -42,6 +42,14 @@ import _map from "lodash/map";
 import { Role } from "../enums/role.enum";
 import { setUnreaded } from "../slices/unreadedSlice";
 import { setSubscribeTo } from "../slices/subscribeToSlice";
+import {
+  pushKonverzacija,
+  readKonverzacija,
+  setCurrentPage,
+  setKonverzacija,
+  setKonverzacije,
+  setTema,
+} from "../slices/konverzacijeSlice";
 
 let stompClient = null;
 
@@ -50,29 +58,44 @@ export const Konverzacija = () => {
     token: { colorBgContainer },
   } = theme.useToken();
   const [collapsed, setCollapsed] = useState(false);
-  const [konverzacija, setKonverzacija] = useState();
   const [total, setTotal] = useState();
-  const [konverzacije, setKonverzacije] = useState([]);
   const [currentUser] = useState(getCurrentUser());
-  const [tema, setTema] = useState();
   const [novaTema, setNovaTema] = useState();
   const [showModal, setShowModal] = useState();
   const [subscription, setSubscription] = useState();
   const [scroll, setScroll] = useState();
 
+  const [konverzacijeSub, SetKonverazcijeSub] = useState();
+
   const messages = useSelector((state) => state.messages.value);
+  const konverzacije = useSelector((state) => state.konverzacije.value);
+  const konverzacija = useSelector((state) => state.konverzacije.konverzacija);
   const subscribeTo = useSelector((state) => state.subscribeTo.value);
+  const tema = useSelector((state) => state.konverzacije.tema);
   const dispatch = useDispatch();
 
   useEffect(() => {
+    if (!stompClient) {
+      const Sock = new SockJS(environments().wsUrl);
+      stompClient = over(Sock);
+
+      const token = localStorage.getItem("token");
+      stompClient.connect(
+        { Authorization: `Bearer ${token}` },
+        onConnected,
+        onError
+      );
+    }
+    dispatch(setUnreaded(false));
     return () => {
       dispatch(setUnreaded(false));
+      if (konverzacijeSub) konverzacijeSub.unsubscribe();
     };
   }, []);
 
   const [pagination, setPagination] = useState({
     current: 1,
-    pageSize: 15,
+    pageSize: 20,
   });
 
   const bottomEl = useRef(null);
@@ -82,16 +105,12 @@ export const Konverzacija = () => {
   };
 
   const onMenuClick = (c) => {
-    const item = konverzacije.find((i) => i.key === c.key);
-    setKonverzacija(item);
+    // eslint-disable-next-line eqeqeq
+    const item = konverzacije.find((i) => i.id == c.key);
+    dispatch(setKonverzacija(item));
     const index = konverzacije.indexOf(item);
-    if (index !== -1 && !konverzacije[index].procitana) {
-      konverzacije[index].icon = (
-        <Badge dot={false} size="small">
-          <MessageOutlined fontSize="10" />
-        </Badge>
-      );
-      setKonverzacije([...konverzacije]);
+    if (index !== -1 && !item.procitana) {
+      dispatch(readKonverzacija(item.id));
     }
   };
 
@@ -109,16 +128,32 @@ export const Konverzacija = () => {
     } else onConnected();
   };
 
-  const onConnected = () => {
-    if (konverzacija) {
-      if (subscribeTo !== konverzacija.key) {
-        procitaj(konverzacija.key).then(() => {});
+  let flag = true;
 
-        dispatch(setSubscribeTo(konverzacija.key));
+  function onNewMessageCreated(payload) {
+    const kon = JSON.parse(payload.body);
+    dispatch(pushKonverzacija(kon));
+  }
+
+  const onConnected = () => {
+    if (flag) {
+      flag = false;
+      SetKonverazcijeSub(
+        stompClient.subscribe(
+          "/konverzacija/" + currentUser.sub + "/novePoruke",
+          onNewMessageCreated
+        )
+      );
+    }
+    if (konverzacija) {
+      if (subscribeTo !== konverzacija.id) {
+        procitaj(konverzacija.id).then(() => {});
+        const key = konverzacija.id;
+        dispatch(setSubscribeTo(key));
         if (subscription) subscription.unsubscribe();
         setSubscription(
           stompClient.subscribe(
-            "/konverzacija/" + konverzacija.key + "/poruke",
+            "/konverzacija/" + konverzacija.id + "/poruke",
             onMessageReceived
           )
         );
@@ -131,7 +166,7 @@ export const Konverzacija = () => {
       const obj = {
         sadrzaj,
         dokumenti: fileList,
-        konverzacijaId: konverzacija.key,
+        konverzacijaId: konverzacija.id,
       };
       stompClient.send("/app/poruka", {}, JSON.stringify(obj));
     }
@@ -156,7 +191,7 @@ export const Konverzacija = () => {
   };
 
   const map = (d) => ({
-    key: String(d.id),
+    key: String(d?.id),
     label: (
       <div
         style={{
@@ -167,13 +202,13 @@ export const Konverzacija = () => {
       >
         {(currentUser &&
         currentUser.authorities.find((a) => Role.Admin === a.authority)
-          ? d.korisnikIme + " " + d.korisnikPrezime + " - "
-          : "") + d.tema}
+          ? d?.korisnikIme + " " + d?.korisnikPrezime + " - "
+          : "") + d?.tema}
       </div>
     ),
-    title: d.tema,
+    title: d?.tema,
     icon: (
-      <Badge dot={!d.procitana} size="small">
+      <Badge dot={!d?.procitana} size="small">
         <MessageOutlined fontSize="10" />
       </Badge>
     ),
@@ -185,7 +220,7 @@ export const Konverzacija = () => {
       pageSize: pagination.pageSize,
       filter,
     }).then((res) => {
-      setKonverzacije(res.data.content.map((d) => map(d)));
+      dispatch(setKonverzacije(res.data.content));
       setTotal(res.data.totalElements);
     });
   };
@@ -205,7 +240,7 @@ export const Konverzacija = () => {
       pageSize: 100,
       property: "id",
       direction: "DESC",
-      filter: { konverzacijaId: konverzacija.key },
+      filter: { konverzacijaId: konverzacija.id },
     }).then((res) => {
       dispatch(setMessages(res.data.content));
       connect();
@@ -236,6 +271,7 @@ export const Konverzacija = () => {
   };
 
   const onChangePage = (currentPage, pageSize) => {
+    dispatch(setCurrentPage(currentPage));
     setPagination({ current: currentPage, pageSize: pagination.pageSize });
   };
 
@@ -246,20 +282,6 @@ export const Konverzacija = () => {
   const onChangeText = (e) => {
     setSadrzaj(e.target.value);
   };
-  /*
-  const onSend = () => {
-    const obj = {
-      sadrzaj,
-      dokumenti: fileList,
-      konverzacijaId: konverzacija.key,
-    };
-    postPoruka(obj).then((res) => {
-      setFileList([]);
-      setSadrzaj();
-      getPorukaData();
-    });
-  };
-  */
 
   const onDownload = (dokument) => {
     getSadrzajDokumenta(dokument.id).then((res) => {
@@ -280,7 +302,7 @@ export const Konverzacija = () => {
   };
 
   const onSearch = (value) => {
-    const filter = { tema };
+    const filter = { tema: value };
 
     getKonverzacijeData(filter);
   };
@@ -288,9 +310,8 @@ export const Konverzacija = () => {
   const onOK = () => {
     postKonverzacija({ tema: novaTema }).then((res) => {
       setNovaTema();
-      const k = map(res.data);
-      setKonverzacije([k, ...konverzacije]);
-      setKonverzacija(k);
+      dispatch(setKonverzacije([res.data, ...konverzacije]));
+      dispatch(setKonverzacija(res.data));
       setShowModal(false);
     });
   };
@@ -351,7 +372,6 @@ export const Konverzacija = () => {
           style={{
             maxHeight: "85vh",
             minHeight: "85vh",
-            overflow: "scroll",
             display: "flex",
             flexDirection: "column",
           }}
@@ -397,7 +417,7 @@ export const Konverzacija = () => {
                 allowClear
                 value={tema}
                 onSearch={onSearch}
-                onChange={(e) => setTema(e.target.value)}
+                onChange={(e) => dispatch(setTema(e.target.value))}
                 enterButton
               />
             </div>
@@ -405,11 +425,15 @@ export const Konverzacija = () => {
           <Menu
             theme="dark"
             mode="inline"
-            defaultSelectedKeys={[konverzacija?.key]}
-            selectedKeys={[konverzacija?.key]}
-            items={konverzacije}
+            defaultSelectedKeys={[konverzacija?.id]}
+            selectedKeys={[konverzacija?.id]}
+            items={_map(konverzacije, (x) => map(x))}
             onClick={onMenuClick}
-            style={{ flexGrow: 1, backgroundColor: "#001529" }}
+            style={{
+              flexGrow: 1,
+              backgroundColor: "#001529",
+            }}
+            id="menu"
           />
           {!collapsed && (
             <Pagination
@@ -449,7 +473,7 @@ export const Konverzacija = () => {
               textOverflow: "ellipsis",
             }}
           >
-            <p style={{ textOverflow: "ellipsis" }}>{konverzacija?.title}</p>
+            <p style={{ textOverflow: "ellipsis" }}>{konverzacija?.tema}</p>
           </div>
         </Header>
         <Divider style={{ margin: 0 }} />
