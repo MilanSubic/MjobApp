@@ -12,6 +12,7 @@ const AdModal = (props) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [userType, setUserType] = useState();
   const [editModeTemp, setEditMode] = useState(false);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
   useEffect(() => {
     setUserType(localStorage.getItem("tipKorisnika"));
@@ -30,19 +31,23 @@ const AdModal = (props) => {
     setModalOpen(false);
   };
   function prijaviButtonClick() {
-    try {
-      korisnikService.getUser().then((user) => {
-        axios.post(
-          "http://localhost:8080/api/oglas/" +
-            user.id +
-            "/" +
-            post.id +
-            "/prijava"
-        );
-      });
-      message.success("Uspjesna prijava");
-    } catch (error) {
-      message.error("Doslo je do greske prilikom prijave");
+    if (isButtonDisabled) message.info("Prijava je već podnijeta!");
+    else {
+      try {
+        korisnikService.getUser().then((user) => {
+          axios.post(
+            "http://localhost:8080/api/oglas/" +
+              user.id +
+              "/" +
+              post.id +
+              "/prijava"
+          );
+        });
+        message.success("Uspjesna prijava");
+        setIsButtonDisabled(true);
+      } catch (error) {
+        message.error("Doslo je do greske prilikom prijave");
+      }
     }
   }
   return (
@@ -70,6 +75,12 @@ const AdModal = (props) => {
             <Link to="/home">OBRISI</Link>
           </Button>
           <Button onClick={() => openModal()}>PRIJAVLJENI KORISNICI</Button>
+          <Button
+            style={{ float: "right", marginLeft: "5px" }}
+            onClick={() => window.location.reload()}
+          >
+            IZAĐI
+          </Button>
           <UsersListModal
             visible={modalOpen}
             jobId={post.id}
@@ -78,8 +89,18 @@ const AdModal = (props) => {
         </div>
       )}
       {userType === "korisnik" && (
-        <div style={{ textAlign: "center" }}>
-          <Button onClick={prijaviButtonClick}>PRIJAVI SE</Button>
+        <div style={{ textAlign: "right" }}>
+          <Button
+            style={{
+              marginRight: "5px",
+              backgroundColor: "blue",
+              color: "white",
+            }}
+            onClick={prijaviButtonClick}
+          >
+            PRIJAVI SE
+          </Button>
+          <Button onClick={() => onCancel()}>IZAĐI</Button>
         </div>
       )}
     </Modal>

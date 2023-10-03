@@ -52,7 +52,10 @@ public class KorisnikServiceImpl implements KorisnikService {
     @Override
     public Korisnik getUser(Authentication authentication)
     {
-        return mapper.map(repository.findKorisnikEntityByKorisnickoIme(authentication.getName()),Korisnik.class);
+        KorisnikEntity korisnik=repository.findKorisnikEntityByKorisnickoIme(authentication.getName());
+        if(korisnik!=null)
+        return mapper.map(korisnik,Korisnik.class);
+        return null;
     }
     @Override
     public Korisnik getUserByUsername(String username) {

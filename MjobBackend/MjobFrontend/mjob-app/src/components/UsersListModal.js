@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { Modal, Space, Table } from "antd";
+import { Button, Modal, Space, Table } from "antd";
 import korisnikService from "../services/korisnik.service";
 import moment from "moment/moment";
 
@@ -194,6 +194,15 @@ const UsersListModal = (props) => {
       <Table columns={columnsForFirst} dataSource={usersForFirst}></Table>
       <h3>Svi zahtjevi:</h3>
       <Table columns={columns} dataSource={users}></Table>
+      <div style={{ display: "flex", justifyContent: "flex-end", gap: 8 }}>
+        <Button
+          type="default"
+          onClick={() => onCancel()}
+          style={{ marginTop: 8 }}
+        >
+          IZAĐI
+        </Button>
+      </div>
     </Modal>
   );
 };
