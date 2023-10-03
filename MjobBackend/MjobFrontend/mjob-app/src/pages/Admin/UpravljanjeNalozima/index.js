@@ -474,9 +474,18 @@ const UpravljanjeNalozima = () => {
                       <Form.Item name={"brojClanskeKarte"}>
                         <InputNumber />
                       </Form.Item>
-                      <Button type="primary" htmlType="submit">
-                        OK
-                      </Button>
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "flex-end",
+                          gap: 8,
+                        }}
+                      >
+                        <Button type="primary" htmlType="submit">
+                          OK
+                        </Button>
+                        <Button onClick={() => handleCancel()}>IZAĐI</Button>
+                      </div>
                     </Form>
                   </Modal>
                   <Tooltip title="Odbij zahtjev za registraciju">

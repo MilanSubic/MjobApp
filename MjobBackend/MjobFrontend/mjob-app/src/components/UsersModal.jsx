@@ -470,11 +470,11 @@ const UsersModal = (props) => {
           onClick={() => onCancel()}
           style={{ marginRight: 8 }}
         >
-          Izađi
+          IZAĐI
         </Button>
         {!isViewOnly && (
           <Button type="primary" onClick={() => onSubmit()}>
-            Sačuvaj
+            SAČUVAJ
           </Button>
         )}
       </div>

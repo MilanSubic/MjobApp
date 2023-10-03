@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { Modal, Table } from "antd";
+import { Button, Modal, Table } from "antd";
 import korisnikService from "../../../services/korisnik.service";
 import moment from "moment";
 
@@ -57,6 +57,15 @@ const Jobs = (props) => {
       footer={[]}
     >
       <Table columns={columns} dataSource={jobs}></Table>
+      <div style={{ display: "flex", justifyContent: "flex-end", gap: 8 }}>
+        <Button
+          type="default"
+          onClick={() => onCancel()}
+          style={{ marginTop: 8 }}
+        >
+          IZAĐI
+        </Button>
+      </div>
     </Modal>
   );
 };

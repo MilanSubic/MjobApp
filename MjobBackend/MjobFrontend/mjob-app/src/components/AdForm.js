@@ -83,6 +83,9 @@ const AdForm = (initialData) => {
       navigate("/home", { replace: true });
     });
   };
+  const izadji = () => {
+    window.location.reload();
+  };
   const sacuvajIzmjene = () => {
     form.validateFields().then((values) => {
       console.log(initialData.id);
@@ -233,8 +236,23 @@ const AdForm = (initialData) => {
         </Form.Item>
       )}
       {initialData.initialData !== null && initialData.editMode === true && (
-        <div style={{ textAlign: "center" }}>
-          <Button onClick={() => sacuvajIzmjene()}>Sačuvaj</Button>
+        <div style={{ textAlign: "right" }}>
+          <Button
+            style={{ float: "right", marginLeft: "5px" }}
+            onClick={() => izadji()}
+          >
+            IZAĐI
+          </Button>
+          <Button
+            style={{
+              backgroundColor: "blue",
+              color: "white",
+              paddingRight: "10px",
+            }}
+            onClick={() => sacuvajIzmjene()}
+          >
+            SAČUVAJ
+          </Button>
         </div>
       )}
     </Form>
