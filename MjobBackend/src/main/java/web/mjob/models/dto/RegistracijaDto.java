@@ -48,6 +48,7 @@ public class RegistracijaDto {
     private Long mjestoRodjenjaOpstinaId;
 
     private Integer izdavaocLicneKarteOpstinaId;
+    private Integer ustanovaOpstinaIdId;
 
     private Long opstinaId;
 

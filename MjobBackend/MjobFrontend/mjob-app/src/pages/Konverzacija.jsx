@@ -41,19 +41,22 @@ import { setMessages, addMessage } from "../slices/messageSlice";
 import _map from "lodash/map";
 import { Role } from "../enums/role.enum";
 import { setUnreaded } from "../slices/unreadedSlice";
-import { setSubscribeTo } from "../slices/subscribeToSlice";
 import {
-  pushKonverzacija,
+  pushNewMessageKonverzacija,
   readKonverzacija,
   setCurrentPage,
   setKonverzacija,
   setKonverzacije,
   setTema,
+  pushKonverzacija,
 } from "../slices/konverzacijeSlice";
 
 let stompClient = null;
+let subscription = null;
+let konverzacijeSub = null;
 
 export const Konverzacija = () => {
+  const bottomEl = useRef(null);
   const {
     token: { colorBgContainer },
   } = theme.useToken();
@@ -62,34 +65,31 @@ export const Konverzacija = () => {
   const [currentUser] = useState(getCurrentUser());
   const [novaTema, setNovaTema] = useState();
   const [showModal, setShowModal] = useState();
-  const [subscription, setSubscription] = useState();
-  const [scroll, setScroll] = useState();
-
-  const [konverzacijeSub, SetKonverazcijeSub] = useState();
 
   const messages = useSelector((state) => state.messages.value);
   const konverzacije = useSelector((state) => state.konverzacije.value);
   const konverzacija = useSelector((state) => state.konverzacije.konverzacija);
-  const subscribeTo = useSelector((state) => state.subscribeTo.value);
   const tema = useSelector((state) => state.konverzacije.tema);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!stompClient) {
-      const Sock = new SockJS(environments().wsUrl);
-      stompClient = over(Sock);
-
-      const token = localStorage.getItem("token");
-      stompClient.connect(
-        { Authorization: `Bearer ${token}` },
-        onConnected,
-        onError
-      );
-    }
-    dispatch(setUnreaded(false));
     return () => {
+      if (!stompClient) connect();
+      else {
+        stompClient.disconnect(() => {
+          stompClient = null;
+        });
+      }
       dispatch(setUnreaded(false));
-      if (konverzacijeSub) konverzacijeSub.unsubscribe();
+      if (subscription) {
+        subscription.unsubscribe();
+        subscription = null;
+      }
+      if (konverzacijeSub) {
+        konverzacijeSub.unsubscribe();
+        konverzacijeSub = null;
+      }
+      if (konverzacije) dispatch(setKonverzacije([]));
     };
   }, []);
 
@@ -98,10 +98,10 @@ export const Konverzacija = () => {
     pageSize: 20,
   });
 
-  const bottomEl = useRef(null);
-
   const scrollToBottom = () => {
-    bottomEl?.current?.scrollIntoView({ behavior: "smooth" });
+    setTimeout(() => {
+      bottomEl?.current?.scrollIntoView({ behavior: "smooth" });
+    }, 10);
   };
 
   const onMenuClick = (c) => {
@@ -125,40 +125,46 @@ export const Konverzacija = () => {
         onConnected,
         onError
       );
-    } else onConnected();
+    }
   };
-
-  let flag = true;
 
   function onNewMessageCreated(payload) {
     const kon = JSON.parse(payload.body);
-    dispatch(pushKonverzacija(kon));
+    dispatch(pushNewMessageKonverzacija(kon));
   }
 
-  const onConnected = () => {
-    if (flag) {
-      flag = false;
-      SetKonverazcijeSub(
-        stompClient.subscribe(
-          "/konverzacija/" + currentUser.sub + "/novePoruke",
-          onNewMessageCreated
-        )
-      );
-    }
-    if (konverzacija) {
-      if (subscribeTo !== konverzacija.id) {
-        procitaj(konverzacija.id).then(() => {});
-        const key = konverzacija.id;
-        dispatch(setSubscribeTo(key));
+  let prevId = null;
+
+  const subscribeOnKonverzacija = (id) => {
+    if (stompClient && stompClient.connected) {
+      // eslint-disable-next-line eqeqeq
+      if (id != prevId) {
+        prevId = id;
         if (subscription) subscription.unsubscribe();
-        setSubscription(
-          stompClient.subscribe(
-            "/konverzacija/" + konverzacija.id + "/poruke",
-            onMessageReceived
-          )
+        subscription = stompClient.subscribe(
+          "/konverzacija/" + id + "/poruke",
+          onMessageReceived
         );
       }
-    } else setSubscription();
+    }
+  };
+
+  useEffect(() => {
+    if (
+      konverzacija &&
+      messages?.length > 0 &&
+      messages[0]?.korisnikKorisnickoIme !== currentUser.sub
+    ) {
+      procitaj(konverzacija.id).then(() => {});
+    }
+  }, [messages]);
+
+  const onConnected = () => {
+    konverzacijeSub = stompClient.subscribe(
+      "/konverzacija/" + currentUser.sub + "/novePoruke",
+      onNewMessageCreated
+    );
+    if (konverzacija) subscribeOnKonverzacija(konverzacija.id);
   };
 
   const onSend = () => {
@@ -169,21 +175,16 @@ export const Konverzacija = () => {
         konverzacijaId: konverzacija.id,
       };
       stompClient.send("/app/poruka", {}, JSON.stringify(obj));
-    }
+      setFileList([]);
+      setSadrzaj();
+    } else console.log("no connection");
   };
 
   const onMessageReceived = (payload) => {
     const poruka = JSON.parse(payload.body);
-    if (poruka.korisnikKorisnickoIme === currentUser.sub) {
-      setFileList([]);
-      setSadrzaj();
-    }
 
     dispatch(addMessage(poruka));
-
-    setTimeout(() => {
-      setScroll(poruka);
-    });
+    scrollToBottom();
   };
 
   const onError = (err) => {
@@ -229,10 +230,6 @@ export const Konverzacija = () => {
     getKonverzacijeData();
   }, [pagination.current]);
 
-  useEffect(() => {
-    scrollToBottom();
-  }, [scroll]);
-
   const getPorukaData = () => {
     getPoruke({
       current: 0,
@@ -243,17 +240,13 @@ export const Konverzacija = () => {
       filter: { konverzacijaId: konverzacija.id },
     }).then((res) => {
       dispatch(setMessages(res.data.content));
-      connect();
-      setScroll(true);
+      subscribeOnKonverzacija(konverzacija.id);
+      scrollToBottom();
     });
   };
 
   useEffect(() => {
     if (konverzacija) {
-      if (subscription) {
-        subscription.unsubscribe();
-      }
-
       getPorukaData();
 
       setFileList([]);
@@ -304,13 +297,14 @@ export const Konverzacija = () => {
   const onSearch = (value) => {
     const filter = { tema: value };
 
-    getKonverzacijeData(filter);
+    // eslint-disable-next-line eqeqeq
+    if (tema != value) getKonverzacijeData(filter);
   };
 
   const onOK = () => {
     postKonverzacija({ tema: novaTema }).then((res) => {
       setNovaTema();
-      dispatch(setKonverzacije([res.data, ...konverzacije]));
+      dispatch(pushKonverzacija(res.data));
       dispatch(setKonverzacija(res.data));
       setShowModal(false);
     });
@@ -426,7 +420,7 @@ export const Konverzacija = () => {
             theme="dark"
             mode="inline"
             defaultSelectedKeys={[konverzacija?.id]}
-            selectedKeys={[konverzacija?.id]}
+            selectedKeys={[String(konverzacija?.id)]}
             items={_map(konverzacije, (x) => map(x))}
             onClick={onMenuClick}
             style={{
@@ -580,7 +574,7 @@ export const Konverzacija = () => {
                     dataSource={fileList}
                     renderItem={(item) => (
                       <List.Item>
-                        <div className="fileItem">
+                        <div className="fileItem fileItemColor">
                           <div className="fileName">{item.dokument.naziv}</div>
                           <div className="btn">
                             <Button

@@ -388,8 +388,11 @@ export const Registracija = () => {
                 display={display}
                 entityKey="id"
                 parent={form}
-                itemName="ustanovaOpstinaId"
+                itemName="ustanovaOpstinaIdId"
               />
+            </Form.Item>
+            <Form.Item name="ustanovaOpstinaIdId" hidden={true}>
+              <Input />
             </Form.Item>
             <Form.Item
               label="Broj indeksa, radne ili djacke knjizice"

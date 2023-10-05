@@ -1,5 +1,6 @@
 package web.mjob.services.impl;
 
+import lombok.Data;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.*;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -76,7 +77,7 @@ public class KonverzacijaServiceImpl extends CrudJpaService<KonverzacijaEntity,L
         var entity = super.insert(object, resultDtoClass, authentication);
 
         var korisnici = korisniciRepo.findAllByKorisnikTipIdNaziv(KorisnikTipEnum.Admin.name());
-        if(!authentication.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals(KorisnikTipEnum.ROLE_Admin.name())))
+        if(!korisnici.contains(korisnik))
             korisnici.add(korisnik);
         var konverzacija = getModelMapper().map(entity, KonverzacijaEntity.class);
 

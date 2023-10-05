@@ -89,6 +89,9 @@ function EmptyHeader() {
         onError
       );
     }
+    return () => {
+      if (subscription) subscription.unsubscribe();
+    };
   };
 
   const [subscription, setSubscription] = useState();

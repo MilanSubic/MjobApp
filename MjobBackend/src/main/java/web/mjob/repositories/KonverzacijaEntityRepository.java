@@ -18,13 +18,13 @@ public interface KonverzacijaEntityRepository extends JpaRepository<Konverzacija
 
     @Query(nativeQuery = true,
     value = "SELECT k.* from konverzacija k \n" +
-            "join (select konverzacija_id, max(kreirana) as datum from poruka where konverzacija_id in (select konverzacija_id from konverzacija_korisnik where korisnik_id = :korisnikId)\n" +
+            "left join (select konverzacija_id, max(kreirana) as datum from poruka where konverzacija_id in (select konverzacija_id from konverzacija_korisnik where korisnik_id = :korisnikId)\n" +
             " group by konverzacija_id) as p on p.konverzacija_id = k.id\n" +
             "            where k.id in (select konverzacija_id from konverzacija_korisnik where korisnik_id = :korisnikId)  \n" +
             "            and case when isnull(:tem) then true else k.tema like %:tem% end\n" +
             "            order by p.datum desc",
     countQuery = "SELECT count(*)  from konverzacija k \n" +
-            "join (select konverzacija_id, max(kreirana) as datum from poruka where konverzacija_id in (select konverzacija_id from konverzacija_korisnik where korisnik_id = :korisnikId)\n" +
+            "left join (select konverzacija_id, max(kreirana) as datum from poruka where konverzacija_id in (select konverzacija_id from konverzacija_korisnik where korisnik_id = :korisnikId)\n" +
             " group by konverzacija_id) as p on p.konverzacija_id = k.id\n" +
             "            where k.id in (select konverzacija_id from konverzacija_korisnik where korisnik_id = :korisnikId)  \n" +
             "            and case when isnull(:tem) then true else k.tema like %:tem% end")

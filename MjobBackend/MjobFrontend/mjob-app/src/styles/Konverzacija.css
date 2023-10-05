@@ -77,7 +77,8 @@
 .deleteButton{
     font-size: 10pt;
     background-color: transparent !important;
-    border: none !important
+    border: none !important;
+    color: white;
 }
 
 .downloadButton{

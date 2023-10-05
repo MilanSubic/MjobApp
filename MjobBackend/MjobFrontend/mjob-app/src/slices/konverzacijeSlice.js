@@ -22,7 +22,7 @@ export const konverzacijeSlice = createSlice({
     setCurrentPage: (state, action) => {
       state.currentPage = action.payload;
     },
-    pushKonverzacija: (state, action) => {
+    pushNewMessageKonverzacija: (state, action) => {
       if (
         state.konverzacija?.id != action.payload.id &&
         !state.tema &&
@@ -33,6 +33,9 @@ export const konverzacijeSlice = createSlice({
         );
         state.value = [action.payload, ...currentValue];
       }
+    },
+    pushKonverzacija: (state, action) => {
+      state.value = [action.payload, ...state.value];
     },
     readKonverzacija: (state, action) => {
       state.value = [
@@ -50,6 +53,7 @@ export const {
   setKonverzacija,
   setTema,
   setCurrentPage,
+  pushNewMessageKonverzacija,
   pushKonverzacija,
   readKonverzacija,
 } = konverzacijeSlice.actions;
