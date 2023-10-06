@@ -35,7 +35,7 @@ const PostData = (props) => {
 
   const loadPost = () => {
     oglasService.getPostById(props.id).then((result) => {
-      var originalDate = new Date(result.data.datum);
+      let originalDate = new Date(result.data.datum);
       result.data.datum = `${originalDate.getDate()}.${
         originalDate.getMonth() + 1
       }.${originalDate.getFullYear()}.`;

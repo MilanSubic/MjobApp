@@ -74,6 +74,17 @@ const Oglasi = () => {
       },
     },
     {
+      title: "Uplata",
+      dataIndex: "uplata",
+      render: (uplata) => {
+        return uplata ? (
+          <span style={{ color: "green" }}>Uplata je legla</span>
+        ) : (
+          <span style={{ color: "black" }}>Uplata nije legla</span>
+        );
+      },
+    },
+    {
       title: "",
       key: "actions1",
       dataIndex: "id",

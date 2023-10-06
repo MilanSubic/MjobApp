@@ -11,6 +11,7 @@ export const getAllOglasiById = (id) => {
 export const getMojiOglasi = () => {
   return instance.get(`/api/oglas/mojiOglasi`);
 };
+
 export const getAllOglasiJavni = () => {
   return instance.get("/api/oglas/javni");
 };

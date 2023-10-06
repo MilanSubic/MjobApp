@@ -14,4 +14,5 @@ public class PrijavljenKorisnikDto {
     private boolean odobren;
     private boolean odbijen;
     private boolean odjavljen;
+    private Boolean uplata;
 }

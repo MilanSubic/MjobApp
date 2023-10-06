@@ -451,7 +451,7 @@ const UsersModal = (props) => {
           <DatePicker
             placeholder=""
             // locale={moment.locale()
-            format="MMM DD YYYY"
+            format="DD.MM.YYYY"
             disabled={isViewOnly}
             //  value={valuee}
             // onSelect={(data) => {}}

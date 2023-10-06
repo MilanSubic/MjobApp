@@ -7,6 +7,7 @@ import moment from "moment/moment";
 const UsersListModal = (props) => {
   const { visible, onCancel, jobId, confirmLoading } = props;
   const [users, setUsers] = useState([]);
+
   const [usersForFirst, setUsersForFirst] = useState([]);
 
   useEffect(() => {
@@ -20,7 +21,10 @@ const UsersListModal = (props) => {
   const odbijZahtjev = (id) => {
     korisnikService.acceptJobRequest(jobId, id, false);
     const user = users.find((user) => user.korisnikByKorisnikId.id === id);
-    if (user != null) user.odobren = false;
+    if (user != null) {
+      user.odobren = false;
+      user.uplata = false;
+    }
     setUsers(users);
     setUsersForFirst(users.filter((el) => el.odobren === true));
   };
@@ -28,6 +32,20 @@ const UsersListModal = (props) => {
     korisnikService.acceptJobRequest(jobId, id, true);
     const user = users.find((user) => user.korisnikByKorisnikId.id === id);
     if (user != null) user.odobren = true;
+    setUsers(users);
+    setUsersForFirst(users.filter((el) => el.odobren === true));
+  };
+  const doajviUplatu = (id) => {
+    korisnikService.acceptUplata(jobId, id, true);
+    const user = users.find((user) => user.korisnikByKorisnikId.id === id);
+    if (user != null) user.uplata = true;
+    setUsers(users);
+    setUsersForFirst(users.filter((el) => el.odobren === true));
+  };
+  const ponistiDojavu = (id) => {
+    korisnikService.acceptUplata(jobId, id, false);
+    const user = users.find((user) => user.korisnikByKorisnikId.id === id);
+    if (user != null) user.uplata = false;
     setUsers(users);
     setUsersForFirst(users.filter((el) => el.odobren === true));
   };
@@ -102,12 +120,45 @@ const UsersListModal = (props) => {
         return record.brojTelefona;
       },
     },
-    {
+    /*  {
       title: "Email",
       dataIndex: "korisnikByKorisnikId",
       render: (record) => {
         return record.email;
       },
+    },
+  */ {
+      title: "Uplata",
+
+      render: (record) => {
+        console.log(
+          "Vrednost record.korisnikByKorisnikId.id:",
+          record.korisnikByKorisnikId.id
+        );
+        console.log("uplata:", record.uplata);
+        return record.uplata ? (
+          <span style={{ color: "green" }}>Uplata je legla</span>
+        ) : (
+          <span style={{ color: "black" }}>Uplata nije legla</span>
+        );
+      },
+    },
+    {
+      title: "Akcija",
+
+      render: (_text, record) => (
+        <Space size="middle">
+          {!record.uplata ? (
+            <a onClick={() => doajviUplatu(record.korisnikByKorisnikId.id)}>
+              potvrdi
+            </a>
+          ) : (
+            <a onClick={() => ponistiDojavu(record.korisnikByKorisnikId.id)}>
+              poništi
+            </a>
+          )}
+        </Space>
+      ),
     },
   ];
   const columns = [
@@ -160,14 +211,14 @@ const UsersListModal = (props) => {
         return record.brojTelefona;
       },
     },
-    {
+    /* {
       title: "Email",
       dataIndex: "korisnikByKorisnikId",
       render: (record) => {
         return record.email;
       },
     },
-    {
+    */ {
       title: "Akcija",
       render: (_text, record) => (
         <Space size="middle">

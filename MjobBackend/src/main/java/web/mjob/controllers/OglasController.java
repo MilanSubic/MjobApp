@@ -88,6 +88,7 @@ public class OglasController extends CrudController<Long, OglasDto,OglasDto> {
     public List<PrijavljenKorisnikDto> findMyAds(){
         return korisnikPrijavljenService.getMyAds(SecurityContextHolder.getContext().getAuthentication());
     }
+   
     @GetMapping("users/{id}")
     public List<Oglas> findByNarucilacId(@PathVariable Long id) throws NotFoundException {
         return oglasService.getAllOglasiByNarucilacId(id);
@@ -127,6 +128,12 @@ public class OglasController extends CrudController<Long, OglasDto,OglasDto> {
     public void reactOnRequestForJob(@PathVariable Long oglasId,@PathVariable Long korisnikId,@PathVariable Boolean accept)
     {
          korisnikPrijavljenService.acceptRequest(korisnikId,oglasId,accept);
+    }
+    @PutMapping("/{oglasId}/usersUplata/{korisnikId}/{accept}")
+    public void reactOnUplata(@PathVariable Long oglasId,@PathVariable Long korisnikId,@PathVariable Boolean accept)
+    {
+    	
+         korisnikPrijavljenService.potvrdiUplatu(korisnikId,oglasId,accept);
     }
     @PutMapping("/{oglasId}/refuse")
     public boolean refuseRequestForJob(@PathVariable Long oglasId)

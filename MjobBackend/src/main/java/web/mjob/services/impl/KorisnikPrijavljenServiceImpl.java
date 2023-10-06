@@ -62,6 +62,20 @@ public class KorisnikPrijavljenServiceImpl implements KorisnikPrijavljenService 
         //if(!getAllUsersForAd(oglasId).contains( mapper.map(userRepository.findKorisnikEntityById(userId),Korisnik.class)))
     }
 
+    
+    
+    @Override
+    public void potvrdiUplatu(Long userId, Long oglasId,Boolean accept) {
+        KorisnikPrijavljenEntity user=korisnikPrijavljenRepository.findKorisnikPrijavljenEntityByKorisnikByKorisnikIdAndOglasByOglasId(userRepository.findKorisnikEntityById(userId),oglasRepository.findOglasEntityById(oglasId));
+       
+        
+        
+            user.setUplata(accept);
+           
+            korisnikPrijavljenRepository.saveAndFlush(user);
+    
+    }
+    
     @Override
     public <T> List<T> findAll(Class<T> resultDtoClass) throws NotFoundException {
         return null;
@@ -133,6 +147,7 @@ public class KorisnikPrijavljenServiceImpl implements KorisnikPrijavljenService 
             {
                 korisnikPrijavljenEntity.setOdbijen(!accept);
                 korisnikPrijavljenEntity.setOdobren(accept);
+              korisnikPrijavljenEntity.setUplata(false);
             }
             korisnikPrijavljenRepository.saveAndFlush(korisnikPrijavljenEntity);
         }
@@ -143,9 +158,11 @@ public class KorisnikPrijavljenServiceImpl implements KorisnikPrijavljenService 
         KorisnikEntity korisnik= userRepository.findKorisnikEntityByKorisnickoIme(authentication.getName());
         List<KorisnikPrijavljenEntity> prijavljenikorisnici=korisnikPrijavljenRepository.findKorisnikPrijavljenEntitiesByKorisnikByKorisnikId(korisnik);
         List<PrijavljenKorisnikDto> lista=prijavljenikorisnici.stream().map(e->mapper.map(e, PrijavljenKorisnikDto.class)).collect(Collectors.toList());
+      
         return lista.stream().filter((el)->!el.getOglasByOglasId().getObrisan()).toList();
 
     }
+    
 
     @Override
     public boolean refuseRequest(Long id) {
@@ -156,6 +173,7 @@ public class KorisnikPrijavljenServiceImpl implements KorisnikPrijavljenService 
             korisnikPrijavljenEntity.setPrijavljen(false);
             if(korisnikPrijavljenEntity.getOdobren())
                 korisnikPrijavljenEntity.setOdobren(false);
+            
             korisnikPrijavljenRepository.saveAndFlush(korisnikPrijavljenEntity);
             return true;
         }

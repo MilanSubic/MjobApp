@@ -26,6 +26,9 @@ public class KorisnikPrijavljenEntity {
     @Basic
     @Column(name = "prijavljen", nullable = false)
     private Boolean prijavljen;
+    @Basic
+    @Column(name = "uplata",nullable=true)
+    private Boolean uplata=false;
     @ManyToOne
     @JoinColumn(name = "oglas_id", referencedColumnName = "id", nullable = false)
     private OglasEntity oglasByOglasId;

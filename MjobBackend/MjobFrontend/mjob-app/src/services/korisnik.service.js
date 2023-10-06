@@ -33,6 +33,11 @@ export const reactivateUser = (id) => {
 export const acceptJobRequest = (oglasId, korisnikId, accept) => {
   return instance.put(`/api/oglas/${oglasId}/user/${korisnikId}/${accept}`);
 };
+export const acceptUplata = (oglasId, korisnikId, accept) => {
+  return instance.put(
+    `/api/oglas/${oglasId}/usersUplata/${korisnikId}/${accept}`
+  );
+};
 export const refuseJobRequest = (oglasId) => {
   return authInstance.put(`/api/oglas/${oglasId}/refuse`);
 };
@@ -48,4 +53,5 @@ export default {
   getAllUserRequestsForJob,
   acceptJobRequest,
   refuseJobRequest,
+  acceptUplata,
 };
