@@ -253,8 +253,8 @@ export const Registracija = () => {
               <Input />
             </Form.Item>
             <Form.Item
-              label="Opstina"
-              name="opstina"
+              label="Mjesto stanovanja"
+              name="naseljenoMjesto"
               rules={[
                 {
                   required: true,
@@ -267,16 +267,16 @@ export const Registracija = () => {
                   width: "50%",
                 }}
                 columns={selectColumns}
-                api="/api/registracija/opstine"
+                api="/api/registracija/naseljenoMjesto"
                 httpService={httpService}
                 keyProp="id"
                 display={display}
                 entityKey="id"
                 parent={form}
-                itemName="opstinaId"
+                itemName="naseljenoMjestoId"
               />
             </Form.Item>
-            <Form.Item name="opstinaId" hidden>
+            <Form.Item name="naseljenoMjestoId" hidden>
               <Input />
             </Form.Item>
             <Form.Item

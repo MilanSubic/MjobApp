@@ -24,13 +24,16 @@ public class RegistracijaController {
     public final ObrazovnaUstanovaTipService obrazovnaUstanovaTipService;
     public final OpstinaService opstinaService;
     public final DokumentTipService dokumentTipService;
-    public RegistracijaController(RegistracijaService registracijaService, KorisnikTipService korisnikTipService, KorisnikPolService korisnikPolService, ObrazovnaUstanovaTipService obrazovnaUstanovaTipService, OpstinaService opstinaService, DokumentTipService dokumentTipService){
+    public final NaseljenoMjestoService naseljenoMjestoService;
+    
+    public RegistracijaController(RegistracijaService registracijaService, KorisnikTipService korisnikTipService, KorisnikPolService korisnikPolService, ObrazovnaUstanovaTipService obrazovnaUstanovaTipService, OpstinaService opstinaService, DokumentTipService dokumentTipService,NaseljenoMjestoService naseljenoMjestoService){
         this.registracijaService = registracijaService;
         this.korisnikTipService = korisnikTipService;
         this.korisnikPolService = korisnikPolService;
         this.obrazovnaUstanovaTipService = obrazovnaUstanovaTipService;
         this.opstinaService = opstinaService;
         this.dokumentTipService = dokumentTipService;
+		this.naseljenoMjestoService = naseljenoMjestoService;
     }
 
     @PostMapping("signup")
@@ -43,6 +46,10 @@ public class RegistracijaController {
     @PostMapping("opstine")
     public Page<OpstinaDto> findAllOpstine(@RequestBody Request<OpstinaDto> request, Principal principal) throws NotFoundException {
         return opstinaService.findAllFiltered(request,OpstinaDto.class, SecurityContextHolder.getContext().getAuthentication());
+    }
+    @PostMapping("naseljenoMjesto")
+    public Page<NaseljenoMjesto> findAllNaseljenoMjesto(@RequestBody Request<NaseljenoMjesto> request, Principal principal) throws NotFoundException {
+        return naseljenoMjestoService.findAllFiltered(request,NaseljenoMjesto.class, SecurityContextHolder.getContext().getAuthentication());
     }
 
     @PostMapping("pol")

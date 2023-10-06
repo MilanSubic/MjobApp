@@ -51,7 +51,7 @@ public class RegistracijaDto {
     private Integer ustanovaOpstinaIdId;
 
     private Long opstinaId;
-
+    private Long naseljenoMjestoId;
     private String ulicaIBroj;
 
     private Integer godina;
