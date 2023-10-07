@@ -103,6 +103,11 @@ const AdModal = (props) => {
           <Button onClick={() => onCancel()}>IZAĐI</Button>
         </div>
       )}
+      {userType !== "korisnik" && userType !== "admin" && (
+        <div style={{ textAlign: "right" }}>
+          <Button onClick={() => onCancel()}>IZAĐI</Button>
+        </div>
+      )}
     </Modal>
   );
 };
