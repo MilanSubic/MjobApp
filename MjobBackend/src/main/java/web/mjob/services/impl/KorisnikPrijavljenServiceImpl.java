@@ -7,6 +7,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
+
+import web.mjob.config.WebSocketConfig;
 import web.mjob.exceptions.NotFoundException;
 import web.mjob.models.dto.Korisnik;
 import web.mjob.models.dto.Oglas;
@@ -17,13 +19,15 @@ import web.mjob.models.entities.KorisnikPrijavljenEntity;
 import web.mjob.models.entities.KorisnikStatusEntity;
 import web.mjob.models.entities.OglasEntity;
 import web.mjob.repositories.*;
+
 import web.mjob.services.EmailService;
 import web.mjob.services.KorisnikPrijavljenService;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 @Service
 @Transactional
 public class KorisnikPrijavljenServiceImpl implements KorisnikPrijavljenService {
@@ -32,16 +36,21 @@ public class KorisnikPrijavljenServiceImpl implements KorisnikPrijavljenService 
     public final OglasRepository oglasRepository;
     private final KorisnikPrijavljenRepository korisnikPrijavljenRepository;
     private final ModelMapper mapper;
+    
+    private final SimpMessagingTemplate messagingTemplate;
+    
 
     public KorisnikPrijavljenServiceImpl(KorisnikEntityRepository userRepository,OglasRepository oglasRepository,
                                KorisnikPrijavljenRepository korisnikPrijavljenRepository,
-                               ModelMapper modelMapper
-                               )
+                               ModelMapper modelMapper,SimpMessagingTemplate simpMessagingTemplate
+                              )
     {
         this.userRepository = userRepository;
         this.oglasRepository = oglasRepository;
         this.mapper=modelMapper;
         this.korisnikPrijavljenRepository=korisnikPrijavljenRepository;
+		
+		this.messagingTemplate = simpMessagingTemplate;
     }
     @Override
     public void prijaviKorisnikaNaOglas(Long userId, Long oglasId) {
@@ -60,6 +69,8 @@ public class KorisnikPrijavljenServiceImpl implements KorisnikPrijavljenService 
             korisnikPrijavljenRepository.saveAndFlush(user);
         }
         //if(!getAllUsersForAd(oglasId).contains( mapper.map(userRepository.findKorisnikEntityById(userId),Korisnik.class)))
+        
+        messagingTemplate.convertAndSend("/oglas/*/prijava", "Korisnik se prijavio na oglas!");
     }
 
     
@@ -73,6 +84,9 @@ public class KorisnikPrijavljenServiceImpl implements KorisnikPrijavljenService 
             user.setUplata(accept);
            
             korisnikPrijavljenRepository.saveAndFlush(user);
+          
+            messagingTemplate.convertAndSend("/oglas", "Uplata je promjenjena!");
+           
     
     }
     
@@ -142,14 +156,17 @@ public class KorisnikPrijavljenServiceImpl implements KorisnikPrijavljenService 
             {
                 korisnikPrijavljenEntity.setOdobren(accept);
                 korisnikPrijavljenEntity.setOdbijen(!accept);
+                messagingTemplate.convertAndSend("/oglas", "Zahtjev je prihvacen!");
             }
             else
             {
                 korisnikPrijavljenEntity.setOdbijen(!accept);
                 korisnikPrijavljenEntity.setOdobren(accept);
               korisnikPrijavljenEntity.setUplata(false);
+              messagingTemplate.convertAndSend("/oglas", "Zahtjev je odbijen!");
             }
             korisnikPrijavljenRepository.saveAndFlush(korisnikPrijavljenEntity);
+           // messagingTemplate.convertAndSend("/oglas", "ponovo ucitaj!");
         }
     }
     @Override
@@ -173,8 +190,10 @@ public class KorisnikPrijavljenServiceImpl implements KorisnikPrijavljenService 
             korisnikPrijavljenEntity.setPrijavljen(false);
             if(korisnikPrijavljenEntity.getOdobren())
                 korisnikPrijavljenEntity.setOdobren(false);
-            
+            korisnikPrijavljenEntity.setUplata(false);
+           
             korisnikPrijavljenRepository.saveAndFlush(korisnikPrijavljenEntity);
+            messagingTemplate.convertAndSend("/oglas/"+id+"/refuse", "Korisnik se odjavio sa posla!");
             return true;
         }
         return false;

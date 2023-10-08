@@ -4,8 +4,39 @@ import OglasiService from "../../services/OglasiService";
 import moment from "moment";
 import { Button, Tooltip, message } from "antd";
 import korisnikService from "../../services/korisnik.service";
+import SockJS from "sockjs-client";
+import environments from "../../environments";
+import { over } from "stompjs";
+
+let stompClient = null;
+let konverzacijeSub = null;
 
 const Oglasi = () => {
+  const connect = () => {
+    if (!stompClient) {
+      const Sock = new SockJS(environments().wsUrl);
+      stompClient = over(Sock);
+
+      const token = localStorage.getItem("token");
+      stompClient.connect(
+        { Authorization: `Bearer ${token}` },
+        onConnected,
+        onError
+      );
+    }
+  };
+  const onError = (err) => {
+    console.log(err);
+  };
+  const onConnected = () => {
+    konverzacijeSub = stompClient.subscribe("/oglas", onMessageReceived);
+  };
+  const onMessageReceived = (payload) => {
+    // const poruka = JSON.parse(payload.body);
+
+    if (!(payload.body === "Korisnik se odjavio sa posla!")) load();
+  };
+
   const columns = [
     {
       title: "Status",
@@ -96,8 +127,21 @@ const Oglasi = () => {
     },
   ];
   const [ads, setAds] = useState([]);
+
   useEffect(() => {
-    load();
+    return () => {
+      if (!stompClient) connect();
+      else {
+        stompClient.disconnect(() => {
+          stompClient = null;
+        });
+      }
+      if (konverzacijeSub && stompClient) {
+        konverzacijeSub.unsubscribe();
+        konverzacijeSub = null;
+      }
+      load();
+    };
   }, []);
   const odjaviSe = (id) => {
     korisnikService.refuseJobRequest(id).then((res) => {
@@ -105,6 +149,8 @@ const Oglasi = () => {
       if (res.data === true) {
         message.success("Uspješna odjava!");
         load();
+        const updatedAds = ads.filter((ad) => ad.id !== id);
+        setAds(updatedAds);
       } else
         message.error("Nije moguća odjava sa oglasa na kojem ste odbijeni!");
     });

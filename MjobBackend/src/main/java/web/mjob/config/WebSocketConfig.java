@@ -92,6 +92,8 @@ import java.util.List;
         registry.setApplicationDestinationPrefixes("/app");
         registry.enableSimpleBroker("/konverzacija");
         registry.setUserDestinationPrefix("/konverzacija");
+        registry.enableSimpleBroker("/oglas");
+        registry.setUserDestinationPrefix("/oglas");
     }
 
     @Override
