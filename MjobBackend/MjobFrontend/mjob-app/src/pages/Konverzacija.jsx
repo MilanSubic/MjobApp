@@ -23,7 +23,7 @@ import {
 } from "antd";
 import Sider from "antd/es/layout/Sider";
 import { Content, Footer, Header } from "antd/es/layout/layout";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   getKonverzacije,
   getPoruke,
@@ -56,7 +56,6 @@ let subscription = null;
 let konverzacijeSub = null;
 
 export const Konverzacija = () => {
-  const bottomEl = useRef(null);
   const {
     token: { colorBgContainer },
   } = theme.useToken();
@@ -68,6 +67,7 @@ export const Konverzacija = () => {
 
   const messages = useSelector((state) => state.messages.value);
   const firstMessage = useSelector((state) => state.messages.firstMessage);
+  const scroll = useSelector((state) => state.messages.scroll);
   const konverzacije = useSelector((state) => state.konverzacije.value);
   const konverzacija = useSelector((state) => state.konverzacije.konverzacija);
   const tema = useSelector((state) => state.konverzacije.tema);
@@ -104,11 +104,12 @@ export const Konverzacija = () => {
 
   const [messageTotalPages, setMessageTotalPages] = useState();
 
-  const scrollToBottom = () => {
-    setTimeout(() => {
-      bottomEl?.current?.scrollIntoView({ behavior: "smooth" });
-    }, 10);
-  };
+  useEffect(() => {
+    if (scroll) {
+      const divElement = document.getElementById("m" + scroll.id);
+      divElement.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [scroll]);
 
   const onMenuClick = (c) => {
     // eslint-disable-next-line eqeqeq
@@ -125,7 +126,7 @@ export const Konverzacija = () => {
       const Sock = new SockJS(environments().wsUrl);
       stompClient = over(Sock);
 
-      const token = localStorage.getItem("token");
+      const token = sessionStorage.getItem("token");
       stompClient.connect(
         { Authorization: `Bearer ${token}` },
         onConnected,
@@ -160,7 +161,7 @@ export const Konverzacija = () => {
         prevId = id;
         if (subscription) subscription.unsubscribe();
         subscription = stompClient.subscribe(
-          "/korisnik/konverzacija(" + id + ")/poruke",
+          `/korisnik/konverzacija(${id})/${currentUser.sub}/poruke`,
           onMessageReceived
         );
       }
@@ -194,7 +195,6 @@ export const Konverzacija = () => {
     const poruka = JSON.parse(payload.body);
 
     dispatch(addMessage(poruka));
-    scrollToBottom();
   };
 
   const map = (d) => ({
@@ -239,7 +239,6 @@ export const Konverzacija = () => {
   const getPorukaData = () => {
     getPoruke({
       current: 0,
-      // dodati virtual scroll
       pageSize: messagePageSize,
       property: "id",
       direction: "DESC",
@@ -248,7 +247,6 @@ export const Konverzacija = () => {
       dispatch(setMessages(res.data.content));
       setMessageTotalPages(res.data.totalPages);
       subscribeOnKonverzacija(konverzacija.id);
-      scrollToBottom();
     });
   };
 
@@ -600,7 +598,6 @@ export const Konverzacija = () => {
                 ))}
               </div>
             )}
-            <div ref={bottomEl}></div>
           </div>
         </Content>
         <Divider style={{ margin: 0 }} />

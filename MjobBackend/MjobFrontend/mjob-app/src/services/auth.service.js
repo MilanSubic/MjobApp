@@ -2,7 +2,7 @@ import jwtDecode from "jwt-decode";
 
 export function getCurrentUser() {
   try {
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
     const jwtDecoded = jwtDecode(token);
     return jwtDecoded;
   } catch (error) {

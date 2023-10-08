@@ -66,7 +66,8 @@ const AdModal = (props) => {
     if (
       visible &&
       currentUser &&
-      currentUser.authorities.find((a) => Role.Admin === a.authority)
+      currentUser.authorities.find((a) => Role.Admin === a.authority) &&
+      dani
     ) {
       oglasiService.getViewStatistika(post.id, dani).then((res) => {
         const data =

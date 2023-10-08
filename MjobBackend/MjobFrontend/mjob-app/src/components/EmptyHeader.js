@@ -158,8 +158,6 @@ function EmptyHeader() {
                   <a
                     href="/home"
                     onClick={() => {
-                      localStorage.removeItem("tipKorisnika");
-                      localStorage.removeItem("token");
                       sessionStorage.removeItem("tipKorisnika");
                       sessionStorage.removeItem("token");
                     }}

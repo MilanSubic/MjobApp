@@ -18,7 +18,7 @@ const Oglasi = () => {
       const Sock = new SockJS(environments().wsUrl);
       stompClient = over(Sock);
 
-      const token = localStorage.getItem("token");
+      const token = sessionStorage.getItem("token");
       stompClient.connect(
         { Authorization: `Bearer ${token}` },
         onConnected,
