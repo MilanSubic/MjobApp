@@ -9,8 +9,9 @@ import environments from "../../environments";
 import { over } from "stompjs";
 
 let stompClient = null;
-let konverzacijeSub = null;
-
+// let konverzacijeSub = null;
+let pom1 = null;
+let pom2 = null;
 const Oglasi = () => {
   const connect = () => {
     if (!stompClient) {
@@ -29,7 +30,9 @@ const Oglasi = () => {
     console.log(err);
   };
   const onConnected = () => {
-    konverzacijeSub = stompClient.subscribe("/oglas", onMessageReceived);
+    // konverzacijeSub = stompClient.subscribe("/oglas", onMessageReceived);
+    pom1 = stompClient.subscribe("/oglas/*/usersUplata/*", onMessageReceived);
+    pom2 = stompClient.subscribe("/oglas/*/user/*", onMessageReceived);
   };
   const onMessageReceived = (payload) => {
     // const poruka = JSON.parse(payload.body);
@@ -136,9 +139,13 @@ const Oglasi = () => {
           stompClient = null;
         });
       }
-      if (konverzacijeSub && stompClient) {
-        konverzacijeSub.unsubscribe();
-        konverzacijeSub = null;
+      if (pom1 && pom2) {
+        // konverzacijeSub.unsubscribe();
+        // konverzacijeSub = null;
+        pom1.unsubscribe();
+        pom2.unsubscribe();
+        pom1 = null;
+        pom2 = null;
       }
       load();
     };

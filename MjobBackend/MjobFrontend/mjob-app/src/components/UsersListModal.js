@@ -33,7 +33,7 @@ const UsersListModal = (props) => {
   };
   const onConnected = () => {
     konverzacijeSub = stompClient.subscribe(
-      "/oglas/" + jobId + "/refuse",
+      "/oglas/*/refuse",
       onMessageReceived
     );
     temp = stompClient.subscribe("/oglas/*/prijava", onMessageReceived);
