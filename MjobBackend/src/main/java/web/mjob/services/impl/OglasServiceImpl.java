@@ -5,14 +5,16 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import web.mjob.base.CrudJpaService;
-import web.mjob.models.dto.Korisnik;
 import web.mjob.models.dto.Oglas;
 import web.mjob.models.entities.KorisnikEntity;
 import web.mjob.models.entities.KorisnikPrijavljenEntity;
 import web.mjob.models.entities.OglasEntity;
+import web.mjob.models.entities.OglasStatistikaEntity;
+import web.mjob.models.enums.KorisnikTipEnum;
 import web.mjob.repositories.KorisnikEntityRepository;
 import web.mjob.repositories.KorisnikPrijavljenRepository;
 import web.mjob.repositories.OglasEntityRepository;
+import web.mjob.repositories.OglasStatistikaEntityRepository;
 import web.mjob.services.OglasService;
 
 import java.sql.Timestamp;
@@ -31,12 +33,15 @@ public class OglasServiceImpl extends CrudJpaService<OglasEntity,Long> implement
     public final KorisnikPrijavljenRepository korisnikPrijavljenRepository;
     public final ModelMapper modelMapper;
 
-    public OglasServiceImpl(OglasEntityRepository repository, KorisnikEntityRepository korisnikEntityRepository, KorisnikPrijavljenRepository korisnikPrijavljenRepository, ModelMapper modelMapper) {
+    public final OglasStatistikaEntityRepository oglasStatRepository;
+
+    public OglasServiceImpl(OglasEntityRepository repository, KorisnikEntityRepository korisnikEntityRepository, KorisnikPrijavljenRepository korisnikPrijavljenRepository, ModelMapper modelMapper, OglasStatistikaEntityRepository oglasStatRepository) {
         super(repository, modelMapper, OglasEntity.class);
         this.repository = repository;
         this.modelMapper = modelMapper;
         this.korisnikEntityRepository=korisnikEntityRepository;
         this.korisnikPrijavljenRepository=korisnikPrijavljenRepository;
+        this.oglasStatRepository = oglasStatRepository;
     }
 
     @Override
@@ -94,6 +99,23 @@ public class OglasServiceImpl extends CrudJpaService<OglasEntity,Long> implement
         repository.saveAndFlush(o);
     }
 
+    @Override
+    public void view(Long id, Authentication authentication) {
+        var name = authentication.getName();
+        KorisnikEntity korisnik=korisnikEntityRepository.findKorisnikEntityByKorisnickoIme(authentication.getName());
+        Optional<OglasEntity> o = repository.findById(id);
+
+        if(o.isPresent() && (korisnik == null || !korisnik.getKorisnikTipId().getNaziv().equals(KorisnikTipEnum.Admin))){
+
+            OglasStatistikaEntity os = new OglasStatistikaEntity();
+            os.setOglas(o.get());
+            os.setKorisnik(korisnik);
+            os.setVrijeme(new Date());
+
+            os.setId(null);
+            oglasStatRepository.saveAndFlush(os);
+        }
+    }
 }
 
 /*

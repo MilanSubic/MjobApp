@@ -4,6 +4,8 @@ import { PropTypes } from "prop-types";
 import oglasService from "../services/OglasService";
 import AdModal from "./AdModal";
 import moment from "moment";
+import { getCurrentUser } from "../services/auth.service";
+import { Role } from "../enums/role.enum";
 
 const CustomCard = (props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -21,7 +23,15 @@ const CustomCard = (props) => {
     novcanaNaknadaTipNaziv: "",
     posaoTipNaziv: "",
   });
+  const [currentUser] = useState(getCurrentUser());
   const openModal = () => {
+    if (
+      currentUser &&
+      !currentUser.authorities.find((a) => Role.Admin === a.authority)
+    )
+      oglasService.viewAuth(post.id).then(() => {});
+    else if (!currentUser) oglasService.view(post.id).then(() => {});
+
     setIsModalOpen(true);
   };
   const closeModal = () => {

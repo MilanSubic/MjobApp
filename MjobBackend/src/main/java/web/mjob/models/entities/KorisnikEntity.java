@@ -2,6 +2,8 @@ package web.mjob.models.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
 import web.mjob.base.BaseEntity;
 
 import jakarta.persistence.*;
@@ -9,6 +11,7 @@ import jakarta.persistence.*;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.UUID;
 
 @Data
 @Entity

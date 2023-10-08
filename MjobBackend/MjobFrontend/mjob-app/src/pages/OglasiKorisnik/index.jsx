@@ -31,8 +31,11 @@ const Oglasi = () => {
   };
   const onConnected = () => {
     // konverzacijeSub = stompClient.subscribe("/oglas", onMessageReceived);
-    pom1 = stompClient.subscribe("/oglas/*/usersUplata/*", onMessageReceived);
-    pom2 = stompClient.subscribe("/oglas/*/user/*", onMessageReceived);
+    pom1 = stompClient.subscribe(
+      "/korisnik/oglas/*/usersUplata/*",
+      onMessageReceived
+    );
+    pom2 = stompClient.subscribe("/korisnik/oglas/*/user/*", onMessageReceived);
   };
   const onMessageReceived = (payload) => {
     // const poruka = JSON.parse(payload.body);

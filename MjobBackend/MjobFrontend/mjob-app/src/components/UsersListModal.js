@@ -33,10 +33,13 @@ const UsersListModal = (props) => {
   };
   const onConnected = () => {
     konverzacijeSub = stompClient.subscribe(
-      "/oglas/*/refuse",
+      "/korisnik/oglas/*/refuse",
       onMessageReceived
     );
-    temp = stompClient.subscribe("/oglas/*/prijava", onMessageReceived);
+    temp = stompClient.subscribe(
+      "/korisnik/oglas/*/prijava",
+      onMessageReceived
+    );
   };
   const onMessageReceived = (payload) => {
     // const poruka = JSON.parse(payload.body);

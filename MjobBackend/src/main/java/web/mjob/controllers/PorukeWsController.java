@@ -72,7 +72,7 @@ public class PorukeWsController {
         };
 
         var res = porukaService.insert(message, PorukaDto.class, auth);
-        simpMessagingTemplate.convertAndSendToUser(message.getKonverzacijaId().toString(),"/poruke",res);
+        simpMessagingTemplate.convertAndSendToUser("konverzacija("+message.getKonverzacijaId().toString()+")","/poruke",res);
 
         var kk = kkRepository.findAllByKonverzacijaIdAndKorisnikKorisnickoImeNot(message.getKonverzacijaId(), principal.getName());
 

@@ -100,7 +100,7 @@ function EmptyHeader() {
     if (subscription) subscription.unsubscribe();
     setSubscription(
       stompClient.subscribe(
-        "/konverzacija/" + currentUser.sub + "/obavjestenje",
+        "/korisnik/" + currentUser.sub + "/obavjestenje",
         onMessageReceived
       )
     );

@@ -90,10 +90,8 @@ import java.util.List;
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
         registry.setApplicationDestinationPrefixes("/app");
-        registry.enableSimpleBroker("/konverzacija");
-        registry.setUserDestinationPrefix("/konverzacija");
-        registry.enableSimpleBroker("/oglas");
-        registry.setUserDestinationPrefix("/oglas");
+        registry.enableSimpleBroker("/korisnik");
+        registry.setUserDestinationPrefix("/korisnik/");
     }
 
     @Override

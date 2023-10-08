@@ -17,9 +17,18 @@ export const getPostById = (id) => {
 export const update = (id, ad) => {
   return instance.put(`/api/oglas/${id}`, ad).then((res) => res.data);
 };
+export const view = (id) => {
+  return instance.put(`/api/oglas/${id}/view`);
+};
+export const viewAuth = (id) => {
+  return authInstance.put(`/api/oglas/${id}/view`);
+};
+
 export default {
   creatad,
   getAll,
   getPostById,
   update,
+  view,
+  viewAuth,
 };

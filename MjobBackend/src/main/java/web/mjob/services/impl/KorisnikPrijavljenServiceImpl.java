@@ -70,7 +70,7 @@ public class KorisnikPrijavljenServiceImpl implements KorisnikPrijavljenService 
         }
         //if(!getAllUsersForAd(oglasId).contains( mapper.map(userRepository.findKorisnikEntityById(userId),Korisnik.class)))
         
-        messagingTemplate.convertAndSend("/oglas/*/prijava", "Korisnik se prijavio na oglas!");
+        messagingTemplate.convertAndSend("/korisnik/oglas/*/prijava", "Korisnik se prijavio na oglas!");
     }
 
     
@@ -85,7 +85,7 @@ public class KorisnikPrijavljenServiceImpl implements KorisnikPrijavljenService 
            
             korisnikPrijavljenRepository.saveAndFlush(user);
           
-            messagingTemplate.convertAndSend("/oglas/*/usersUplata/*", "Uplata je promjenjena!");
+            messagingTemplate.convertAndSend("/korisnik/oglas/*/usersUplata/*", "Uplata je promjenjena!");
            
     
     }
@@ -156,14 +156,14 @@ public class KorisnikPrijavljenServiceImpl implements KorisnikPrijavljenService 
             {
                 korisnikPrijavljenEntity.setOdobren(accept);
                 korisnikPrijavljenEntity.setOdbijen(!accept);
-                messagingTemplate.convertAndSend("/oglas/*/user/*", "Zahtjev je prihvacen!");
+                messagingTemplate.convertAndSend("/korisnik/oglas/*/user/*", "Zahtjev je prihvacen!");
             }
             else
             {
                 korisnikPrijavljenEntity.setOdbijen(!accept);
                 korisnikPrijavljenEntity.setOdobren(accept);
               korisnikPrijavljenEntity.setUplata(false);
-              messagingTemplate.convertAndSend("/oglas/*/user/*", "Zahtjev je odbijen!");
+              messagingTemplate.convertAndSend("/korisnik/oglas/*/user/*", "Zahtjev je odbijen!");
             }
             korisnikPrijavljenRepository.saveAndFlush(korisnikPrijavljenEntity);
            // messagingTemplate.convertAndSend("/oglas", "ponovo ucitaj!");
@@ -193,7 +193,7 @@ public class KorisnikPrijavljenServiceImpl implements KorisnikPrijavljenService 
             korisnikPrijavljenEntity.setUplata(false);
            
             korisnikPrijavljenRepository.saveAndFlush(korisnikPrijavljenEntity);
-            messagingTemplate.convertAndSend("/oglas/*/refuse", "Korisnik se odjavio sa posla!");
+            messagingTemplate.convertAndSend("/korisnik/oglas/*/refuse", "Korisnik se odjavio sa posla!");
             return true;
         }
         return false;
