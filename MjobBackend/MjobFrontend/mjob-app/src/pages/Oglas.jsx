@@ -40,7 +40,7 @@ class Oglas extends React.Component {
         <br />
         <b>Datum objave: </b> {datum.substring(0, 10)}
         <br />
-        <b>Narucilac: </b> {narucilac}
+        <b>Naručilac: </b> {narucilac}
         <br />
         <br />
         <Button>PRIJAVI SE</Button>

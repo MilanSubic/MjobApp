@@ -27,7 +27,7 @@ const AdModal = (props) => {
   const [dani, setDani] = useState(5);
   const [currentUser] = useState(getCurrentUser());
   useEffect(() => {
-    setUserType(localStorage.getItem("tipKorisnika"));
+    setUserType(sessionStorage.getItem("tipKorisnika"));
     setEditMode(editMode);
   }, []);
 
@@ -55,10 +55,10 @@ const AdModal = (props) => {
               "/prijava"
           );
         });
-        message.success("Uspjesna prijava");
+        message.success("Uspješna prijava");
         setIsButtonDisabled(true);
       } catch (error) {
-        message.error("Doslo je do greske prilikom prijave");
+        message.error("Došlo je do greške prilikom prijave");
       }
     }
   }
