@@ -12,14 +12,10 @@ import java.util.List;
 @Table(name = "dokument _tip", schema = "mjob_database")
 public class DokumentTipEntity implements BaseEntity<Long> {
     @Id
-    @GeneratedValue
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
     @Basic
     @Column(name = "naziv", nullable = false, length = 100)
     private String naziv;
-    @OneToMany(mappedBy = "dokumentTipId")
-    private List<DokumentEntity> dokumentsById;
-
-
 }

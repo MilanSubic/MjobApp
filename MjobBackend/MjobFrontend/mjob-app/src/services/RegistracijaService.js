@@ -1,6 +1,6 @@
-import BasicService from "./BasicService";
+import service from "./base.service";
 
-const instance = BasicService.service();
+const instance = service.service(true);
 
 export const signup = (data) => {
   return instance.post("/api/registracija/signup", data);

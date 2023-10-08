@@ -27,18 +27,21 @@ function Login() {
       );
       const jwt = response.data.token;
       localStorage.setItem("token", jwt);
-      korisnikService.getUserByUsername(user.username).then((res) => {
-        console.log(res.korisnikTipNaziv);
-        localStorage.setItem("tipKorisnika", res.korisnikTipNaziv);
-      });
+      localStorage.setItem("reloadCount", "1");
+
+      if (jwt) {
+        korisnikService.getUserByUsername(user.username).then((res) => {
+          console.log(res.korisnikTipNaziv);
+          localStorage.setItem("tipKorisnika", res.korisnikTipNaziv);
+          navigate("/home");
+        });
+      }
       /* const config = {
         headers: {
           Authorization: `Bearer ${jwt}`,
         },
       }; */
       console.log("Uspjesno ste se ulogovali");
-      console.log(jwt);
-      navigate("/home");
     } catch (error) {
       console.log("Niste se uspjesno ulogovali");
     }
@@ -54,9 +57,11 @@ function Login() {
           </div>
         </div>
 
-        <div className="right">
+        <div
+          className="right"
+          style={{ display: "flex", flexDirection: "column" }}
+        >
           <h1>Prijavi se</h1>
-          <Link to="/signup">Registruj se</Link>
 
           <div className="inputs">
             <Input
@@ -79,6 +84,15 @@ function Login() {
           <button className="login-button" onClick={hadleClick}>
             Prijavi se
           </button>
+          <div style={{ paddingTop: 20, paddingLeft: 35 }}>
+            <p>Nemate korisnički račun?</p>
+            <Link
+              to="/signup"
+              style={{ textDecoration: "none", paddingLeft: 45, color: "blue" }}
+            >
+              Registruj se
+            </Link>
+          </div>
         </div>
       </div>
     </div>

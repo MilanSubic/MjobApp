@@ -43,7 +43,7 @@ public class JwtUserDetailsService implements UserDetailsService {
             KorisnikEntity user=userRepository.findKorisnikEntityByKorisnickoIme(username);
             String userRole=user.getKorisnikTipId().getNaziv();
             System.out.println("userRole:"+userRole+" username:"+user.getKorisnickoIme()+" password:"+user.getLozinka());
-            SimpleGrantedAuthority role=new SimpleGrantedAuthority(userRole);
+            SimpleGrantedAuthority role=new SimpleGrantedAuthority("ROLE_"+userRole);
             return new User(user.getKorisnickoIme(),user.getLozinka(), Collections.singleton(role));
         }catch(Exception e){throw new UsernameNotFoundException("username is not found");}
 

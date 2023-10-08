@@ -15,7 +15,7 @@ import java.util.List;
 @Table(name = "korisnik", schema = "mjob_database")
 public class KorisnikEntity implements BaseEntity<Long> {
     @Id
-    @GeneratedValue
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
     @Basic
@@ -37,7 +37,7 @@ public class KorisnikEntity implements BaseEntity<Long> {
     @Column(name = "brojClanskeKarte", nullable = true)
     private Integer brojClanskeKarte;
     @Basic
-    @Column(name = "brojLicneKarte", nullable = true, length = 7)
+    @Column(name = "brojLicneKarte", nullable = true, length = 9)
     private String brojLicneKarte;
     @Basic
     @Column(name = "brojTelefona", nullable = false, length = 45)
@@ -49,7 +49,7 @@ public class KorisnikEntity implements BaseEntity<Long> {
     @JoinColumn(name = "obrazovna_ustanova_tip_id", referencedColumnName = "id", nullable = false)
     private ObrazovnaUstanovaTipEntity obrazovnaUstanovaTip;
     @Basic
-    @Column(name = "obrazovnaUstanova", nullable = false, length = 45)
+    @Column(name = "obrazovnaUstanova", nullable = false, length = 250)
     private String obrazovnaUstanova;
     @Basic
     @Column(name = "identifikator", nullable = false, length = 45)
@@ -92,16 +92,16 @@ public class KorisnikEntity implements BaseEntity<Long> {
     private String brojMobilogTelefona;
     @OneToMany(mappedBy = "korisnikByKorisnikId")
     private List<ClanstvoOsnovEntity> clanstvoOsnovsById;
-    @OneToMany(mappedBy = "korisnikByKorisnikId")
-    private List<KonverzijaHasKorisnikEntity> konverzijaHasKorisniksById;
+    @OneToMany(mappedBy = "korisnik")
+    private List<KonverzacijaKorisnikEntity> konverzacijaKorisniks;
     @ManyToOne
     @JoinColumn(name = "korisnik_pol_id", referencedColumnName = "id", nullable = false)
     private KorisnikPolEntity korisnikPolId;
     @ManyToOne
-    @JoinColumn(name = "korisnik_tip_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "korisnik_tip_id", referencedColumnName = "id", nullable = true)
     private KorisnikTipEntity korisnikTipId;
     @ManyToOne
-    @JoinColumn(name = "korisnik_status_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "korisnik_status_id", referencedColumnName = "id", nullable = true)
     private KorisnikStatusEntity korisnikStatusId;
     @ManyToOne
     @JoinColumn(name = "mjesto_rodjenja_opstina_id", referencedColumnName = "id", nullable = false)
@@ -112,6 +112,9 @@ public class KorisnikEntity implements BaseEntity<Long> {
     @ManyToOne
     @JoinColumn(name = "izdavaoc_licne_karte_opstina_id", referencedColumnName = "id", nullable = true)
     private OpstinaEntity izdavaocLicneKarteOpstinaId;
+    @ManyToOne
+    @JoinColumn(name = "ustanova_opstina_id", referencedColumnName = "id", nullable = true)
+    private OpstinaEntity ustanovaOpstinaId;
     @OneToMany(mappedBy = "korisnikByKorisnikId")
     private List<KorisnikDokumentEntity> korisnikDokumentsById;
     @OneToMany(mappedBy = "korisnikByKorisnikId")

@@ -6,9 +6,11 @@ import lombok.Data;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.*;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.security.core.Authentication;
 import org.springframework.transaction.annotation.Transactional;
 import web.mjob.exceptions.NotFoundException;
 import web.mjob.models.dto.Request;
+import web.mjob.util.UnpagedSorted;
 
 import java.io.Serializable;
 import java.util.List;
@@ -39,19 +41,22 @@ public abstract class CrudJpaService<E extends BaseEntity<ID>,ID extends Seriali
         return repository.findAll(page).map(e->modelMapper.map(e,resultDtoClass));
     }
 
-    public <T, F> Page<T> findAllFiltered(Request<T> request, Class<T> resultDtoClass) {
+    public <T, F> Page<T> findAllFiltered(Request<T> request, Class<T> resultDtoClass, Authentication authentication) throws NotFoundException {
         var sort = Sort.unsorted();
         if(request.getProperty() != null){
             sort = Sort.by(request.getDirection(),request.getProperty());
         }
+
+        var page = request.getPageSize() > 0 ? PageRequest.of(request.getCurrent(), request.getPageSize(), sort) : new UnpagedSorted(sort);
+
         if (request.getFilter() != null) {
             var f = modelMapper.map(request.getFilter(), entityClass);
             ExampleMatcher matcher = ExampleMatcher.matching()
                     .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
             Example<E> example = Example.of(f, matcher);
-            return repository.findAll(example, PageRequest.of(request.getCurrent(), request.getPageSize(), sort)).map(e -> modelMapper.map(e, resultDtoClass));
+            return repository.findAll(example, page).map(e -> modelMapper.map(e, resultDtoClass));
         }
-        return repository.findAll(PageRequest.of(request.getCurrent(), request.getPageSize(), sort)).map(e -> modelMapper.map(e, resultDtoClass));
+        return repository.findAll(page).map(e -> modelMapper.map(e, resultDtoClass));
     }
 
     @Override
@@ -60,7 +65,7 @@ public abstract class CrudJpaService<E extends BaseEntity<ID>,ID extends Seriali
     }
 
     @Override
-    public <T, U> T insert(U object, Class<T> resultDtoClass) {
+    public <T, U> T insert(U object, Class<T> resultDtoClass, Authentication authentication) {
         E entity = modelMapper.map(object,entityClass);
         entity.setId(null);
         entity = repository.saveAndFlush(entity);

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./index.css";
 import Box from "@mui/material/Box";
 import ListItem from "@mui/material/ListItem";
@@ -14,6 +14,7 @@ import {
   Form,
   Input,
   Space,
+  message,
 } from "antd";
 import {
   UserAddOutlined,
@@ -22,7 +23,14 @@ import {
   CheckCircleOutlined,
   MinusCircleOutlined,
   InfoCircleOutlined,
+  EditOutlined,
 } from "@ant-design/icons";
+import UsersModal from "../../../components/UsersModal";
+import UsersService from "../../../services/UsersService";
+import OpstinaService from "../../../services/OpstinaService";
+import NaseljenoMjestoService from "../../../services/NaseljenoMjestoService";
+import ObrazovnaUstanovaTipService from "../../../services/ObrazovnaUstanovaTipService";
+
 const { Search } = Input;
 
 const UpravljanjeNalozima = () => {
@@ -36,7 +44,6 @@ const UpravljanjeNalozima = () => {
   const [jmbg, setJMBG] = useState();
   const [brojLicneKarte, setBrojLicneKarte] = useState();
   const [izdavaocLicneKarte, setIzdavaocLicneKarte] = useState();
-  const [pol, setPol] = useState();
   const [brojTelefona, setBrojTelefona] = useState();
   const [brojTekucegRacuna, setBrojTekucegRacuna] = useState();
   const [obrazovnaUstanova, setObrazovnaUstanova] = useState();
@@ -44,15 +51,45 @@ const UpravljanjeNalozima = () => {
   const [email, setEmail] = useState();
   const [datumUclanjenja, setDatumUclanjenja] = useState();
   const [brojClanskeKarte, setBrojClanskeKarte] = useState();
-  const [brojZdravstveneKnjizice, setBrojZdravstveneKnjizice] = useState();
-  const [tipKorisnika, setTipKorisnika] = useState();
   const [mjestoRodjenja, setMjestoRodjenja] = useState();
   const [naseljenoMjesto, setNaseljenoMjesto] = useState();
   const [ulica, setUlica] = useState();
-  const [smijer, setSmijer] = useState();
+  const [nazivObrazovneUstanove, setNazivObrazovneUstanove] = useState();
   const [godina, setGodina] = useState();
+  const [ustanovaOpstina, setUstanovaOpstina] = useState();
   const [slike] = useState([]);
   const [status, setStatus] = useState([]);
+  const [selectedUser, setSelectedUser] = useState(null);
+
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isModalJobsOpen, setIsModalJobsOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const [usersOpstina, setUsersOpstina] = useState([]);
+  const [usersMjesto, setUsersMjesto] = useState([]);
+  const [usersUstanova, setUsersUstanova] = useState([]);
+
+  const [userOpstinaStanovanja, setuserOpstinaStanovanja] = useState(null);
+
+  useEffect(() => {
+    OpstinaService.getAll().then((res) => setUsersOpstina(res.data));
+    NaseljenoMjestoService.getAll().then((res) => setUsersMjesto(res.data));
+    ObrazovnaUstanovaTipService.getAll().then((res) =>
+      setUsersUstanova(res.data)
+    );
+    prikazKorisnika();
+  }, []);
+  useEffect(() => {
+    if (naseljenoMjesto && usersMjesto && usersOpstina) {
+      setuserOpstinaStanovanja(
+        usersOpstina.find(
+          (e2) =>
+            usersMjesto.find((e2) => naseljenoMjesto === e2.naziv).opstinaId ===
+            e2.id
+        ).naziv
+      );
+    }
+  }, [naseljenoMjesto]);
   const setRightSide = (user) => {
     while (slike.length > 0) slike.pop();
     for (let i = 0; i < user.korisnikDokumentsById.length; i++) {
@@ -78,7 +115,7 @@ const UpravljanjeNalozima = () => {
     setBrojLicneKarte(user.brojLicneKarte);
     setBrojTelefona(user.brojTelefona);
     setBrojTekucegRacuna(user.brojTekucegRacuna);
-    setObrazovnaUstanova(user.obrazovnaUstanova);
+    setObrazovnaUstanova(user.obrazovnaUstanovaTipNaziv);
     setIdentifikator(user.identifikator);
     setEmail(user.email);
     if (user.datumUclanjenja != null) {
@@ -89,48 +126,56 @@ const UpravljanjeNalozima = () => {
       );
     }
     setBrojClanskeKarte(user.brojClanskeKarte);
-    setBrojZdravstveneKnjizice(user.brojZdravstveneKnjizice);
-    setPol(user.korisnikPolNaziv);
     setIzdavaocLicneKarte(user.izdavaocLicneKarteOpstinaNaziv);
-    setTipKorisnika(user.korisnikTipNaziv);
     setMjestoRodjenja(user.mjestoRodjenjaOpstinaNaziv);
     setNaseljenoMjesto(user.naseljenoMjestoNaziv);
-    setSmijer(user.smijer);
+
+    setNazivObrazovneUstanove(user.obrazovnaUstanova);
     setUlica(user.ulicaIBroj);
+    setUstanovaOpstina(user.ustanovaOpstinaNaziv);
+
+    UsersService.findById(user.id).then((res) => setSelectedUser(res.data));
   };
   const onSearch = (value) => {
     if (listTip === "neobradjen") {
       korisnikService.getAll().then((res) => {
-        setList(
+        sortList(
           res.filter((el) => {
-            const imePrezime = el.ime + " " + el.prezime;
+            const imePrezime =
+              el.ime + " " + el.prezime + " [" + el.brojClanskeKarte + "]";
+            const broj = "" + el.brojClanskeKarte;
             return (
               el.korisnikStatusNaziv === "neobradjen" &&
-              imePrezime.startsWith(value)
+              (imePrezime.startsWith(value) ||
+                broj.startsWith(el.brojClanskeKarte))
             );
           })
         );
       });
     } else if (listTip === "obrisan") {
       korisnikService.getAll().then((res) => {
-        setList(
+        sortList(
           res.filter((el) => {
-            const imePrezime = el.ime + " " + el.prezime;
+            const imePrezime =
+              el.ime + " " + el.prezime + " [" + el.brojClanskeKarte + "]";
+            const broj = "" + el.brojClanskeKarte;
             return (
               el.korisnikStatusNaziv === "obrisan" &&
-              imePrezime.startsWith(value)
+              (imePrezime.startsWith(value) || broj.startsWith(value))
             );
           })
         );
       });
     } else if (listTip === "aktivan") {
       korisnikService.getAll().then((res) => {
-        setList(
+        sortList(
           res.filter((el) => {
-            const imePrezime = el.ime + " " + el.prezime;
+            const imePrezime =
+              el.ime + " " + el.prezime + " [" + el.brojClanskeKarte + "]";
+            const broj = "" + el.brojClanskeKarte;
             return (
               el.korisnikStatusNaziv === "aktivan" &&
-              imePrezime.startsWith(value)
+              (imePrezime.startsWith(value) || broj.startsWith(value))
             );
           })
         );
@@ -139,55 +184,160 @@ const UpravljanjeNalozima = () => {
   };
 
   const odobriZahtjev = (values) => {
-    korisnikService.acceptRegistration(id, values.brojClanskeKarte);
-    setIsModalOpen(false);
-    window.location.reload(false);
+    korisnikService.acceptRegistration(id, values.brojClanskeKarte).then(() => {
+      setIsModalOpen(false);
+      message.success("Zahtjev odobren!");
+      prikazZahtjeva();
+    });
   };
   const odbijZahtjev = () => {
-    korisnikService.refuseRegistration(id);
-    window.location.reload(false);
+    korisnikService.refuseRegistration(id).then(() => {
+      message.success("Zahtjev odbijen!");
+      prikazZahtjeva();
+    });
   };
   const obrisiNalog = () => {
-    korisnikService.removeUser(id);
-    window.location.reload(false);
+    korisnikService.removeUser(id).then(() => {
+      message.success("Nalog obrisan!");
+      prikazKorisnika();
+    });
   };
   const aktivirajNalog = () => {
-    korisnikService.reactivateUser(id);
-    window.location.reload(false);
+    korisnikService.reactivateUser(id).then(() => {
+      message.success("Nalog je ponovo aktivan!");
+      prikazObrisanihKorisnika();
+    });
   };
-  const [isModalJobsOpen, setIsModalJobsOpen] = useState(false);
 
   const prikazPoslova = () => {
     setIsModalJobsOpen(true);
   };
+
   const closeJobsModal = () => {
     setIsModalJobsOpen(false);
   };
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const showModal = () => {
     setIsModalOpen(true);
   };
+  const sortList = (res) => {
+    setList(
+      res.sort((a, b) => {
+        if (a.ime === b.ime) return a.prezime.localeCompare(b.prezime);
+        else return a.ime.localeCompare(b.ime);
+      })
+    );
+  };
   const prikazKorisnika = () => {
     korisnikService.getAll().then((res) => {
-      setList(res.filter((el) => el.korisnikStatusNaziv === "aktivan"));
+      res = res.filter((el) => el.korisnikStatusNaziv === "aktivan");
+      sortList(res);
       setListTip("aktivan");
+      if (res.length > 0) setRightSide(res[0]);
     });
   };
   const prikazObrisanihKorisnika = () => {
     korisnikService.getAll().then((res) => {
-      setList(res.filter((el) => el.korisnikStatusNaziv === "obrisan"));
+      res = res.filter((el) => el.korisnikStatusNaziv === "obrisan");
+      sortList(res);
       setListTip("obrisan");
+      if (res.length > 0) setRightSide(res[0]);
     });
   };
   const prikazZahtjeva = () => {
     korisnikService.getAll().then((res) => {
-      setList(res.filter((el) => el.korisnikStatusNaziv === "neobradjen"));
+      sortList(res.filter((el) => el.korisnikStatusNaziv === "neobradjen"));
       setListTip("neobradjen");
+      if (res.length > 0) setRightSide(res[0]);
     });
+  };
+
+  const openEditModal = () => {
+    setIsEditModalOpen(true);
+  };
+  const closeModal = () => {
+    setIsEditModalOpen(false);
+  };
+
+  const saveData = (user) => {
+    UsersService.update(user)
+      .then((res) => {
+        message.success("Uspjesna izmjena");
+        closeModal();
+        // setList(list.map((e1) => (e1.id === res.id ? { ...e1, ...res } : e1)));
+        setList(
+          list.map((e1) => {
+            if (e1.id === res.id) {
+              e1.ime = res.ime;
+              e1.prezime = res.prezime;
+              e1.imeRoditelja = res.imeRoditelja;
+              e1.godina = res.godina;
+              e1.datumRodjenja = res.datumRodjenja;
+              e1.jmbg = res.jmbg;
+              e1.brojLicneKarte = res.brojLicneKarte;
+              e1.brojTelefona = res.brojTelefona;
+              e1.brojTekucegRacuna = res.brojTekucegRacuna;
+              e1.identifikator = res.identifikator;
+              e1.email = res.email;
+              e1.obrazovnaUstanova = res.obrazovnaUstanova;
+              e1.brojClanskeKarte = res.brojClanskeKarte;
+              e1.brojZdravstveneKnjizice = res.brojZdravstveneKnjizice;
+              // e1.nazivObrazovneUstanove = res.nazivObrazovneUstanove;
+              e1.ulicaIBroj = res.ulicaIBroj;
+
+              e1.ustanovaOpstinaNaziv = usersOpstina.find(
+                (e2) => res.ustanovaOpstinaId === e2.id
+              ).naziv;
+              setUstanovaOpstina(e1.ustanovaOpstinaNaziv);
+              e1.mjestoRodjenjaOpstinaNaziv = usersOpstina.find(
+                (e2) => res.mjestoRodjenjaOpstinaId === e2.id
+              ).naziv;
+              setMjestoRodjenja(e1.mjestoRodjenjaOpstinaNaziv);
+              e1.izdavaocLicneKarteOpstinaNaziv = usersOpstina.find(
+                (e2) => res.izdavaocLicneKarteOpstinaId === e2.id
+              ).naziv;
+              setIzdavaocLicneKarte(e1.izdavaocLicneKarteOpstinaNaziv);
+              e1.naseljenoMjestoNaziv = usersMjesto.find(
+                (e2) => res.naseljenoMjestoId === e2.id
+              ).naziv;
+              setNaseljenoMjesto(e1.naseljenoMjestoNaziv);
+              e1.obrazovnaUstanovaTipNaziv = usersUstanova.find(
+                (e2) => res.obrazovnaUstanovaTipId === e2.id
+              ).naziv;
+
+              setObrazovnaUstanova(e1.obrazovnaUstanovaTipNaziv);
+            }
+            return e1;
+          })
+        );
+      })
+      .catch((err) => {
+        console.error(err);
+        message.error("Doslo je do greske prilikom izmjene");
+      });
+    setIme(user.ime);
+    setPrezime(user.prezime);
+    setImeRoditelja(user.imeRoditelja);
+    setGodina(user.godina);
+    const date = new Date(user.datumRodjenja);
+    const month = date.getMonth() + 1;
+    setDatumRodjenja(
+      date.getDate() + "." + month + "." + date.getFullYear() + "."
+    );
+    setJMBG(user.jmbg);
+    setBrojLicneKarte(user.brojLicneKarte);
+    setBrojTelefona(user.brojTelefona);
+    setBrojTekucegRacuna(user.brojTekucegRacuna);
+    setIdentifikator(user.identifikator);
+    setEmail(user.email);
+    // setObrazovnaUstanova(user.obrazovnaUstanovaTipNaziv);
+    setBrojClanskeKarte(user.brojClanskeKarte);
+    setNazivObrazovneUstanove(user.obrazovnaUstanova);
+    setUlica(user.ulicaIBroj);
   };
   const handleCancel = () => {
     setIsModalOpen(false);
   };
+
   return (
     <div className="upravljanjeNalozimaAdmin">
       <div className="left-side">
@@ -242,7 +392,15 @@ const UpravljanjeNalozima = () => {
                 <List.Item.Meta
                   title={
                     <Button type={"text"} onClick={() => setRightSide(item)}>
-                      {item.ime + " " + item.prezime}
+                      {item.brojClanskeKarte !== null &&
+                        item.ime +
+                          " " +
+                          item.prezime +
+                          " [" +
+                          item.brojClanskeKarte +
+                          "]"}
+                      {item.brojClanskeKarte === null &&
+                        item.ime + " " + item.prezime}
                     </Button>
                   }
                 />
@@ -257,34 +415,34 @@ const UpravljanjeNalozima = () => {
             <h1>
               {ime} ({imeRoditelja}) {prezime}
             </h1>
+            <p>Datum rodjenja : {datumRodjenja}</p>
+            <p>Mjesto rodjenja: {mjestoRodjenja}</p>
             <p>
-              Datum rodjenja : {datumRodjenja} Pol : {pol}
+              Adresa stanovanja : {ulica}
+              {"-"} {naseljenoMjesto} {"-"} {userOpstinaStanovanja}
             </p>
-            <p>JMBG: {jmbg}</p>
-            <p>
-              Mjesto rodjenja: {mjestoRodjenja}, {naseljenoMjesto}
-            </p>
-            <p>Ulica i broj : {ulica}</p>
             {brojLicneKarte != null && (
               <p>
                 Broj licne karte : {brojLicneKarte} Izdavaoc :{" "}
                 {izdavaocLicneKarte}
               </p>
             )}
+            <p>JMBG: {jmbg}</p>
             <p>Email : {email}</p>
             <p>Broj telefona : {brojTelefona}</p>
-            <p>
-              Tip korisnika : {tipKorisnika} Obrazovna ustanova :{" "}
-              {obrazovnaUstanova} Smijer : {smijer} Godina: {godina}
-            </p>
-            <p>Identifikator : {identifikator}</p>
             {datumUclanjenja != null && (
               <p>
                 Datum uclanjenja : {datumUclanjenja} Broj clanske karte :{" "}
                 {brojClanskeKarte}
               </p>
             )}
-            <p>Broj zdravstvene knjizice : {brojZdravstveneKnjizice}</p>
+            <p>Naziv obrazovne ustanove : {nazivObrazovneUstanove}</p>
+            <p>
+              Obrazovna ustanova : {obrazovnaUstanova} Mjesto: {ustanovaOpstina}{" "}
+              Godina: {godina}
+            </p>
+            <p>Broj indeksa, radne ili djacke knjizice : {identifikator}</p>
+
             <p>Broj tekuceg racuna : {brojTekucegRacuna}</p>
 
             <Image.PreviewGroup>
@@ -316,9 +474,18 @@ const UpravljanjeNalozima = () => {
                       <Form.Item name={"brojClanskeKarte"}>
                         <InputNumber />
                       </Form.Item>
-                      <Button type="primary" htmlType="submit">
-                        OK
-                      </Button>
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "flex-end",
+                          gap: 8,
+                        }}
+                      >
+                        <Button type="primary" htmlType="submit">
+                          OK
+                        </Button>
+                        <Button onClick={() => handleCancel()}>IZAĐI</Button>
+                      </div>
                     </Form>
                   </Modal>
                   <Tooltip title="Odbij zahtjev za registraciju">
@@ -333,6 +500,14 @@ const UpravljanjeNalozima = () => {
               )}
               {status === "aktivan" && (
                 <div>
+                  <Tooltip title="Izmjeni nalog">
+                    <Button
+                      shape="circle"
+                      size="large"
+                      icon={<EditOutlined />}
+                      onClick={() => openEditModal()}
+                    />
+                  </Tooltip>
                   <Tooltip title="Obrisi nalog">
                     <Button
                       shape="circle"
@@ -373,6 +548,14 @@ const UpravljanjeNalozima = () => {
           </div>
         )}
       </div>
+      <UsersModal
+        editMode={isEditModalOpen}
+        visible={isEditModalOpen}
+        onCancel={closeModal}
+        onOk={saveData}
+        user={selectedUser}
+        isViewOnly={false}
+      ></UsersModal>
     </div>
   );
 };

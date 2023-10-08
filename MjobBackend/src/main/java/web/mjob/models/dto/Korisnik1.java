@@ -283,6 +283,8 @@ public class Korisnik1 {
     private Integer izdavaocLicneKarteOpstinaId;
     
     private Integer obrazovnaUstanovaTipId;
+    
+    private Integer ustanovaOpstinaId;
 
     public Integer getObrazovnaUstanovaTipId() {
 		return obrazovnaUstanovaTipId;
@@ -290,6 +292,14 @@ public class Korisnik1 {
 
 	public void setObrazovnaUstanovaTipId(Integer obrazovnaUstanovaTipId) {
 		this.obrazovnaUstanovaTipId = obrazovnaUstanovaTipId;
+	}
+
+	public Integer getUstanovaOpstinaId() {
+		return ustanovaOpstinaId;
+	}
+
+	public void setUstanovaOpstinaId(Integer ustanovaOpstinaId) {
+		this.ustanovaOpstinaId = ustanovaOpstinaId;
 	}
 
 	private String ulicaIBroj;

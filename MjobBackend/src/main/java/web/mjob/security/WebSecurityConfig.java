@@ -1,5 +1,6 @@
 package web.mjob.security;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -72,8 +73,8 @@ public class WebSecurityConfig {
                new UrlBasedCorsConfigurationSource();
        CorsConfiguration config = new CorsConfiguration();
        //treba true stavila sam false da bi radilo
-       config.setAllowCredentials(false);
-       config.addAllowedOrigin("*");
+       config.setAllowCredentials(true);
+       config.addAllowedOrigin("http://localhost:3000");
        config.addAllowedHeader("*");
        config.addAllowedMethod("*");
        config.addAllowedMethod("PATCH");
@@ -95,14 +96,12 @@ public class WebSecurityConfig {
                 .and()
                 .authorizeHttpRequests().requestMatchers("/api/auth/**").permitAll()
                 .requestMatchers("/api/test/**").permitAll()
-                .requestMatchers("/api/**").permitAll()
+                //.requestMatchers("/api/**").permitAll()
                 .requestMatchers("/api/registracija").permitAll()
                 .requestMatchers("/api/registracija/**").permitAll()
                 .requestMatchers("/api/korisnici1").permitAll()
                 .requestMatchers("/api/korisnici1/**").permitAll()
                 .requestMatchers("/ api/korisnik1Pol").permitAll()
-                .requestMatchers("/api/oglas").permitAll()
-                .requestMatchers("/api/oglas/**").permitAll()
                 .anyRequest().permitAll();
 
         http.authenticationProvider(authenticationProvider());
@@ -132,4 +131,10 @@ public class WebSecurityConfig {
 
         return authProvider;
     }
+
+  /*  @Bean
+    public ModelMapper modelMapper()
+    {
+        return new ModelMapper();
+    }*/
 }

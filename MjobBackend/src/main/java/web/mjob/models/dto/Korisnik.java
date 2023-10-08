@@ -28,6 +28,7 @@ public class Korisnik {
     private String brojTekucegRacuna;
 
     private String obrazovnaUstanova;
+    private String obrazovnaUstanovaTipNaziv;
 
     private String identifikator;
 
@@ -64,6 +65,8 @@ public class Korisnik {
     private Boolean osiguranjeZadruga;
 
     private String brojMobilogTelefona;
+    
+    private String ustanovaOpstinaNaziv;
 
     private List<KorisnikDokument> korisnikDokumentsById;
 }

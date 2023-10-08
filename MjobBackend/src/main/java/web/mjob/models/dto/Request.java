@@ -6,8 +6,8 @@ import org.springframework.data.domain.Sort;
 
 @Data
 public class Request<T> {
-    int current;
-    int pageSize;
+    Integer current;
+    Integer pageSize;
     Sort.Direction direction;
     String property;
     T filter;

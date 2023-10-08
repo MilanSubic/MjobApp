@@ -12,7 +12,7 @@ import java.util.List;
 @Table(name = "posao_tip", schema = "mjob_database")
 public class PosaoTipEntity implements BaseEntity<Long> {
     @Id
-    @GeneratedValue
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
     @Basic

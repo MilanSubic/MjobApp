@@ -9,7 +9,7 @@ import jakarta.persistence.*;
 @Table(name = "adresa", schema = "mjob_database")
 public class AdresaEntity {
     @Id
-    @GeneratedValue
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
     @Column(name = "Id", nullable = false)
     private Long id;
     @Basic

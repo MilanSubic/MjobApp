@@ -10,7 +10,7 @@ import java.util.Objects;
 @Table(name = "clanstvo_osnov", schema = "mjob_database")
 public class ClanstvoOsnovEntity {
     @Id
-    @GeneratedValue
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
     @Basic
