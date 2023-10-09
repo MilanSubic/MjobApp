@@ -6,6 +6,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import web.mjob.base.CrudJpaService;
 import web.mjob.models.dto.Oglas;
+import web.mjob.models.dto.OglasFilterDto;
+import web.mjob.models.dto.OglasListDto;
+import web.mjob.models.dto.Request;
 import web.mjob.models.entities.KorisnikEntity;
 import web.mjob.models.entities.KorisnikPrijavljenEntity;
 import web.mjob.models.entities.OglasEntity;
@@ -17,11 +20,9 @@ import web.mjob.repositories.OglasEntityRepository;
 import web.mjob.repositories.OglasStatistikaEntityRepository;
 import web.mjob.services.OglasService;
 
+import java.lang.reflect.Field;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -45,7 +46,7 @@ public class OglasServiceImpl extends CrudJpaService<OglasEntity,Long> implement
     }
 
     @Override
-    public List<Oglas> findAll(Authentication authentication) {
+    public OglasListDto findAll(Request<OglasFilterDto> request, Authentication authentication) {
         KorisnikEntity korisnik=korisnikEntityRepository.findKorisnikEntityByKorisnickoIme(authentication.getName());
         List<OglasEntity> oglasi=new ArrayList<>();
 
@@ -72,8 +73,64 @@ public class OglasServiceImpl extends CrudJpaService<OglasEntity,Long> implement
             oglasi=oglasi.stream().filter(oglas -> !oglasiIds.contains(oglas.getId())).toList();
 
         }
-        List<Oglas> oglasiDTO=oglasi.stream().map(e->modelMapper.map(e,Oglas.class)).collect(Collectors.toList());
-        return  oglasiDTO;
+        var pageSize = request.getPageSize();
+        var pageNum = request.getCurrent();
+
+        var stream = oglasi.stream();
+        var countStream = oglasi.stream();
+
+        if(request.getFilter() != null) {
+            var min = request.getFilter().getMin();
+            var max = request.getFilter().getMax();
+            var mjesto = request.getFilter().getMjesto();
+            var tipoviPosla = request.getFilter().getPosaoTip();
+            var minList = Arrays.asList(0, -1);
+            var maxList = Arrays.asList(0, 1);
+            if (min != null) {
+                stream = stream.filter(x-> minList.contains(min.compareTo(x.getSatnica())));
+                countStream = countStream.filter(x-> minList.contains(min.compareTo(x.getSatnica())));
+            }
+            if(max != null){
+                stream = stream.filter(x-> maxList.contains(max.compareTo(x.getSatnica())));
+                countStream = countStream.filter(x-> maxList.contains(max.compareTo(x.getSatnica())));
+            }
+            if(mjesto != null) {
+                stream = stream.filter(x -> x.getMjesto().contains(mjesto));
+                countStream = countStream.filter(x -> x.getMjesto().contains(mjesto));
+            }
+            if(tipoviPosla != null && !tipoviPosla.isEmpty()) {
+                stream = stream.filter(x -> tipoviPosla.contains(x.getPosaoTipByPosaoTipId().getNaziv()));
+                countStream = countStream.filter(x -> tipoviPosla.contains(x.getPosaoTipByPosaoTipId().getNaziv()));
+            }
+            var property = request.getProperty();
+            var direction = request.getDirection();
+            if(property != null && direction != null){
+                stream = stream.sorted((a,b) -> {
+                    if(direction.isAscending()) {
+                        if (a.getDatum().compareTo(b.getDatum()) >= 0) return 1;
+                        return -1;
+                    } else{
+                        if (a.getDatum().compareTo(b.getDatum()) >= 0) return -1;
+                        return 1;
+                    }
+                });
+                countStream = countStream.sorted((a,b) -> {
+                    if(direction.isAscending()) {
+                        if (a.getDatum().compareTo(b.getDatum()) >= 0) return 1;
+                        return -1;
+                    } else{
+                        if (a.getDatum().compareTo(b.getDatum()) >= 0) return -1;
+                        return 1;
+                    }
+                });
+            }
+        }
+
+        List<Oglas> oglasiDTO=stream.skip(pageNum * pageSize).limit(pageSize).map(e->modelMapper.map(e,Oglas.class)).collect(Collectors.toList());
+        var count = countStream.count();
+        var totalPages = (count/pageSize) % pageSize != 0 ? count/pageSize + 1 : count/pageSize;
+
+        return  new OglasListDto(totalPages, count, pageNum, pageSize, oglasiDTO);
     }
 
     @Override

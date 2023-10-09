@@ -39,7 +39,7 @@ public class OglasEntity implements BaseEntity<Long> {
     @Column(name = "satnica", nullable = false, precision = 2)
     private BigDecimal satnica;
     @Basic
-    @Column(name = "javni", nullable = false)
+    @Column(name = "javni")
     private Boolean javni;
     @Basic
     @Column(name = "obrisan", nullable = false)

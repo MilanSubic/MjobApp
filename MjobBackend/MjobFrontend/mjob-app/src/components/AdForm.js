@@ -17,11 +17,13 @@ import OglasService from "../services/OglasService";
 import PosaoTipService from "../services/posaoTipService";
 import "./adForm.css";
 import moment from "moment";
+import { useDispatch } from "react-redux";
+import { setReload } from "../slices/oglasiSlice";
 
 const AdForm = (initialData) => {
   const navigate = useNavigate();
   const [form] = Form.useForm();
-  const formRef = useRef(null);
+  const formRef = useRef();
   const [novcanaNaknada, setNovcanaNaknada] = useState([]);
   const [tipoviPosla, setTipoviPosla] = useState([]);
   const [narucioci, setNarucioci] = useState([]);
@@ -78,20 +80,22 @@ const AdForm = (initialData) => {
     return current && current < moment().startOf("day");
   };
   const onFinish = (values) => {
-    OglasService.creatad(values).then((res) => {
-      form.resetFields();
-      navigate("/home", { replace: true });
-    });
+    if (!initialData?.initialData) {
+      OglasService.creatad(values).then((res) => {
+        form.resetFields();
+        navigate("/home", { replace: true });
+      });
+    } else sacuvajIzmjene();
   };
-  const izadji = () => {
-    window.location.reload();
-  };
+
+  const dispatch = useDispatch();
+
   const sacuvajIzmjene = () => {
     form.validateFields().then((values) => {
-      console.log(initialData.id);
       OglasService.update(initialData.id, values)
         .then((res) => {
           message.success("Uspjesna izmjena");
+          dispatch(setReload(res));
         })
         .catch((err) => {
           console.error(err);
@@ -239,7 +243,7 @@ const AdForm = (initialData) => {
         <div style={{ textAlign: "right" }}>
           <Button
             style={{ float: "right", marginLeft: "5px" }}
-            onClick={() => izadji()}
+            onClick={initialData.onCancel}
           >
             IZAĐI
           </Button>
@@ -249,7 +253,7 @@ const AdForm = (initialData) => {
               color: "white",
               paddingRight: "10px",
             }}
-            onClick={() => sacuvajIzmjene()}
+            htmlType="submit"
           >
             SAČUVAJ
           </Button>
@@ -262,5 +266,6 @@ AdForm.propTypes = {
   initialData: PropTypes.object,
   editMode: PropTypes.bool,
   id: PropTypes.number,
+  onCancel: PropTypes.func,
 };
 export default AdForm;

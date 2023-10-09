@@ -26,7 +26,9 @@
 }
 
 .brOsoba{
-    width: 210px;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
 }
 
 .brOsoba.brOsoba.ant-select-disabled{

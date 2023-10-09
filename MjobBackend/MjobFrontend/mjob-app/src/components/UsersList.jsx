@@ -94,12 +94,10 @@ export const UsersList = () => {
   ];
 
   const openAddModal = () => {
-    console.log("openAddModal ");
     setEditMode(false);
     setModalVisible(true);
   };
   const openEditModal = (user) => {
-    console.log("openEditModal ");
     setSelectedUser(user);
     setEditMode(true);
     setModalVisible(true);
@@ -112,7 +110,6 @@ export const UsersList = () => {
   };
   const saveData = (user) => {
     setConfirmLoading(true);
-    console.log("SAve Data!");
     if (editMode) {
       console.log("EDIT!");
       UsersService.update(user)

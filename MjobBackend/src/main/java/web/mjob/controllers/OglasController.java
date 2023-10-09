@@ -1,5 +1,6 @@
 package web.mjob.controllers;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 import web.mjob.exceptions.NotFoundException;
 import web.mjob.models.dto.Oglas;
@@ -73,9 +74,9 @@ public class OglasController extends CrudController<Long, OglasDto,OglasDto> {
         return narucilacService.findAllFiltered(request, NarucilacDto.class, SecurityContextHolder.getContext().getAuthentication());
     }
 
-    @GetMapping("svi")
-    public List<Oglas> findAll(){
-        return oglasService.findAll(SecurityContextHolder.getContext().getAuthentication());
+    @PostMapping(value = "svi")
+    public OglasListDto findAll(@RequestBody Request<OglasFilterDto> request){
+        return oglasService.findAll(request, SecurityContextHolder.getContext().getAuthentication());
     }
     @GetMapping("/novcanaNaknadaTip")
     public List<NovcanaNaknadaTip> findAllNovcanaNaknada()

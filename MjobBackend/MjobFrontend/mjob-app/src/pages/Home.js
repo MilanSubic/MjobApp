@@ -1,72 +1,37 @@
 import React, { useState, useEffect } from "react";
-import { Button, Select } from "antd";
+import { Button, InputNumber, Select } from "antd";
 import CustomCard from "../components/CustomCard";
 import oglasService from "../services/OglasService";
 
 import OpstinaService from "../services/OpstinaService";
 import posaoTipService from "../services/posaoTipService";
-import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { setOglasi } from "../slices/oglasiSlice";
 
 export default function Home() {
-  const [posts, setPosts] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize] = useState(12);
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [postsSize, setPostsSize] = useState(0);
-  const [currentPosts, setCurrentPosts] = useState([]);
-
-  const [selectedMjesto, setSelectedMjesto] = useState("");
-  const [selectedJobs, setSelectedJobs] = useState([]);
-  const [selectedSort, setSelectedSort] = useState("");
-  const [minimum, setMinimum] = useState("");
-  const [maksimum, setMaksimum] = useState("");
+  const [current, setCurrent] = useState(1);
+  const [pageSize] = useState(8);
+  const [requestData, setRequestData] = useState({
+    current: current - 1,
+    pageSize,
+    direction: null,
+    property: null,
+    filter: {},
+  });
+  const [total, setTotal] = useState(0);
   const [opstine, setOpstine] = useState([]);
   const [jobs, setJobs] = useState([]);
 
-  const navigate = useNavigate();
+  const oglasi = useSelector((state) => state.oglasi.value);
+  const reload = useSelector((state) => state.oglasi.reload);
+
+  const dispatch = useDispatch();
 
   const loadPosts = () => {
-    setPageSize(8);
-    setCurrentPage(1);
-    oglasService.getAll().then((result) => {
-      setPosts(result.data);
-      setPostsSize(result.data.length);
-      setIsLoaded(true);
-      setCurrentPosts(
-        result.data.slice(
-          currentPage * pageSize - pageSize,
-          currentPage * pageSize
-        )
-      );
+    oglasService.getAll(requestData).then((result) => {
+      dispatch(setOglasi(result.data.content));
+      setTotal(result.data.totalPages);
     });
-  };
-
-  const loadCurrentPosts = () => {
-    console.log("selectedsort " + selectedSort);
-    if (selectedSort === "1")
-      setCurrentPosts(
-        [].concat(getFilteredByMjesto()).sort((date1, date2) => {
-          if (date1.datum > date2.datum) {
-            console.log("111111111111111111111");
-            return -1;
-          } else if (date1.datum < date2.datum) return 1;
-          else return 0;
-        })
-      );
-    else {
-      console.log("duzina   " + getFilteredByMjesto().length);
-      setCurrentPosts(
-        [].concat(getFilteredByMjesto()).sort((date1, date2) => {
-          if (date2.datum > date1.datum) {
-            return -1;
-          } else if (date2.datum < date1.datum) return 1;
-          else return 0;
-        })
-      );
-    }
-
-    setPageSize(8);
-    setCurrentPage(1);
   };
 
   const loadOpstina = () => {
@@ -82,247 +47,58 @@ export default function Home() {
   };
 
   useEffect(() => {
-    const reloadCount = parseInt(sessionStorage.getItem("reloadCount"));
-    if (reloadCount < 2) {
-      sessionStorage.setItem("reloadCount", String(reloadCount + 1));
-      window.location.reload();
-    }
     loadOpstina();
     loadJobs();
-    loadPosts();
-
-    console.log("fnfn");
-    navigate("/home");
   }, []);
 
   useEffect(() => {
-    console.log("22222222222222");
-    setCurrentPosts(
-      posts.slice(currentPage * pageSize - pageSize, currentPage * pageSize)
-    );
-  }, [isLoaded]);
+    loadPosts();
+  }, [requestData, reload]);
 
-  useEffect(() => {
-    handleSubmit();
-    console.log("pozvano");
-  }, [minimum]);
-
-  useEffect(() => {
-    handleSubmit();
-    console.log("pozvano2");
-  }, [maksimum]);
-
-  useEffect(() => {
-    handleSubmit();
-    console.log("pozvano3");
-  }, [selectedMjesto]);
-
-  useEffect(() => {
-    handleSubmit();
-    console.log("pozvano5");
-  }, [selectedSort]);
-
-  useEffect(() => {
-    handleSubmit();
-    console.log("pozvano4");
-  }, [selectedJobs]);
-
-  useEffect(() => {
-    setCurrentPosts(
-      posts.slice(currentPage * pageSize - pageSize, currentPage * pageSize)
-    );
-  }, [currentPage]);
-
-  const handlePageChange = (newPage) => {
-    setCurrentPage(newPage);
-    window.scrollTo(0, 0);
-    console.log("promjena STRANE" + newPage);
+  const onChangePage = (currentPage, pageSize) => {
+    setCurrent(currentPage);
+    setRequestData({ ...requestData, current: currentPage - 1 });
   };
 
+  const [mjesto, setMjesto] = useState();
   function handleMjestoChange(event) {
-    setSelectedMjesto(event);
+    setMjesto(event);
   }
 
+  const [direction, setDirection] = useState();
   function handleSortChange(event) {
-    setSelectedSort(event);
+    // eslint-disable-next-line eqeqeq
+    setDirection(event);
   }
+
+  const [posaoTip, setPosaoTip] = useState();
   function handleJobChange(event) {
-    setSelectedJobs(event);
+    setPosaoTip(event);
   }
 
+  const [min, setMin] = useState();
   function handleMinimumChange(event) {
-    setMinimum(event.target.value);
+    setMin(event);
   }
 
+  const [max, setMax] = useState();
   function handleMaksimumChange(event) {
-    setMaksimum(event.target.value);
+    setMax(event);
   }
 
-  function getFilteredByMjesto() {
-    if (selectedJobs.length === 0) {
-      if (
-        (selectedMjesto === null ||
-          selectedMjesto === "" ||
-          selectedMjesto === "Izaberite") &&
-        minimum === "" &&
-        maksimum === ""
-      ) {
-        return posts;
-      }
-      if (
-        (selectedMjesto === null ||
-          selectedMjesto === "" ||
-          selectedMjesto === "Izaberite") &&
-        minimum !== "" &&
-        maksimum !== ""
-      ) {
-        console.log("2" + selectedMjesto);
-        return posts.filter(
-          (item) => item.satnica >= minimum && item.satnica <= maksimum
-        );
-      }
-      if (
-        (selectedMjesto === null ||
-          selectedMjesto === "" ||
-          selectedMjesto === "Izaberite") &&
-        minimum !== "" &&
-        maksimum === ""
-      ) {
-        console.log("2" + selectedMjesto);
-        return posts.filter((item) => item.satnica >= minimum);
-      }
-      if (
-        (selectedMjesto === null ||
-          selectedMjesto === "" ||
-          selectedMjesto === "Izaberite") &&
-        minimum === "" &&
-        maksimum !== ""
-      ) {
-        console.log("2" + selectedMjesto);
-        return posts.filter((item) => item.satnica <= maksimum);
-      }
-      if (minimum === "" && maksimum === "") {
-        return posts.filter((item) => item.mjesto === selectedMjesto);
-      }
-      if (minimum === "" && maksimum !== "") {
-        return posts.filter(
-          (item) => item.mjesto === selectedMjesto && item.satnica <= maksimum
-        );
-      }
-      if (minimum !== "" && maksimum === "") {
-        return posts.filter(
-          (item) => item.mjesto === selectedMjesto && item.satnica >= minimum
-        );
-      } else {
-        console.log("3 " + selectedMjesto + minimum + maksimum);
-        return posts.filter(
-          (item) =>
-            item.mjesto === selectedMjesto &&
-            item.satnica >= minimum &&
-            item.satnica <= maksimum
-        );
-      }
-    } else {
-      if (
-        (selectedMjesto === null ||
-          selectedMjesto === "" ||
-          selectedMjesto === "Izaberite") &&
-        minimum === "" &&
-        maksimum === ""
-      ) {
-        console.log(selectedJobs);
-
-        return posts.filter((item) => jobCondition(item));
-      }
-      if (
-        (selectedMjesto === null ||
-          selectedMjesto === "" ||
-          selectedMjesto === "Izaberite") &&
-        minimum !== "" &&
-        maksimum !== ""
-      ) {
-        console.log("2" + selectedMjesto);
-        return posts.filter(
-          (item) =>
-            item.satnica >= minimum &&
-            item.satnica <= maksimum &&
-            jobCondition(item)
-        );
-      }
-      if (
-        (selectedMjesto === null ||
-          selectedMjesto === "" ||
-          selectedMjesto === "Izaberite") &&
-        minimum !== "" &&
-        maksimum === ""
-      ) {
-        console.log("2" + selectedMjesto);
-        return posts.filter(
-          (item) => item.satnica >= minimum && jobCondition(item)
-        );
-      }
-      if (
-        (selectedMjesto === null ||
-          selectedMjesto === "" ||
-          selectedMjesto === "Izaberite") &&
-        minimum === "" &&
-        maksimum !== ""
-      ) {
-        console.log("2" + selectedMjesto);
-        return posts.filter(
-          (item) => item.satnica <= maksimum && jobCondition(item)
-        );
-      }
-      if (minimum === "" && maksimum === "") {
-        return posts.filter(
-          (item) => item.mjesto === selectedMjesto && jobCondition(item)
-        );
-      }
-      if (minimum === "" && maksimum !== "") {
-        return posts.filter(
-          (item) =>
-            item.mjesto === selectedMjesto &&
-            item.satnica <= maksimum &&
-            jobCondition(item)
-        );
-      }
-      if (minimum !== "" && maksimum === "") {
-        return posts.filter(
-          (item) =>
-            item.mjesto === selectedMjesto &&
-            item.satnica >= minimum &&
-            jobCondition(item)
-        );
-      } else {
-        console.log("3 " + selectedMjesto + minimum + maksimum);
-        return posts.filter(
-          (item) =>
-            item.mjesto === selectedMjesto &&
-            item.satnica >= minimum &&
-            item.satnica <= maksimum &&
-            jobCondition(item)
-        );
-      }
-    }
-  }
-
-  function jobCondition(item) {
-    // eslint-disable-next-line no-unreachable-loop
-    if (
-      item.posaoTipNaziv === selectedJobs[0] ||
-      item.posaoTipNaziv === selectedJobs[1] ||
-      item.posaoTipNaziv === selectedJobs[2] ||
-      item.posaoTipNaziv === selectedJobs[3] ||
-      item.posaoTipNaziv === selectedJobs[4]
-    )
-      return true;
-    else return false;
-  }
-
-  const handleSubmit = () => {
-    loadCurrentPosts();
-    setPostsSize(currentPosts.length);
-    console.log("broj postova" + currentPosts.length);
+  const change = (e) => {
+    setRequestData({
+      current: 0,
+      pageSize,
+      filter: {
+        min,
+        max,
+        mjesto,
+        posaoTip,
+      },
+      direction,
+      property: "datum",
+    });
   };
 
   return (
@@ -336,18 +112,18 @@ export default function Home() {
             gridGap: "20px",
           }}
         >
-          {currentPosts.map((post) => (
+          {oglasi.map((o) => (
             <CustomCard
-              id={post.id}
-              posaoNaziv={post.posaoTipNaziv}
-              key={post.id}
+              id={o.id}
+              post={o}
+              mjesto={o.mjesto}
+              datum={o.datum}
+              brojLjudi={o.brojLjudi}
+              satnica={o.satnica}
+              posaoNaziv={o.posaoTipNaziv}
+              key={o.id}
             />
           ))}
-          {Array(Math.max(0, 4 - currentPosts.length))
-            .fill()
-            .map((_, i) => (
-              <div key={i} />
-            ))}
         </div>
         <div
           style={{
@@ -359,14 +135,14 @@ export default function Home() {
           }}
         >
           <Button
-            disabled={currentPage === 1}
-            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={current === 1}
+            onClick={() => onChangePage(current - 1)}
           >
             Prethodna
           </Button>
           <Button
-            disabled={currentPage * pageSize >= postsSize}
-            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={current >= total}
+            onClick={() => onChangePage(current + 1)}
           >
             Sledeća
           </Button>
@@ -407,8 +183,8 @@ export default function Home() {
               name="category-list"
               id="category-list"
               onChange={handleMjestoChange}
+              value={mjesto}
               style={{ width: "170px" }}
-              value={selectedMjesto}
             >
               <option>Izaberite</option>
               {opstine.map((opstina) => (
@@ -446,6 +222,7 @@ export default function Home() {
               id="category-list"
               mode="multiple"
               onChange={handleJobChange}
+              value={posaoTip}
               style={{ width: "170px" }}
             >
               {jobs.map((job) => (
@@ -471,11 +248,10 @@ export default function Home() {
             <b>Minimalna satnica: </b>
           </div>
           <div style={{ display: "flex", height: "20px" }}>
-            <input
+            <InputNumber
               onChange={handleMinimumChange}
-              value={minimum}
-              style={{ width: "30px" }}
-            ></input>
+              style={{ width: "100px", height: "25px" }}
+            ></InputNumber>
           </div>
           <div>
             <b>KM</b>
@@ -495,11 +271,10 @@ export default function Home() {
             <b>Maksimalna satnica: </b>
           </div>
           <div style={{ display: "flex", height: "20px" }}>
-            <input
+            <InputNumber
               onChange={handleMaksimumChange}
-              value={maksimum}
-              style={{ width: "30px" }}
-            ></input>
+              style={{ width: "100px", height: "25px" }}
+            ></InputNumber>
           </div>
           <div>
             <b>KM</b>
@@ -525,11 +300,20 @@ export default function Home() {
             id="category-listSort"
             style={{ width: "170px" }}
             onChange={handleSortChange}
-            value={selectedSort}
+            value={direction}
           >
-            <option key={1}>Najnoviji</option>
-            <option key={2}>Najstariji</option>
+            <option key={1} value={"ASC"}>
+              Najnoviji
+            </option>
+            <option key={2} value={"DESC"}>
+              Najstariji
+            </option>
           </Select>
+        </div>
+        <div style={{ display: "flex" }}>
+          <div style={{ marginTop: 10 }}>
+            <Button onClick={change}>Filtriraj</Button>
+          </div>
         </div>
       </div>
     </div>

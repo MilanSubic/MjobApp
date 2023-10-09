@@ -16,20 +16,7 @@ const CustomCard = (props) => {
   useEffect(() => {
     setUserType(sessionStorage.getItem("tipKorisnika"));
   }, []);
-  const [post, setPost] = useState({
-    id: 0,
-    sadrzaj: "",
-    mjesto: "",
-    napomena: "",
-    datum: "",
-    brojLjudi: 0,
-    aktivan_do: false,
-    satnica: 0,
-    javni: "true",
-    narucilacNaziv: "",
-    novcanaNaknadaTipNaziv: "",
-    posaoTipNaziv: "",
-  });
+  const [post] = useState(props.post);
   const [currentUser] = useState(getCurrentUser());
   const openModal = () => {
     if (
@@ -41,21 +28,17 @@ const CustomCard = (props) => {
 
     setIsModalOpen(true);
   };
-  const closeModal = () => {
-    window.location.reload(false);
-    setIsModalOpen(false);
-  };
-  useEffect(() => {
-    loadPost();
-  }, []);
 
-  const loadPost = () => {
-    oglasService.getPostById(props.id).then((result) => {
-      setPost(result.data);
-      brOsoba();
-      console.log(userType);
+  const closeModal = (v) => {
+    setTimeout(() => {
+      setIsModalOpen(false);
+      console.log(v);
     });
   };
+
+  useEffect(() => {
+    brOsoba();
+  }, []);
 
   const brOsoba = () => {
     oglasService.numOsoba(props.id).then((result) => {
@@ -74,20 +57,20 @@ const CustomCard = (props) => {
   return (
     <Card
       onClick={() => openModal()}
-      hoverable
       style={{
         width: 230,
         height: 250,
       }}
       title={props.posaoNaziv}
     >
-      <b>Mjesto: </b> {post.mjesto}
+      <b>Mjesto: </b> {props.mjesto}
       <br />
-      <b>Datum: </b> {moment(post.datum.substring(0, 10)).format("DD.MM.YYYY.")}
+      <b>Datum: </b>{" "}
+      {moment(props.datum?.substring(0, 10)).format("DD.MM.YYYY.")}
       <br />
-      <b>Broj potrebnih radnika: </b> {post.brojLjudi}
+      <b>Broj potrebnih radnika: </b> {props.brojLjudi}
       <br />
-      <b>Satnica: </b> {post.satnica} KM
+      <b>Satnica: </b> {props.satnica} KM
       <br></br>
       <br />
       {userType === "admin" && (
@@ -109,7 +92,12 @@ const CustomCard = (props) => {
 };
 CustomCard.propTypes = {
   id: PropTypes.number,
+  post: PropTypes.object,
   posaoNaziv: PropTypes.string,
+  mjesto: PropTypes.string,
+  datum: PropTypes.any,
+  brojLjudi: PropTypes.number,
+  satnica: PropTypes.number,
 };
 
 export default CustomCard;

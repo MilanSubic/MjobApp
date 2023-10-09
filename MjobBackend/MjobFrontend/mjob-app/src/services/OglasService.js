@@ -7,8 +7,8 @@ export const creatad = (data) => {
   return instance.post("/api/oglas", data);
 };
 
-export const getAll = () => {
-  return authInstance.get("/api/oglas/svi");
+export const getAll = (data) => {
+  return authInstance.post(`/api/oglas/svi`, data);
 };
 
 export const getPostById = (id) => {

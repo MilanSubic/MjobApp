@@ -1,9 +1,11 @@
 package web.mjob.services;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import web.mjob.base.CrudService;
-import web.mjob.models.dto.Korisnik;
-import web.mjob.models.dto.Oglas;
+import web.mjob.models.dto.*;
+
 import java.util.List;
 
 public interface OglasService extends CrudService<Long> {
@@ -14,9 +16,9 @@ public interface OglasService extends CrudService<Long> {
   */
     public List<Oglas> getAllOglasiByNarucilacId(Long id);
 
-    List<Oglas> getAllJavniOglasi();
+    OglasListDto findAll(Request<OglasFilterDto> request, Authentication authentication);
 
-    List<Oglas> findAll(Authentication authentication);
+    List<Oglas> getAllJavniOglasi();
 
     Oglas findById(Long id);
     void delete(Long id);

@@ -37,4 +37,7 @@ public class OglasDto {
     private Long novcanaNaknadaTipByNovcanaNaknadaTipId;
 
     private Long narucilacByNarucilacId;
+    private String posaoTipNaziv;
+    private String novcanaNaknadaTipNaziv;
+    private String narucilacNaziv;
 }

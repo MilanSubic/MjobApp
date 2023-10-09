@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { Button, InputNumber, message, Modal, Input } from "antd";
+import { Button, InputNumber, message, Modal } from "antd";
 import AdForm from "./AdForm";
 import { Link } from "react-router-dom";
 import UsersListModal from "./UsersListModal";
@@ -21,6 +21,7 @@ import { Role } from "../enums/role.enum";
 const AdModal = (props) => {
   const { visible, onCancel, post, confirmLoading, editMode, id } = props;
   const [modalOpen, setModalOpen] = useState(false);
+  const [open, setOpen] = useState(visible);
   const [userType, setUserType] = useState();
   const [editModeTemp, setEditMode] = useState(false);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
@@ -42,19 +43,18 @@ const AdModal = (props) => {
   useEffect(() => {
     brOsoba();
     brPrOsoba();
-    console.log(brojOsoba + prihvaceneOsobe);
   }, [visible]);
   useEffect(() => {
     setUserType(sessionStorage.getItem("tipKorisnika"));
     setEditMode(editMode);
     brOsoba();
     brPrOsoba();
-    console.log(brojOsoba + prihvaceneOsobe);
   }, []);
 
   const obrisiOglas = () => {
-    oglasiService.remove(post.id);
-    window.location.reload(false);
+    oglasiService.remove(post.id).then(() => {
+      window.location.reload(false);
+    });
   };
   const openModal = () => {
     setModalOpen(true);
@@ -99,20 +99,31 @@ const AdModal = (props) => {
         setStat(data.map((r) => ({ Datum: r.dan, Pregledi: r.broj_pregleda })));
       });
     }
+    setOpen(visible);
   }, [visible, dani]);
+
+  const closeAdModal = () => {
+    setOpen(false);
+    onCancel();
+  };
 
   return (
     <Modal
       width={1300}
-      onOk={() => onCancel()}
+      onOk={closeAdModal}
       destroyOnClose
-      onCancel={() => onCancel()}
-      open={visible}
+      onCancel={closeAdModal}
+      open={open}
       confirmLoading={confirmLoading}
       footer={[]}
       style={{ top: "25px" }}
     >
-      <AdForm id={id} initialData={post} editMode={editModeTemp} />
+      <AdForm
+        id={id}
+        initialData={post}
+        editMode={editModeTemp}
+        onCancel={() => setEditMode(false)}
+      />
       {userType === "admin" && editModeTemp === false && (
         <>
           {stat &&
@@ -120,13 +131,15 @@ const AdModal = (props) => {
             currentUser.authorities.find((a) => Role.Admin === a.authority) && (
               <div>
                 <div className="brOsoba">
-                  <Input
+                  <InputNumber
                     addonBefore="Broj prijavljenih osoba"
                     value={brojOsoba}
+                    readOnly
                   />
-                  <Input
+                  <InputNumber
                     addonBefore="Broj prihvaćenih osoba"
                     value={prihvaceneOsobe}
+                    readOnly
                   />
                 </div>
                 <div
@@ -201,7 +214,7 @@ const AdModal = (props) => {
             <Button onClick={() => openModal()}>PRIJAVLJENI KORISNICI</Button>
             <Button
               style={{ float: "right", marginLeft: "5px" }}
-              onClick={() => window.location.reload()}
+              onClick={closeAdModal}
             >
               IZAĐI
             </Button>
@@ -225,12 +238,12 @@ const AdModal = (props) => {
           >
             PRIJAVI SE
           </Button>
-          <Button onClick={() => onCancel()}>IZAĐI</Button>
+          <Button onClick={closeAdModal}>IZAĐI</Button>
         </div>
       )}
       {userType !== "korisnik" && userType !== "admin" && (
         <div style={{ textAlign: "right" }}>
-          <Button onClick={() => onCancel()}>IZAĐI</Button>
+          <Button onClick={closeAdModal}>IZAĐI</Button>
         </div>
       )}
     </Modal>
@@ -240,7 +253,7 @@ const AdModal = (props) => {
 AdModal.propTypes = {
   visible: PropTypes.bool,
   onOk: PropTypes.func,
-  onCancel: PropTypes.func,
+  onCancel: PropTypes.any,
   confirmLoading: PropTypes.bool,
   post: PropTypes.object,
   editMode: PropTypes.bool,
