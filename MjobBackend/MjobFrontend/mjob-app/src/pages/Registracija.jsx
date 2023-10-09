@@ -221,7 +221,7 @@ export const Registracija = () => {
             </Form.Item>
 
             <Form.Item
-              label="Mjesto rodjenja"
+              label="Mjesto rođenja"
               name="mjestoRodjenjaOpstina"
               rules={[{ required: true, message: "Polje je obavezno" }]}
             >
@@ -300,7 +300,7 @@ export const Registracija = () => {
             </Form.Item>
 
             <Form.Item
-              label="Broj licne karte"
+              label="Broj lične karte"
               name="brojLicneKarte"
               rules={[
                 {
@@ -315,7 +315,7 @@ export const Registracija = () => {
             </Form.Item>
 
             <Form.Item
-              label="Izdavaoc licne karte"
+              label="Izdavaoc lične karte"
               name="izdavaocLicneKarteOpstina"
             >
               <CustomSelect
@@ -396,7 +396,7 @@ export const Registracija = () => {
               <Input />
             </Form.Item>
             <Form.Item
-              label="Broj indeksa, radne ili djacke knjizice:"
+              label="Broj indeksa, radne ili djačke knjižice:"
               name="identifikator"
               rules={[
                 { required: true, message: "Polje je obavezno" },
@@ -421,7 +421,7 @@ export const Registracija = () => {
             </Form.Item>
 
             <Form.Item
-              label="Broj tekuceg racuna"
+              label="Broj tekuceg računa"
               name="brojTekucegRacuna"
               rules={[
                 { required: true, message: "Polje je obavezno" },

@@ -184,9 +184,12 @@ public class KorisnikPrijavljenServiceImpl implements KorisnikPrijavljenService 
 
     @Override
     public Integer numberAllUserRequest(Long id) {
-        List <PrijavljenKorisnikDto> list=getAllUsersRequestsForAd(id);
-        return  list.size();
+        OglasEntity oglas=oglasRepository.findOglasEntityById(id);
+        List<KorisnikPrijavljenEntity> prijavljeniKorisnici=korisnikPrijavljenRepository.findAcceptedKorisnikPrijavljenEntityById(id);
+
+        return prijavljeniKorisnici.size();
     }
+
 
 
     @Override
@@ -209,7 +212,7 @@ public class KorisnikPrijavljenServiceImpl implements KorisnikPrijavljenService 
     @Override
     public Integer numberAcceptedUserRequest(Long id) {
         OglasEntity oglas=oglasRepository.findOglasEntityById(id);
-        List<KorisnikPrijavljenEntity> prijavljeniKorisnici=korisnikPrijavljenRepository.findAcceptedKorisnikPrijavljenEntityById(id);
+        List<KorisnikPrijavljenEntity> prijavljeniKorisnici=korisnikPrijavljenRepository.findKorisnikPrijavljenById(id);
 
         return prijavljeniKorisnici.size();
     }

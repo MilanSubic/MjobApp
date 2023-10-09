@@ -16,6 +16,9 @@ public interface KorisnikPrijavljenRepository extends JpaRepository<KorisnikPrij
     KorisnikPrijavljenEntity findKorisnikPrijavljenEntityById(Long id);
 
     @Query(nativeQuery = true,
+            value = "select  * from korisnik_prijavljen where  oglas_id=:id and odjavljen=false and odbijen=false")
+    List <KorisnikPrijavljenEntity> findKorisnikPrijavljenById(@Param("id")Long id);
+    @Query(nativeQuery = true,
             value = "select  * from korisnik_prijavljen where  odobren=true and oglas_id=:id")
    List <KorisnikPrijavljenEntity> findAcceptedKorisnikPrijavljenEntityById(@Param("id")Long id);
 
