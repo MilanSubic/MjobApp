@@ -140,7 +140,7 @@ const UsersListModal = (props) => {
       title: "Datum rodjenja",
       dataIndex: "korisnikByKorisnikId",
       render: (record) => {
-        return moment(record.datumRodjenja).format("DD-MM-YYYY");
+        return moment(record.datumRodjenja).format("DD.MM.YYYY.");
       },
     },
     {
@@ -240,7 +240,7 @@ const UsersListModal = (props) => {
       title: "Datum rodjenja",
       dataIndex: "korisnikByKorisnikId",
       render: (record) => {
-        return moment(record.datumRodjenja).format("DD-MM-YYYY");
+        return moment(record.datumRodjenja).format("DD.MM.YYYY.");
       },
     },
     {

@@ -508,7 +508,7 @@ const UpravljanjeNalozima = () => {
                       onClick={() => openEditModal()}
                     />
                   </Tooltip>
-                  <Tooltip title="Obrisi nalog">
+                  <Tooltip title="Obriši nalog">
                     <Button
                       shape="circle"
                       size={"large"}

@@ -33,13 +33,13 @@ const columns = [
   {
     title: "Datum objave",
     dataIndex: "datum",
-    render: (record) => moment(record).format("DD-MM-YYYY"),
+    render: (record) => moment(record).format("DD.MM.YYYY."),
     sorter: (a, b) => moment(a.datum).unix() - moment(b.datum).unix(),
   },
   {
     title: "Aktivan do",
     dataIndex: "aktivanDo",
-    render: (record) => moment(record).format("DD-MM-YYYY"),
+    render: (record) => moment(record).format("DD.MM.YYYY."),
     sorter: (a, b) => moment(a.aktivanDo).unix() - moment(b.aktivanDo).unix(),
   },
   {

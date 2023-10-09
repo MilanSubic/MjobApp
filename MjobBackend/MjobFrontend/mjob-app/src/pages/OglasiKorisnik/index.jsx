@@ -72,13 +72,13 @@ const Oglasi = () => {
     {
       title: "Datum objave",
       dataIndex: "oglasByOglasId",
-      render: (record) => moment(record.datum).format("DD-MM-YYYY"),
+      render: (record) => moment(record.datum).format("DD.MM.YYYY."),
       sorter: (a, b) => moment(a.datum).unix() - moment(b.datum).unix(),
     },
     {
       title: "Aktivan do",
       dataIndex: "oglasByOglasId",
-      render: (record) => moment(record.aktivanDo).format("DD-MM-YYYY"),
+      render: (record) => moment(record.aktivanDo).format("DD.MM.YYYY."),
       sorter: (a, b) => moment(a.aktivanDo).unix() - moment(b.aktivanDo).unix(),
     },
     {
