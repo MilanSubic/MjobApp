@@ -104,7 +104,7 @@ export const Registracija = () => {
               cancelText="Ne"
               onConfirm={() => onRemoveFile(record)}
             >
-              <a>Obrisi</a>
+              <a>Obriši</a>
             </Popconfirm>
           </Space>
         ),
@@ -304,6 +304,7 @@ export const Registracija = () => {
               name="brojLicneKarte"
               rules={[
                 {
+                  required: true,
                   message:
                     "Polje mora imati 9 karaktera i može sadržavati samo velika slova i brojeve.",
                   pattern: /^[A-Z0-9]{9}$/,
@@ -395,7 +396,7 @@ export const Registracija = () => {
               <Input />
             </Form.Item>
             <Form.Item
-              label="Broj indeksa, radne ili djacke knjizice"
+              label="Broj indeksa, radne ili djacke knjizice:"
               name="identifikator"
               rules={[
                 { required: true, message: "Polje je obavezno" },

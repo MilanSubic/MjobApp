@@ -155,7 +155,7 @@ const AdModal = (props) => {
               IZMIJENI
             </Button>
             <Button onClick={() => obrisiOglas()}>
-              <Link to="/home">OBRISI</Link>
+              <Link to="/home">OBRIŠI</Link>
             </Button>
             <Button onClick={() => openModal()}>PRIJAVLJENI KORISNICI</Button>
             <Button

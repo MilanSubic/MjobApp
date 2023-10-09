@@ -34,7 +34,7 @@ const Jobs = (props) => {
       title: "Datum",
       dataIndex: "datum",
       render: (record) => {
-        return moment(record).format("DD-MM-YYYY");
+        return moment(record).format("DD.MM.YYYY.");
       },
     },
     {
