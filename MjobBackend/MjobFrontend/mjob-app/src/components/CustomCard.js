@@ -12,8 +12,9 @@ const CustomCard = (props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [brojOsoba, setBrojOsoba] = useState();
   const [prihvaceneOsobe, setPrihvaceneOsobe] = useState();
+
   useEffect(() => {
-    setUserType(localStorage.getItem("tipKorisnika"));
+    setUserType(sessionStorage.getItem("tipKorisnika"));
   }, []);
   const [post, setPost] = useState({
     id: 0,
@@ -52,7 +53,7 @@ const CustomCard = (props) => {
     oglasService.getPostById(props.id).then((result) => {
       setPost(result.data);
       brOsoba();
-      console.log("kkkkkkk" + brojOsoba);
+      console.log(userType);
     });
   };
 

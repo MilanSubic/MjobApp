@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { Button, InputNumber, message, Modal } from "antd";
+import { Button, InputNumber, message, Modal, Input } from "antd";
 import AdForm from "./AdForm";
 import { Link } from "react-router-dom";
 import UsersListModal from "./UsersListModal";
 import oglasiService from "../services/OglasiService";
-// import oglasService from "../services/OglasService";
+import oglasService from "../services/OglasService";
 import korisnikService from "../services/korisnik.service";
 import {
   CartesianGrid,
@@ -27,9 +27,29 @@ const AdModal = (props) => {
   const [stat, setStat] = useState([]);
   const [dani, setDani] = useState(5);
   const [currentUser] = useState(getCurrentUser());
+  const [brojOsoba, setBrojOsoba] = useState();
+  const [prihvaceneOsobe, setPrihvaceneOsobe] = useState();
+  const brOsoba = () => {
+    oglasService.numOsoba(id).then((result) => {
+      setBrojOsoba(result.data);
+    });
+  };
+  const brPrOsoba = () => {
+    oglasService.numPrOsoba(id).then((result) => {
+      setPrihvaceneOsobe(result.data);
+    });
+  };
+  useEffect(() => {
+    brOsoba();
+    brPrOsoba();
+    console.log(brojOsoba + prihvaceneOsobe);
+  }, [visible]);
   useEffect(() => {
     setUserType(sessionStorage.getItem("tipKorisnika"));
     setEditMode(editMode);
+    brOsoba();
+    brPrOsoba();
+    console.log(brojOsoba + prihvaceneOsobe);
   }, []);
 
   const obrisiOglas = () => {
@@ -98,53 +118,73 @@ const AdModal = (props) => {
           {stat &&
             currentUser &&
             currentUser.authorities.find((a) => Role.Admin === a.authority) && (
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  flexDirection: "column",
-                }}
-              >
-                <InputNumber
-                  addonBefore="Broj dana za prikaz"
-                  min={1}
-                  max={100}
-                  value={dani}
-                  onChange={setDani}
-                />
-                <AreaChart
-                  width={730}
-                  height={250}
-                  data={stat}
-                  margin={{ top: 10, right: 30, left: 30, bottom: 20 }}
+              <div>
+                <div className="brOsoba">
+                  <Input
+                    addonBefore="Broj prijavljenih osoba"
+                    value={brojOsoba}
+                  />
+                  <Input
+                    addonBefore="Broj prihvaćenih osoba"
+                    value={prihvaceneOsobe}
+                  />
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    flexDirection: "column",
+                  }}
                 >
-                  <defs>
-                    <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#82ca9d" stopOpacity={0.8} />
-                      <stop offset="95%" stopColor="#82ca9d" stopOpacity={0} />
-                    </linearGradient>
-                  </defs>
-                  <XAxis
-                    dataKey="Datum"
-                    label={{
-                      value: "Datum",
-                      angle: 0,
-                      offset: -5,
-                      position: "insideBottom",
-                    }}
+                  <InputNumber
+                    addonBefore="Broj dana za prikaz"
+                    min={1}
+                    max={100}
+                    value={dani}
+                    onChange={setDani}
                   />
-                  <YAxis />
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <Tooltip />
-                  <Area
-                    type="monotone"
-                    dataKey="Pregledi"
-                    stroke="#8884d8"
-                    fillOpacity={1}
-                    fill="url(#colorUv)"
-                  />
-                </AreaChart>
+                  <AreaChart
+                    width={730}
+                    height={250}
+                    data={stat}
+                    margin={{ top: 10, right: 30, left: 30, bottom: 20 }}
+                  >
+                    <defs>
+                      <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
+                        <stop
+                          offset="5%"
+                          stopColor="#82ca9d"
+                          stopOpacity={0.8}
+                        />
+                        <stop
+                          offset="95%"
+                          stopColor="#82ca9d"
+                          stopOpacity={0}
+                        />
+                      </linearGradient>
+                    </defs>
+                    <XAxis
+                      dataKey="Datum"
+                      label={{
+                        value: "Datum",
+                        angle: 0,
+                        offset: -5,
+                        position: "insideBottom",
+                      }}
+                    />
+                    <YAxis />
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <Tooltip />
+                    <Area
+                      type="monotone"
+                      dataKey="Pregledi"
+                      stroke="#8884d8"
+                      fillOpacity={1}
+                      fill="url(#colorUv)"
+                    />
+                  </AreaChart>
+                </div>
               </div>
             )}
           <div style={{ textAlign: "center" }}>
@@ -156,7 +196,7 @@ const AdModal = (props) => {
               IZMIJENI
             </Button>
             <Button onClick={() => obrisiOglas()}>
-              <Link to="/home">OBRISI</Link>
+              <Link to="/home">OBRIŠI</Link>
             </Button>
             <Button onClick={() => openModal()}>PRIJAVLJENI KORISNICI</Button>
             <Button
