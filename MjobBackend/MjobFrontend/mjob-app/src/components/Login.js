@@ -31,9 +31,11 @@ function Login() {
 
       if (jwt) {
         korisnikService.getUserByUsername(user.username).then((res) => {
-          console.log(res.korisnikTipNaziv);
-          sessionStorage.setItem("tipKorisnika", res.korisnikTipNaziv);
-          navigate("/home");
+          if (res.korisnikStatusNaziv === "aktivan") {
+            console.log(res.korisnikTipNaziv);
+            sessionStorage.setItem("tipKorisnika", res.korisnikTipNaziv);
+            navigate("/home");
+          }
         });
       }
       /* const config = {
