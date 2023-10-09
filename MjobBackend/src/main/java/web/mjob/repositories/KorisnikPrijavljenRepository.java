@@ -1,6 +1,7 @@
 package web.mjob.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import web.mjob.models.entities.KorisnikEntity;
 import web.mjob.models.entities.KorisnikPrijavljenEntity;
 import web.mjob.models.entities.OglasEntity;
@@ -12,5 +13,9 @@ public interface KorisnikPrijavljenRepository extends JpaRepository<KorisnikPrij
     KorisnikPrijavljenEntity findKorisnikPrijavljenEntityByKorisnikByKorisnikIdAndOglasByOglasId(KorisnikEntity korisnik,OglasEntity oglas);
     List<KorisnikPrijavljenEntity> findKorisnikPrijavljenEntitiesByKorisnikByKorisnikIdIs(KorisnikEntity korisnik);
     KorisnikPrijavljenEntity findKorisnikPrijavljenEntityById(Long id);
+
+    @Query(nativeQuery = true,
+            value = "select  * from korisnik_prijavljen where odobren=true ")
+   List <KorisnikPrijavljenEntity> findAcceptedKorisnikPrijavljenEntityById(Long id);
 
 }

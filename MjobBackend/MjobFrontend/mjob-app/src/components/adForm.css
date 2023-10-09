@@ -24,3 +24,11 @@
     background-color: #FFFFFF !important;
     color: #000000 !important;
 }
+
+.brOsoba{
+    width: 210px;
+}
+
+.brOsoba.brOsoba.ant-select-disabled{
+    background-color: #FFFFFF !important;
+}

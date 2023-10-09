@@ -17,9 +17,18 @@ export const getPostById = (id) => {
 export const update = (id, ad) => {
   return instance.put(`/api/oglas/${id}`, ad).then((res) => res.data);
 };
+
+export const numOsoba = (id) => {
+  return instance.get(`api/oglas/numUsers/${id}`);
+};
+export const numPrOsoba = (id) => {
+  return instance.get(`api/oglas/numAcceptUsers/${id}`);
+};
 export default {
   creatad,
   getAll,
   getPostById,
   update,
+  numOsoba,
+  numPrOsoba,
 };

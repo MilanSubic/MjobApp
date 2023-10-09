@@ -12,6 +12,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import web.mjob.base.CrudController;
 import web.mjob.models.dto.*;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -139,6 +140,18 @@ public class OglasController extends CrudController<Long, OglasDto,OglasDto> {
     public boolean refuseRequestForJob(@PathVariable Long oglasId)
     {
        return korisnikPrijavljenService.refuseRequest(oglasId);
+    }
+
+    @GetMapping("/numUsers/{id}")
+    public Integer getNumberAllUserRequestsForJob(@PathVariable Long id)
+    {
+        return korisnikPrijavljenService.numberAllUserRequest(id);
+    }
+
+    @GetMapping("/numAcceptUsers/{id}")
+    public Integer getNumberAcceptedRequestsForJob(@PathVariable Long id)
+    {
+        return korisnikPrijavljenService.numberAcceptedUserRequest(id);
     }
 }
 

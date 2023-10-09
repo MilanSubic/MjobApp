@@ -6,7 +6,13 @@ import AdModal from "./AdModal";
 import moment from "moment";
 
 const CustomCard = (props) => {
+  const [userType, setUserType] = useState();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [brojOsoba, setBrojOsoba] = useState();
+  const [prihvaceneOsobe, setPrihvaceneOsobe] = useState();
+  useEffect(() => {
+    setUserType(localStorage.getItem("tipKorisnika"));
+  }, []);
   const [post, setPost] = useState({
     id: 0,
     sadrzaj: "",
@@ -21,6 +27,7 @@ const CustomCard = (props) => {
     novcanaNaknadaTipNaziv: "",
     posaoTipNaziv: "",
   });
+
   const openModal = () => {
     setIsModalOpen(true);
   };
@@ -35,9 +42,25 @@ const CustomCard = (props) => {
   const loadPost = () => {
     oglasService.getPostById(props.id).then((result) => {
       setPost(result.data);
+      brOsoba();
+      console.log("kkkkkkk" + brojOsoba);
     });
   };
 
+  const brOsoba = () => {
+    oglasService.numOsoba(props.id).then((result) => {
+      setBrojOsoba(result.data);
+    });
+  };
+  const brPrOsoba = () => {
+    oglasService.numPrOsoba(props.id).then((result) => {
+      setPrihvaceneOsobe(result.data);
+    });
+  };
+  useEffect(() => {
+    brOsoba();
+    brPrOsoba();
+  }, []);
   return (
     <Card
       onClick={() => openModal()}
@@ -55,10 +78,15 @@ const CustomCard = (props) => {
       <b>Broj potrebnih radnika: </b> {post.brojLjudi}
       <br />
       <b>Satnica: </b> {post.satnica} KM
+      <br></br>
       <br />
-      <b>Napomena: </b>
-      <br />
-      {post.napomena}
+      {userType === "admin" && (
+        <div>
+          <b>Broj prijavljenih: </b> {brojOsoba}
+          <br />
+          <b>Broj prihvacenih: </b> {prihvaceneOsobe}
+        </div>
+      )}
       <AdModal
         visible={isModalOpen}
         onCancel={closeModal}

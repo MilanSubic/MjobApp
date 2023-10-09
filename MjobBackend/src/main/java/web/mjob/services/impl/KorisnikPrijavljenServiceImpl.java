@@ -75,7 +75,9 @@ public class KorisnikPrijavljenServiceImpl implements KorisnikPrijavljenService 
             korisnikPrijavljenRepository.saveAndFlush(user);
     
     }
-    
+
+
+
     @Override
     public <T> List<T> findAll(Class<T> resultDtoClass) throws NotFoundException {
         return null;
@@ -162,7 +164,13 @@ public class KorisnikPrijavljenServiceImpl implements KorisnikPrijavljenService 
         return lista.stream().filter((el)->!el.getOglasByOglasId().getObrisan()).toList();
 
     }
-    
+
+    @Override
+    public Integer numberAllUserRequest(Long id) {
+        List <PrijavljenKorisnikDto> list=getAllUsersRequestsForAd(id);
+        return  list.size();
+    }
+
 
     @Override
     public boolean refuseRequest(Long id) {
@@ -178,5 +186,12 @@ public class KorisnikPrijavljenServiceImpl implements KorisnikPrijavljenService 
             return true;
         }
         return false;
+    }
+    @Override
+    public Integer numberAcceptedUserRequest(Long id) {
+        OglasEntity oglas=oglasRepository.findOglasEntityById(id);
+        List<KorisnikPrijavljenEntity> prijavljeniKorisnici=korisnikPrijavljenRepository.findAcceptedKorisnikPrijavljenEntityById(id);
+
+        return prijavljeniKorisnici.size();
     }
 }
