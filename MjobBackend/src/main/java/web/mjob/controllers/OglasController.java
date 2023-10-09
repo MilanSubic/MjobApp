@@ -27,8 +27,9 @@ public class OglasController extends CrudController<Long, OglasDto,OglasDto> {
     public final NarucilacService narucilacService;
     public final PosaoTipService posaoTipService;
     public final KorisnikPrijavljenService korisnikPrijavljenService;
+    private final OglasStatistikVwService oglasStatistikaVwService;
 
-    public OglasController( NovcanaNaknadaTipService novcanaNaknadaTipService, NarucilacService narucilacService, PosaoTipService posaoTipService, OglasService oglasService,KorisnikPrijavljenService korisnikPrijavljenService) {
+    public OglasController(NovcanaNaknadaTipService novcanaNaknadaTipService, NarucilacService narucilacService, PosaoTipService posaoTipService, OglasService oglasService, KorisnikPrijavljenService korisnikPrijavljenService, OglasStatistikVwService oglasStatistikVwService) {
         super(OglasDto.class,oglasService);
 
         this.novcanaNaknadaTipService = novcanaNaknadaTipService;
@@ -36,6 +37,7 @@ public class OglasController extends CrudController<Long, OglasDto,OglasDto> {
         this.posaoTipService = posaoTipService;
         this.oglasService = oglasService;
         this.korisnikPrijavljenService=korisnikPrijavljenService;
+        this.oglasStatistikaVwService = oglasStatistikVwService;
     }
 
 
@@ -152,6 +154,16 @@ public class OglasController extends CrudController<Long, OglasDto,OglasDto> {
     public Integer getNumberAcceptedRequestsForJob(@PathVariable Long id)
     {
         return korisnikPrijavljenService.numberAcceptedUserRequest(id);
+    }
+
+    @PutMapping("/{id}/view")
+    public void view(@PathVariable Long id){
+        oglasService.view(id, SecurityContextHolder.getContext().getAuthentication());
+    }
+
+    @GetMapping("/{id}/statistika/{broj}")
+    public List<OglasStatistikaDto> getViewStatistika(@PathVariable Long id, @PathVariable Long broj) throws Exception {
+        return oglasStatistikaVwService.getViewStatistika(id, broj, SecurityContextHolder.getContext().getAuthentication());
     }
 }
 

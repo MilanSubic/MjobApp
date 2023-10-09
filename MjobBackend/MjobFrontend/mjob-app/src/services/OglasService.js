@@ -24,11 +24,20 @@ export const numOsoba = (id) => {
 export const numPrOsoba = (id) => {
   return instance.get(`api/oglas/numAcceptUsers/${id}`);
 };
+export const view = (id) => {
+  return instance.put(`/api/oglas/${id}/view`);
+};
+export const viewAuth = (id) => {
+  return authInstance.put(`/api/oglas/${id}/view`);
+};
+
 export default {
   creatad,
   getAll,
   getPostById,
   update,
+  view,
+  viewAuth,
   numOsoba,
   numPrOsoba,
 };

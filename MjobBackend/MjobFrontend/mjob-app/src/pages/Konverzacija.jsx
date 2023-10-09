@@ -23,7 +23,7 @@ import {
 } from "antd";
 import Sider from "antd/es/layout/Sider";
 import { Content, Footer, Header } from "antd/es/layout/layout";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   getKonverzacije,
   getPoruke,
@@ -37,7 +37,7 @@ import { over } from "stompjs";
 import SockJS from "sockjs-client";
 import environments from "../environments";
 import { useSelector, useDispatch } from "react-redux";
-import { setMessages, addMessage } from "../slices/messageSlice";
+import { setMessages, addMessage, addMessages } from "../slices/messageSlice";
 import _map from "lodash/map";
 import { Role } from "../enums/role.enum";
 import { setUnreaded } from "../slices/unreadedSlice";
@@ -56,7 +56,6 @@ let subscription = null;
 let konverzacijeSub = null;
 
 export const Konverzacija = () => {
-  const bottomEl = useRef(null);
   const {
     token: { colorBgContainer },
   } = theme.useToken();
@@ -67,6 +66,8 @@ export const Konverzacija = () => {
   const [showModal, setShowModal] = useState();
 
   const messages = useSelector((state) => state.messages.value);
+  const firstMessage = useSelector((state) => state.messages.firstMessage);
+  const scroll = useSelector((state) => state.messages.scroll);
   const konverzacije = useSelector((state) => state.konverzacije.value);
   const konverzacija = useSelector((state) => state.konverzacije.konverzacija);
   const tema = useSelector((state) => state.konverzacije.tema);
@@ -98,11 +99,17 @@ export const Konverzacija = () => {
     pageSize: 20,
   });
 
-  const scrollToBottom = () => {
-    setTimeout(() => {
-      bottomEl?.current?.scrollIntoView({ behavior: "smooth" });
-    }, 10);
-  };
+  const messagePageSize = 50;
+  const [messagePage, setMessagePage] = useState(1);
+
+  const [messageTotalPages, setMessageTotalPages] = useState();
+
+  useEffect(() => {
+    if (scroll) {
+      const divElement = document.getElementById("m" + scroll.id);
+      divElement.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [scroll]);
 
   const onMenuClick = (c) => {
     // eslint-disable-next-line eqeqeq
@@ -119,13 +126,25 @@ export const Konverzacija = () => {
       const Sock = new SockJS(environments().wsUrl);
       stompClient = over(Sock);
 
-      const token = localStorage.getItem("token");
+      const token = sessionStorage.getItem("token");
       stompClient.connect(
         { Authorization: `Bearer ${token}` },
         onConnected,
         onError
       );
     }
+  };
+
+  const onConnected = () => {
+    konverzacijeSub = stompClient.subscribe(
+      "/korisnik/" + currentUser.sub + "/novePoruke",
+      onNewMessageCreated
+    );
+    if (konverzacija) subscribeOnKonverzacija(konverzacija.id);
+  };
+
+  const onError = (err) => {
+    console.log(err);
   };
 
   function onNewMessageCreated(payload) {
@@ -142,7 +161,7 @@ export const Konverzacija = () => {
         prevId = id;
         if (subscription) subscription.unsubscribe();
         subscription = stompClient.subscribe(
-          "/konverzacija/" + id + "/poruke",
+          `/korisnik/konverzacija(${id})/${currentUser.sub}/poruke`,
           onMessageReceived
         );
       }
@@ -158,14 +177,6 @@ export const Konverzacija = () => {
       procitaj(konverzacija.id).then(() => {});
     }
   }, [messages]);
-
-  const onConnected = () => {
-    konverzacijeSub = stompClient.subscribe(
-      "/konverzacija/" + currentUser.sub + "/novePoruke",
-      onNewMessageCreated
-    );
-    if (konverzacija) subscribeOnKonverzacija(konverzacija.id);
-  };
 
   const onSend = () => {
     if (stompClient) {
@@ -184,11 +195,6 @@ export const Konverzacija = () => {
     const poruka = JSON.parse(payload.body);
 
     dispatch(addMessage(poruka));
-    scrollToBottom();
-  };
-
-  const onError = (err) => {
-    console.log(err);
   };
 
   const map = (d) => ({
@@ -233,26 +239,55 @@ export const Konverzacija = () => {
   const getPorukaData = () => {
     getPoruke({
       current: 0,
-      // dodati virtual scroll
-      pageSize: 100,
+      pageSize: messagePageSize,
       property: "id",
       direction: "DESC",
       filter: { konverzacijaId: konverzacija.id },
     }).then((res) => {
       dispatch(setMessages(res.data.content));
+      setMessageTotalPages(res.data.totalPages);
       subscribeOnKonverzacija(konverzacija.id);
-      scrollToBottom();
     });
+  };
+
+  const loadMessages = () => {
+    getPoruke({
+      current: messagePage - 1,
+      pageSize: messagePageSize,
+      property: "id",
+      direction: "DESC",
+      filter: { konverzacijaId: konverzacija.id },
+    }).then((res) => {
+      let id = 0;
+      if (firstMessage) id = firstMessage.id;
+      dispatch(addMessages(res.data.content));
+
+      if (id > 0) {
+        const divElement = document.getElementById("m" + id);
+        divElement.scrollIntoView();
+      }
+    });
+  };
+
+  const handleScroll = (e) => {
+    if (messagePage < messageTotalPages && e.target.scrollTop === 0) {
+      setMessagePage(messagePage + 1);
+    }
   };
 
   useEffect(() => {
     if (konverzacija) {
+      setMessagePage(1);
       getPorukaData();
 
       setFileList([]);
       setSadrzaj();
     }
   }, [konverzacija]);
+
+  useEffect(() => {
+    if (konverzacija && messagePage > 1) loadMessages();
+  }, [messagePage]);
 
   const formatDate = (date) => {
     const year = date.getFullYear();
@@ -478,6 +513,7 @@ export const Konverzacija = () => {
             flexGrow: 1,
             background: colorBgContainer,
           }}
+          onScroll={handleScroll}
         >
           <div
             style={{
@@ -493,7 +529,11 @@ export const Konverzacija = () => {
                 }}
               >
                 {_map(messages, (p) => (
-                  <div key={p.id} style={{ width: "100%", margin: "10px" }}>
+                  <div
+                    key={p.id}
+                    id={"m" + p.id}
+                    style={{ width: "100%", margin: "10px" }}
+                  >
                     <div
                       style={{
                         display: "flex",
@@ -558,7 +598,6 @@ export const Konverzacija = () => {
                 ))}
               </div>
             )}
-            <div ref={bottomEl}></div>
           </div>
         </Content>
         <Divider style={{ margin: 0 }} />

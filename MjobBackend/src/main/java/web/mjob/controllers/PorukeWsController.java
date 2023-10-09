@@ -72,9 +72,7 @@ public class PorukeWsController {
         };
 
         var res = porukaService.insert(message, PorukaDto.class, auth);
-        simpMessagingTemplate.convertAndSendToUser(message.getKonverzacijaId().toString(),"/poruke",res);
-
-        var kk = kkRepository.findAllByKonverzacijaIdAndKorisnikKorisnickoImeNot(message.getKonverzacijaId(), principal.getName());
+        var kk = kkRepository.findAllByKonverzacijaId(message.getKonverzacijaId());
 
         var konverzacija = konverzacijaEntityRepository.findById(res.getKonverzacijaId()).get();
         var konverzacijaDto = new KonverzacijaDto();
@@ -84,6 +82,7 @@ public class PorukeWsController {
         konverzacijaDto.setKorisnikPrezime(konverzacija.getKorisnik().getPrezime());
         konverzacijaDto.setProcitana(false);
         kk.forEach(x->{
+            simpMessagingTemplate.convertAndSendToUser("konverzacija("+message.getKonverzacijaId().toString()+")","/"+x.getKorisnik().getKorisnickoIme()+"/poruke",res);
             simpMessagingTemplate.convertAndSendToUser(x.getKorisnik().getKorisnickoIme(), "/obavjestenje",true);
             simpMessagingTemplate.convertAndSendToUser(x.getKorisnik().getKorisnickoIme(),"/novePoruke", konverzacijaDto);
         });

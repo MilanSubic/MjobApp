@@ -21,4 +21,6 @@ public interface OglasService extends CrudService<Long> {
     Oglas findById(Long id);
     void delete(Long id);
 
+    void view(Long id, Authentication authentication);
+
 }

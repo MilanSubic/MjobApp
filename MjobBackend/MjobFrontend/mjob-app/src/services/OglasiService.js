@@ -28,6 +28,9 @@ export const getNovcaneNaknade = () => {
 export const getNarucioci = () => {
   return instance.get(`/api/oglas/narucioci`);
 };
+export const getViewStatistika = (id, broj) => {
+  return instance.get(`/api/oglas/${id}/statistika/${broj}`);
+};
 export default {
   getAll,
   getAllOglasiById,
@@ -37,4 +40,5 @@ export default {
   getMojiOglasi,
   getNovcaneNaknade,
   getNarucioci,
+  getViewStatistika,
 };

@@ -1,22 +1,34 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { Button, message, Modal } from "antd";
+import { Button, InputNumber, message, Modal } from "antd";
 import AdForm from "./AdForm";
 import { Link } from "react-router-dom";
 import UsersListModal from "./UsersListModal";
 import oglasiService from "../services/OglasiService";
 // import oglasService from "../services/OglasService";
 import korisnikService from "../services/korisnik.service";
+import {
+  CartesianGrid,
+  Area,
+  AreaChart,
+  XAxis,
+  YAxis,
+  Tooltip,
+} from "recharts";
 import axios from "axios";
+import { getCurrentUser } from "../services/auth.service";
+import { Role } from "../enums/role.enum";
 const AdModal = (props) => {
   const { visible, onCancel, post, confirmLoading, editMode, id } = props;
   const [modalOpen, setModalOpen] = useState(false);
   const [userType, setUserType] = useState();
   const [editModeTemp, setEditMode] = useState(false);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
-
+  const [stat, setStat] = useState([]);
+  const [dani, setDani] = useState(5);
+  const [currentUser] = useState(getCurrentUser());
   useEffect(() => {
-    setUserType(localStorage.getItem("tipKorisnika"));
+    setUserType(sessionStorage.getItem("tipKorisnika"));
     setEditMode(editMode);
   }, []);
 
@@ -44,50 +56,122 @@ const AdModal = (props) => {
               "/prijava"
           );
         });
-        message.success("Uspjesna prijava");
+        message.success("Uspješna prijava");
         setIsButtonDisabled(true);
       } catch (error) {
-        message.error("Doslo je do greske prilikom prijave");
+        message.error("Došlo je do greške prilikom prijave");
       }
     }
   }
+  useEffect(() => {
+    if (
+      visible &&
+      currentUser &&
+      currentUser.authorities.find((a) => Role.Admin === a.authority) &&
+      dani
+    ) {
+      oglasiService.getViewStatistika(post.id, dani).then((res) => {
+        const data =
+          res.data.length === 1
+            ? [{ dan: "", broj_pregleda: 0 }, ...res.data]
+            : res.data;
+
+        setStat(data.map((r) => ({ Datum: r.dan, Pregledi: r.broj_pregleda })));
+      });
+    }
+  }, [visible, dani]);
+
   return (
     <Modal
       width={1300}
       onOk={() => onCancel()}
       destroyOnClose
       onCancel={() => onCancel()}
-      visible={visible}
+      open={visible}
       confirmLoading={confirmLoading}
       footer={[]}
       style={{ top: "25px" }}
     >
       <AdForm id={id} initialData={post} editMode={editModeTemp} />
       {userType === "admin" && editModeTemp === false && (
-        <div style={{ textAlign: "center" }}>
-          <Button
-            onClick={() => {
-              setEditMode(true);
-            }}
-          >
-            IZMIJENI
-          </Button>
-          <Button onClick={() => obrisiOglas()}>
-            <Link to="/home">OBRISI</Link>
-          </Button>
-          <Button onClick={() => openModal()}>PRIJAVLJENI KORISNICI</Button>
-          <Button
-            style={{ float: "right", marginLeft: "5px" }}
-            onClick={() => window.location.reload()}
-          >
-            IZAĐI
-          </Button>
-          <UsersListModal
-            visible={modalOpen}
-            jobId={post.id}
-            onCancel={closeModal}
-          />
-        </div>
+        <>
+          {stat &&
+            currentUser &&
+            currentUser.authorities.find((a) => Role.Admin === a.authority) && (
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  flexDirection: "column",
+                }}
+              >
+                <InputNumber
+                  addonBefore="Broj dana za prikaz"
+                  min={1}
+                  max={100}
+                  value={dani}
+                  onChange={setDani}
+                />
+                <AreaChart
+                  width={730}
+                  height={250}
+                  data={stat}
+                  margin={{ top: 10, right: 30, left: 30, bottom: 20 }}
+                >
+                  <defs>
+                    <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#82ca9d" stopOpacity={0.8} />
+                      <stop offset="95%" stopColor="#82ca9d" stopOpacity={0} />
+                    </linearGradient>
+                  </defs>
+                  <XAxis
+                    dataKey="Datum"
+                    label={{
+                      value: "Datum",
+                      angle: 0,
+                      offset: -5,
+                      position: "insideBottom",
+                    }}
+                  />
+                  <YAxis />
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <Tooltip />
+                  <Area
+                    type="monotone"
+                    dataKey="Pregledi"
+                    stroke="#8884d8"
+                    fillOpacity={1}
+                    fill="url(#colorUv)"
+                  />
+                </AreaChart>
+              </div>
+            )}
+          <div style={{ textAlign: "center" }}>
+            <Button
+              onClick={() => {
+                setEditMode(true);
+              }}
+            >
+              IZMIJENI
+            </Button>
+            <Button onClick={() => obrisiOglas()}>
+              <Link to="/home">OBRISI</Link>
+            </Button>
+            <Button onClick={() => openModal()}>PRIJAVLJENI KORISNICI</Button>
+            <Button
+              style={{ float: "right", marginLeft: "5px" }}
+              onClick={() => window.location.reload()}
+            >
+              IZAĐI
+            </Button>
+            <UsersListModal
+              visible={modalOpen}
+              jobId={post.id}
+              onCancel={closeModal}
+            />
+          </div>
+        </>
       )}
       {userType === "korisnik" && (
         <div style={{ textAlign: "right" }}>

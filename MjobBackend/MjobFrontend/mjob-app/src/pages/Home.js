@@ -54,6 +54,7 @@ export default function Home() {
         })
       );
     else {
+      console.log("duzina   " + getFilteredByMjesto().length);
       setCurrentPosts(
         [].concat(getFilteredByMjesto()).sort((date1, date2) => {
           if (date2.datum > date1.datum) {
@@ -64,7 +65,6 @@ export default function Home() {
       );
     }
 
-    setIsLoaded(true);
     setPageSize(8);
     setCurrentPage(1);
   };
@@ -82,20 +82,21 @@ export default function Home() {
   };
 
   useEffect(() => {
-    const reloadCount = parseInt(localStorage.getItem("reloadCount"));
+    const reloadCount = parseInt(sessionStorage.getItem("reloadCount"));
     if (reloadCount < 2) {
-      localStorage.setItem("reloadCount", String(reloadCount + 1));
+      sessionStorage.setItem("reloadCount", String(reloadCount + 1));
       window.location.reload();
     }
-
-    loadPosts();
     loadOpstina();
     loadJobs();
+    loadPosts();
+
     console.log("fnfn");
     navigate("/home");
   }, []);
 
   useEffect(() => {
+    console.log("22222222222222");
     setCurrentPosts(
       posts.slice(currentPage * pageSize - pageSize, currentPage * pageSize)
     );

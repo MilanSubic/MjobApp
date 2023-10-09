@@ -3,20 +3,78 @@ import PropTypes from "prop-types";
 import { Button, Modal, Space, Table } from "antd";
 import korisnikService from "../services/korisnik.service";
 import moment from "moment/moment";
+import SockJS from "sockjs-client";
+import environments from "../environments";
+import { over } from "stompjs";
 
+let stompClient = null;
+let konverzacijeSub = null;
+let temp = null;
 const UsersListModal = (props) => {
   const { visible, onCancel, jobId, confirmLoading } = props;
   const [users, setUsers] = useState([]);
 
   const [usersForFirst, setUsersForFirst] = useState([]);
+  const connect = () => {
+    if (!stompClient) {
+      const Sock = new SockJS(environments().wsUrl);
+      stompClient = over(Sock);
 
-  useEffect(() => {
+      const token = sessionStorage.getItem("token");
+      stompClient.connect(
+        { Authorization: `Bearer ${token}` },
+        onConnected,
+        onError
+      );
+    }
+  };
+  const onError = (err) => {
+    console.log(err);
+  };
+  const onConnected = () => {
+    konverzacijeSub = stompClient.subscribe(
+      "/korisnik/oglas/*/refuse",
+      onMessageReceived
+    );
+    temp = stompClient.subscribe(
+      "/korisnik/oglas/*/prijava",
+      onMessageReceived
+    );
+  };
+  const onMessageReceived = (payload) => {
+    // const poruka = JSON.parse(payload.body);
+
     korisnikService.getAllUserRequestsForJob(jobId).then((res) => {
       setUsers(res.filter((el) => el.odjavljen === false));
       setUsersForFirst(
         res.filter((el) => el.odobren === true && el.odjavljen === false)
       );
     });
+  };
+
+  useEffect(() => {
+    return () => {
+      if (!stompClient) connect();
+      else {
+        stompClient.disconnect(() => {
+          stompClient = null;
+        });
+      }
+      if (konverzacijeSub && stompClient) {
+        konverzacijeSub.unsubscribe();
+        konverzacijeSub = null;
+        temp.unsubscribe();
+
+        temp = null;
+      }
+
+      korisnikService.getAllUserRequestsForJob(jobId).then((res) => {
+        setUsers(res.filter((el) => el.odjavljen === false));
+        setUsersForFirst(
+          res.filter((el) => el.odobren === true && el.odjavljen === false)
+        );
+      });
+    };
   }, [jobId]);
   const odbijZahtjev = (id) => {
     korisnikService.acceptJobRequest(jobId, id, false);
@@ -131,11 +189,6 @@ const UsersListModal = (props) => {
       title: "Uplata",
 
       render: (record) => {
-        console.log(
-          "Vrednost record.korisnikByKorisnikId.id:",
-          record.korisnikByKorisnikId.id
-        );
-        console.log("uplata:", record.uplata);
         return record.uplata ? (
           <span style={{ color: "green" }}>Uplata je legla</span>
         ) : (

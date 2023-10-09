@@ -4,8 +4,8 @@ public enum KorisnikTipEnum {
 
     Admin("admin"),
     Student("student"),
-    ROLE_Admin("ROLE_admin"),
-    ROLE_Student("ROLE_student");
+    ROLE_admin("ROLE_admin"),
+    ROLE_student("ROLE_student");
 
 
 

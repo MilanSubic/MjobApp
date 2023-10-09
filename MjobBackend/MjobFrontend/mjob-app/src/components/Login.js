@@ -26,13 +26,13 @@ function Login() {
         user
       );
       const jwt = response.data.token;
-      localStorage.setItem("token", jwt);
-      localStorage.setItem("reloadCount", "1");
+      sessionStorage.setItem("token", jwt);
+      sessionStorage.setItem("reloadCount", "1");
 
       if (jwt) {
         korisnikService.getUserByUsername(user.username).then((res) => {
           console.log(res.korisnikTipNaziv);
-          localStorage.setItem("tipKorisnika", res.korisnikTipNaziv);
+          sessionStorage.setItem("tipKorisnika", res.korisnikTipNaziv);
           navigate("/home");
         });
       }

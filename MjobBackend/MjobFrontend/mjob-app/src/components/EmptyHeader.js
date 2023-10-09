@@ -38,8 +38,7 @@ function EmptyHeader() {
   const unreaded = useSelector((state) => state.unreaded.value);
 
   useEffect(() => {
-    setTipKorisnika(localStorage.getItem("tipKorisnika"));
-    console.log(tipKorisnika);
+    setTipKorisnika(sessionStorage.getItem("tipKorisnika"));
   });
   useEffect(() => {
     korisnikService.getUser().then((res) => {
@@ -82,7 +81,7 @@ function EmptyHeader() {
       const Sock = new SockJS(environments().wsUrl);
       stompClient = over(Sock);
 
-      const token = localStorage.getItem("token");
+      const token = sessionStorage.getItem("token");
       stompClient.connect(
         { Authorization: `Bearer ${token}` },
         onConnected,
@@ -100,7 +99,7 @@ function EmptyHeader() {
     if (subscription) subscription.unsubscribe();
     setSubscription(
       stompClient.subscribe(
-        "/konverzacija/" + currentUser.sub + "/obavjestenje",
+        "/korisnik/" + currentUser.sub + "/obavjestenje",
         onMessageReceived
       )
     );
@@ -159,8 +158,8 @@ function EmptyHeader() {
                   <a
                     href="/home"
                     onClick={() => {
-                      localStorage.removeItem("tipKorisnika");
-                      localStorage.removeItem("token");
+                      sessionStorage.removeItem("tipKorisnika");
+                      sessionStorage.removeItem("token");
                     }}
                   >
                     Odjava

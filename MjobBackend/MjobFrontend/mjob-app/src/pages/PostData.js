@@ -30,7 +30,7 @@ const PostData = (props) => {
   useEffect(() => {
     console.log(post.id);
     loadPost();
-    setUserType(localStorage.getItem("tipKorisnika"));
+    setUserType(sessionStorage.getItem("tipKorisnika"));
   }, []);
 
   const loadPost = () => {
