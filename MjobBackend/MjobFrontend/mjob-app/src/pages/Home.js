@@ -52,6 +52,10 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
+    if (sessionStorage.getItem("reloadCount") < 2) {
+      sessionStorage.setItem("reloadCount", "2");
+      window.location.reload(false);
+    }
     loadPosts();
   }, [requestData, reload]);
 
