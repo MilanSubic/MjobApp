@@ -44,7 +44,7 @@ function EmptyHeader() {
     korisnikService.getUser().then((res) => {
       setRightSide(res);
     });
-  }, []);
+  }, [tipKorisnika]);
 
   const saveData = (user) => {};
 
