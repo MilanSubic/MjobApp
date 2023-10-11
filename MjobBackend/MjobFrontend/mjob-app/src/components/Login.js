@@ -46,6 +46,7 @@ function Login() {
       console.log("Uspjesno ste se ulogovali");
     } catch (error) {
       console.log("Niste se uspjesno ulogovali");
+
       message.error("Došlo je do greške prilikom prijavljivanja");
     }
   };

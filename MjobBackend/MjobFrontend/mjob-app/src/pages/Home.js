@@ -56,6 +56,7 @@ export default function Home() {
       sessionStorage.setItem("reloadCount", "2");
       window.location.reload(false);
     }
+
     loadPosts();
   }, [requestData, reload]);
 
