@@ -33,7 +33,7 @@ function EmptyHeader() {
   const [selectedUser, setSelectedUser] = useState(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
-
+  const [currentUser, setCurrentUser] = useState(null);
   const dispatch = useDispatch();
   const unreaded = useSelector((state) => state.unreaded.value);
 
@@ -44,6 +44,7 @@ function EmptyHeader() {
     korisnikService.getUser().then((res) => {
       setRightSide(res);
     });
+    setCurrentUser(getCurrentUser());
   }, [tipKorisnika]);
 
   const saveData = (user) => {};
@@ -60,7 +61,6 @@ function EmptyHeader() {
     if (user.id !== undefined)
       UsersService.findById(user.id).then((res) => setSelectedUser(res.data));
   };
-  const [currentUser] = useState(getCurrentUser());
 
   const now = Date.now() / 1000;
 
@@ -74,7 +74,7 @@ function EmptyHeader() {
       );
       if (!stompClient) connect();
     }
-  }, []);
+  }, [tipKorisnika]);
 
   const connect = () => {
     if (currentUser) {
