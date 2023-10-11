@@ -190,14 +190,14 @@ const UsersListModal = (props) => {
 
       render: (record) => {
         return record.uplata ? (
-          <span style={{ color: "green" }}>Uplata je legla</span>
+          <span style={{ color: "green" }}>izvršena</span>
         ) : (
-          <span style={{ color: "black" }}>Uplata nije legla</span>
+          <span style={{ color: "black" }}>nije izvršena</span>
         );
       },
     },
     {
-      title: "Akcija",
+      title: "Potvrda uplate",
 
       render: (_text, record) => (
         <Space size="middle">
@@ -272,7 +272,7 @@ const UsersListModal = (props) => {
       },
     },
     */ {
-      title: "Akcija",
+      title: "Prihvatanje zahtjeva",
       render: (_text, record) => (
         <Space size="middle">
           <a onClick={() => prihvatiZahtjev(record.korisnikByKorisnikId.id)}>

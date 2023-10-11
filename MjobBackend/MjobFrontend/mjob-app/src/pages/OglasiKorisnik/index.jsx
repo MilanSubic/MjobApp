@@ -46,7 +46,20 @@ const Oglasi = () => {
   const columns = [
     {
       title: "Status",
-      dataIndex: "odobren",
+
+      render: (record) => {
+        let color = "black";
+
+        if (record.odobren === "Posao nije vaš!") {
+          color = "red";
+        } else if (record.odobren === "Posao je vaš!") {
+          color = "green";
+        } else {
+          color = "black";
+        }
+
+        return <span style={{ color }}>{record.odobren}</span>;
+      },
     },
     {
       title: "Sadržaj",
@@ -115,9 +128,9 @@ const Oglasi = () => {
       dataIndex: "uplata",
       render: (uplata) => {
         return uplata ? (
-          <span style={{ color: "green" }}>Uplata je legla</span>
+          <span style={{ color: "green" }}>izvršena</span>
         ) : (
-          <span style={{ color: "black" }}>Uplata nije legla</span>
+          <span style={{ color: "black" }}>nije izvršena</span>
         );
       },
     },
