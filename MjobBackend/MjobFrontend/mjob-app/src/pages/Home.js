@@ -8,6 +8,8 @@ import posaoTipService from "../services/posaoTipService";
 import { useDispatch, useSelector } from "react-redux";
 import { setOglasi } from "../slices/oglasiSlice";
 
+import "../styles/Home.css";
+
 export default function Home() {
   const [current, setCurrent] = useState(1);
   const [pageSize] = useState(8);
@@ -26,6 +28,12 @@ export default function Home() {
   const reload = useSelector((state) => state.oglasi.reload);
 
   const dispatch = useDispatch();
+
+  const [isFilterExpanded, setIsFilterExpanded] = useState(false);
+
+  const toggleFilter = () => {
+    setIsFilterExpanded(!isFilterExpanded);
+  };
 
   const loadPosts = () => {
     oglasService.getAll(requestData).then((result) => {
@@ -102,16 +110,9 @@ export default function Home() {
   };
 
   return (
-    <div style={{ display: "flex" }}>
-      <div style={{ padding: 40, paddingRight: 10, width: "80%" }}>
-        <div
-          style={{
-            display: "grid",
-
-            gridTemplateColumns: "repeat(4, 1fr)",
-            gridGap: "20px",
-          }}
-        >
+    <div className="data-div" style={{ display: "flex" }}>
+      <div className="content-div" style={{ padding: 40, paddingRight: 10 }}>
+        <div className="cards-div">
           {oglasi.map((o) => (
             <CustomCard
               id={o.id}
@@ -149,19 +150,23 @@ export default function Home() {
         </div>
       </div>
       <div
-        className="filter-container"
+        className={`filter-container ${isFilterExpanded ? "expanded" : ""}`}
         style={{
           display: "flex",
           flexDirection: "column",
           alignContent: "center",
         }}
       >
+        <button className="filter-button" onClick={toggleFilter}>
+          {"<"}
+        </button>
+
         <div
           className="mjestoFilter"
           style={{
             display: "flex",
             justifyContent: "space-between",
-            columnGap: 30,
+            columnGap: 40,
             paddingTop: 40,
             paddingLeft: 0,
             paddingBottom: 10,
@@ -282,6 +287,7 @@ export default function Home() {
         </div>
 
         <div
+          className="sortirajLabel"
           style={{
             display: "flex",
             alignContent: "center",
@@ -293,7 +299,7 @@ export default function Home() {
         >
           <b>Sortiraj oglase</b>
         </div>
-        <div style={{ display: "flex" }}>
+        <div className="sortirajSelect" style={{ display: "flex" }}>
           <Select
             className="selectSort"
             name="selectSort"
@@ -310,7 +316,7 @@ export default function Home() {
             </option>
           </Select>
         </div>
-        <div style={{ display: "flex" }}>
+        <div className="filtrirajButton" style={{ display: "flex" }}>
           <div style={{ marginTop: 10 }}>
             <Button onClick={change}>Filtriraj</Button>
           </div>

@@ -56,11 +56,8 @@ const CustomCard = (props) => {
   }, []);
   return (
     <Card
+      className="card-element"
       onClick={() => openModal()}
-      style={{
-        width: 230,
-        height: 250,
-      }}
       title={props.posaoNaziv}
     >
       <b>Mjesto: </b> {props.mjesto}

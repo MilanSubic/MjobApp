@@ -1,0 +1,268 @@
+.content-div {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    
+  }
+  
+  .cards-div {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 20px;
+    
+  }
+
+  .card-element{
+    width: 230px;
+    height: 250px;
+  }
+  
+  
+  .filter-container {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    
+  }
+
+  .filter-button{
+
+    background-color: rgb(255, 255, 255);
+    border: none;
+    margin-top: 40px;
+    height: 80px;
+    font-size: x-large;
+    display: none;
+    
+  }
+  
+  /* Media queries for different screen sizes */
+  @media (max-width: 1200px) {
+    .content-div {
+      flex-direction: column;
+    }
+  
+    .cards-div {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+ 
+      
+  }
+
+  @media ( max-width: 1100px){
+
+    .ant-modal css-dev-only-do-not-override-nnuwmp{
+        width: 100%;
+    }
+
+    .cards-div {
+        grid-template-columns: repeat(4, 1fr);
+        margin: auto; 
+        
+      }
+
+      .data-div, .content-div{
+        width: 100%;
+    }
+
+
+     .card {
+        width: 150px;
+    }
+    
+    .filter-button{
+        display: block;
+        height: 60px;
+    }
+
+    .filter-container.expanded div{
+      
+      height: 30px;
+      
+    }
+    .filter-container.expanded{
+        z-index: 1;
+        position: absolute;
+        right: 0;
+        background-color: rgb(106, 106, 234);
+        width: 50%;
+        height: 92%;
+        display: flex;
+        flex-direction: column;
+        margin-top: 40px;
+        padding-left: 10px;
+        align-items:flex-start;
+        
+        .mjestoFilter {
+            column-gap: 40px;
+        }
+
+        .filter-button{
+            width: 60px;
+            
+            
+            
+        }
+    
+        .mjestoFilter div{
+            display: block;
+            
+        }
+    
+        .mjestoFilter b{
+            display: block;
+        }
+    
+        .posaoFilter div{
+            display: block;
+        }
+    
+        .posaoFilter b{
+            display: block;
+        }
+    
+        .SatnicaMaksimumFilter div{
+            display: block;
+        }
+        .SatnicaMaksimumFilter b{
+            display: block;
+        }
+    
+        .SatnicaMinimumFilter div{
+            display: block;
+    
+        }
+        .SatnicaMinimumFilter b{
+            display: block;
+        }
+    
+        .sortirajLabel b{
+            display: block;
+        }
+        .sortirajSelect div{
+            display: block;
+        }
+    
+        .filtrirajButton div{
+            display: block;
+        }
+
+    }
+  
+    .mjestoFilter div{
+        display: none;
+    }
+
+    .mjestoFilter b{
+        display: none;
+    }
+
+    .posaoFilter div{
+        display: none;
+    }
+
+    .posaoFilter b{
+        display: none;
+    }
+
+    .SatnicaMaksimumFilter div{
+        display: none;
+    }
+    .SatnicaMaksimumFilter b{
+        display: none;
+    }
+
+    .SatnicaMinimumFilter div{
+        display: none;
+
+    }
+    .SatnicaMinimumFilter b{
+        display: none;
+    }
+
+    .sortirajLabel b{
+        display: none;
+    }
+    .sortirajSelect div{
+        display: none;
+    }
+
+    .filtrirajButton div{
+        display: none;
+    }
+    
+   
+    
+  }
+
+  @media(max-width:1080px)
+    {
+        .data-div, .content-div{
+            width: 100%;
+        }
+
+        .cards-div {
+          
+            grid-template-columns: repeat(3, 1fr);
+            margin: auto;
+        }
+     
+    }
+
+@media (max-width:840px)
+{
+    .cards-div {
+          
+        grid-template-columns: repeat(2, 1fr);
+        margin: auto;
+        grid-gap: 50px;
+    }
+
+    .card-element {
+        width: 280px;
+        height: 330px;
+    }
+
+    .card-element .ant-card-head{
+        font-size: x-large;
+    }
+
+    .card-element .ant-card-body {
+        font-size: larger;
+    }
+}
+
+@media (max-width:750px)
+{
+    .cards-div {
+    
+    grid-gap: 30px;
+  }
+
+  
+}
+  
+  @media (max-width: 700px) {
+    .content-div {
+      padding: 10px;
+    }
+  
+    .cards-div {
+      grid-template-columns: repeat(1, 1fr);
+      grid-gap: 20px;
+    }
+  
+    .filter-container {
+      padding: 10px;
+    }
+
+    .card-element {
+        width: 300px;
+        height: 350px;
+    }
+  
+    
+
+    
+  }

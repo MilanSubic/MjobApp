@@ -36,6 +36,11 @@ function EmptyHeader() {
   const [currentUser, setCurrentUser] = useState(null);
   const dispatch = useDispatch();
   const unreaded = useSelector((state) => state.unreaded.value);
+  const [isNavExpanded, setIsNavExpanded] = useState(false);
+
+  const toggleNav = () => {
+    setIsNavExpanded(!isNavExpanded);
+  };
 
   useEffect(() => {
     setTipKorisnika(sessionStorage.getItem("tipKorisnika"));
@@ -115,9 +120,9 @@ function EmptyHeader() {
 
   return (
     <div>
-      <div className="first-div">
+      <div className={`first-div ${isNavExpanded ? "expanded" : ""}`}>
         <div className="logo-div"></div>
-        <nav>
+        <nav className={`nav ${isNavExpanded ? "expanded" : ""}`}>
           <div className="nav">
             <div className="nav-item">
               <Link to="/home">Oglasi</Link>
@@ -179,11 +184,9 @@ function EmptyHeader() {
             )}
           </div>
         </nav>
-        <div className="nav-menu">
-          <div className="line-1"></div>
-          <div className="line-2"></div>
-          <div className="line-3"></div>
-        </div>
+        <button className="hamburger-button" onClick={toggleNav}>
+          ☰
+        </button>
       </div>
       <UsersModal
         editMode={isEditModalOpen}
